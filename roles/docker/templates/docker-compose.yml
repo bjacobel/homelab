@@ -1,0 +1,32 @@
+version: "2.2"
+services:
+  homebridge:
+    restart: always
+    image: oznu/homebridge:latest
+    container_name: homebridge
+    network_mode: host
+    cpu_percent: 75
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    environment:
+      - TZ=America/New_York
+      - PGID={{ ansible_facts['gid'] }}
+      - PUID={{ ansible_facts['uid'] }}
+    volumes:
+      - ./homebridge:/homebridge
+  caddy:
+    restart: always
+    image: arm32v6/caddy:alpine
+    container_name: caddy
+    network_mode: host
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy-data:/data

@@ -1,0 +1,4 @@
+- include_tasks: installation.yml
+- include_tasks: compose.yml
+  tags:
+    - test

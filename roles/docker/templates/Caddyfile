@@ -1,0 +1,12 @@
+homebridge.local {
+  reverse_proxy localhost:8581
+}
+
+pi.local {
+  rewrite /certs /certs/
+  handle /certs/* {
+    uri strip_prefix /certs
+    root * /data/caddy/pki/authorities/local
+    file_server
+  }
+}

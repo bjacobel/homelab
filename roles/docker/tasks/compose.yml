@@ -1,0 +1,28 @@
+- name: populate getent passwd database
+  getent:
+    database: passwd
+
+- name: get user and group IDs for fs permissions
+  set_fact:
+    cacheable: yes
+    uid: "{{ getent_passwd[user].1 }}"
+    gid: "{{ getent_passwd[user].2 }}"
+
+- name: template docker-compose.yml to ~/
+  ansible.builtin.template:
+    src: ./templates/docker-compose.yml
+    dest: /home/{{user}}/docker-compose.yml
+
+- name: add Caddyfile
+  ansible.builtin.copy:
+    src: ./templates/Caddyfile
+    dest: /home/{{user}}/Caddyfile
+
+- name: create docker data storage volumes
+  ansible.builtin.file:
+    path: /home/{{user}}/{{item}}
+    state: directory
+  loop:
+    - caddy-data
+    - homebridge
+

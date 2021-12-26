@@ -1,0 +1,21 @@
+- name: install docker and docker-compose
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: no
+  vars:
+    packages:
+      - docker
+      - docker-compose
+
+- name: add existing user '{{ user }}' to docker group
+  user:
+    name: '{{ user }}'
+    groups: docker
+    append: yes
+
+- name: make sure docker service is running and enable it on reboot
+  ansible.builtin.systemd:
+    state: started
+    enabled: yes
+    name: docker
