@@ -1,4 +1,9 @@
 version: "2.2"
+volumes:
+  caddy-data:
+    external: true
+  homebridge-data:
+    external: true
 services:
   homebridge:
     restart: always
@@ -16,7 +21,7 @@ services:
       - PGID={{ ansible_facts['gid'] }}
       - PUID={{ ansible_facts['uid'] }}
     volumes:
-      - ./homebridge:/homebridge
+      - homebridge-data:/homebridge
   caddy:
     restart: always
     image: arm32v6/caddy:alpine
@@ -29,4 +34,4 @@ services:
         max-size: "10m"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - ./caddy-data:/data
+      - caddy-data:/data

@@ -18,11 +18,7 @@
     src: ./templates/Caddyfile
     dest: /home/{{user}}/Caddyfile
 
-- name: create docker data storage volumes
-  file:
-    path: /home/{{user}}/{{item}}
-    state: directory
-  loop:
-    - caddy-data
-    - homebridge
-
+- name: start services using Compose
+  community.docker.docker_compose:
+    project_src: /home/{{user}}
+    state: present
