@@ -3,6 +3,9 @@
 
 - import_tasks: avahi.yml
   tags: avahi
+  vars:
+    aliases:
+      - homebridge.local
 
 - name: configure wpa_supplicant
   tags: wifi

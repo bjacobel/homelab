@@ -17,6 +17,7 @@
   copy:
     src: ./templates/Caddyfile
     dest: /home/{{user}}/Caddyfile
+  notify: caddy-restart
 
 - name: start services using Compose
   community.docker.docker_compose:

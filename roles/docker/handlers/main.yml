@@ -1,0 +1,7 @@
+---
+- name: caddy-restart
+  community.docker.docker_compose:
+    project_src: /home/{{user}}
+    services: caddy
+    state: present
+    restarted: true
