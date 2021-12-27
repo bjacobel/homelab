@@ -1,3 +1,5 @@
+- include_tasks: avahi.yml
+
 - name: install useful utils
   become: yes
   apt:

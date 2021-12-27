@@ -1,0 +1,39 @@
+- name: download avahi-aliases
+  become: yes
+  ansible.builtin.unarchive:
+    remote_src: yes
+    src: https://github.com/scott-ainsworth/avahi-aliases/archive/refs/heads/main.zip
+    dest: /usr/local/src/
+    creates: /usr/local/src/avahi-aliases-main
+
+- name: install avahi-aliases scripts
+  ansible.builtin.command:
+    chdir: /usr/local/src/avahi-aliases-main
+    cmd: make install
+    creates: /usr/local/bin/avahi-add-alias
+
+- name: start/enable avahi-aliases service
+  ansible.builtin.systemd:
+    state: started
+    enabled: yes
+    name: avahi-alias
+
+- name: get existing avahi aliases
+  slurp:
+    src: /etc/avahi/aliases
+  register: slurped
+
+- name: set avahi aliases as facts
+  set_fact:
+    aliasfile_content: "{{ slurped['content'] | b64decode | trim }}"
+
+- name: split avahi aliases to array
+  set_fact:
+    cacheable: yes
+    avahi_aliases: "{{ aliasfile_content.split('\n') }}"
+
+- name: create avahi aliases for all services
+  become: yes
+  ansible.builtin.command:
+    cmd: avahi-add-alias {{item}}
+  loop: "{{ aliases | difference(ansible_facts['avahi_aliases']) }}"
