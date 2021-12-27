@@ -15,7 +15,8 @@
     append: yes
 
 - name: make sure docker service is running and enable it on reboot
-  ansible.builtin.systemd:
+  become: yes
+  systemd:
     state: started
     enabled: yes
     name: docker

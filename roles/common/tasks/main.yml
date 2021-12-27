@@ -1,4 +1,19 @@
-- include_tasks: avahi.yml
+- import_tasks: raspi-config.yml
+  tags: raspi-config
+
+- import_tasks: avahi.yml
+  tags: avahi
+
+- name: configure wpa_supplicant
+  tags: wifi
+  become: yes
+  template:
+    src: ./templates/wpa_supplicant.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+  notify: wifi-reconnect
 
 - name: install useful utils
   become: yes
