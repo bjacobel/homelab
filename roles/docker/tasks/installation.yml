@@ -1,16 +1,27 @@
+- name: stat apt lists
+  stat:
+    path: /var/lib/apt/lists/partial
+  register: stat_results
+
+- name: update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+  when: ((ansible_date_time.epoch|int - stat_results.stat.mtime) > (60 * 60 * 24 * 7)) # not updated in last week
+
 - name: install docker and docker-compose
+  become: yes
   apt:
     name: "{{ packages }}"
-    state: present
-    update_cache: no
+    state: latest
   vars:
     packages:
-      - docker
+      - docker.io
       - docker-compose
 
-- name: add existing user '{{ user }}' to docker group
+- name: add existing user '{{ ansible_facts['user_id'] }}' to docker group
   user:
-    name: '{{ user }}'
+    name: "{{ ansible_facts['user_id'] }}"
     groups: docker
     append: yes
 

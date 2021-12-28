@@ -1,0 +1,36 @@
+# This will install a newer version of Docker, but I could not get it to work on Pi 1B due perhaps to this issue:
+# https://dxpetti.com/blog/2019/docker-daemon-failing-to-start-on-raspberry-pi-1-zeros/
+# Supposedly it is fixed (https://github.com/moby/moby/issues/38175) but I saw the issue in multiple releases in the 5:20.10 line
+
+- name: install deps for docker installation
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - ca-certificates
+      - gpg
+
+- name: get arch from dpkg
+  command: dpkg --print-architecture
+  register: dpkg_arch
+
+- name: download docker signing gpg key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+
+- name: add the docker sources.list
+  become: yes
+  apt_repository:
+    filename: /etc/apt/sources.list.d/docker.list
+    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
+    update_cache: yes
+
+- name: install latest version of docker
+  become: yes
+  apt:
+    name: docker-ce
+    state: latest

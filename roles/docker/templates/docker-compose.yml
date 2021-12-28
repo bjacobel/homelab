@@ -18,8 +18,8 @@ services:
         max-size: "10m"
     environment:
       - TZ=America/New_York
-      - PGID={{ ansible_facts['gid'] }}
-      - PUID={{ ansible_facts['uid'] }}
+      - PGID={{ ansible_facts['user_gid'] }}
+      - PUID={{ ansible_facts['user_uid'] }}
     volumes:
       - homebridge-data:/homebridge
     labels:
@@ -35,7 +35,7 @@ services:
       - caddy-data:/data
   backup:
     container_name: backup
-    image: bjacobel/docker-volume-backup-arm32v6:latest
+    image: bjacobel/docker-volume-backup
     restart: always
     environment:
       AWS_S3_BUCKET_NAME: rpi-volume-backup

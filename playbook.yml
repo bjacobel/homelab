@@ -7,7 +7,6 @@
     - common
 
 - name: install and configure docker and containers
-  gather_facts: no
   hosts: rpi
   roles:
     - docker

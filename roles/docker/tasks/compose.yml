@@ -1,25 +1,15 @@
-- name: populate getent passwd database
-  getent:
-    database: passwd
-
-- name: get user and group IDs for fs permissions
-  set_fact:
-    cacheable: yes
-    uid: "{{ getent_passwd[user].1 }}"
-    gid: "{{ getent_passwd[user].2 }}"
-
 - name: template docker-compose.yml to ~/
   template:
     src: ./templates/docker-compose.yml
-    dest: /home/{{user}}/docker-compose.yml
+    dest: /home/{{ ansible_facts['user_id'] }}/docker-compose.yml
 
 - name: add Caddyfile
   copy:
     src: ./templates/Caddyfile
-    dest: /home/{{user}}/Caddyfile
+    dest: /home/{{ ansible_facts['user_id'] }}/Caddyfile
   notify: caddy-restart
 
 - name: start services using Compose
   community.docker.docker_compose:
-    project_src: /home/{{user}}
+    project_src: /home/{{ ansible_facts['user_id'] }}
     state: present
