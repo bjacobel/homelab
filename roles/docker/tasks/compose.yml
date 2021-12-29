@@ -1,3 +1,17 @@
+# TODO: this registers as a "change" even when there's no action to take
+- name: get current docker volumes
+  command: "docker volume ls --format='{% raw %}{{.Name}}{% endraw %}'"
+  register: current_volumes
+
+- name: get requested persistent volumes in compose file
+  set_fact:
+    requested_volumes: "{{ lookup('template', './docker-compose.yml') | from_yaml | json_query('volumes') | list }}"
+
+# TODO: this will try to recreate ALL volumes, not just `external: true` ones
+- name: create volumes if they don't exist
+  command: docker volume create {{ item }}
+  loop: "{{ requested_volumes | difference(current_volumes.stdout.split('\n')) }}"
+
 - name: template docker-compose.yml to ~/
   template:
     src: ./templates/docker-compose.yml
@@ -13,3 +27,14 @@
   community.docker.docker_compose:
     project_src: /home/{{ ansible_facts['user_id'] }}
     state: present
+
+- name: inspect ca-certs for Caddy root
+  find:
+    paths: /etc/ssl/certs
+    patterns: caddy-root.pem
+    recurse: no
+    file_type: any
+  register: found_roots
+
+- include_tasks: caddy-root.yml
+  when: found_roots.files | length == 0

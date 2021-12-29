@@ -26,7 +26,7 @@ services:
       docker-volume-backup.stop-during-backup: true
   caddy:
     container_name: caddy
-    image: arm32v6/caddy:alpine
+    image: caddy:alpine
     restart: always
     network_mode: host
     logging: *logging
