@@ -1,7 +1,7 @@
-# TODO: this registers as a "change" even when there's no action to take
 - name: get current docker volumes
-  command: "docker volume ls --format='{% raw %}{{.Name}}{% endraw %}'"
+  command: "docker volume ls --format='{% raw %}{{.Name}}{% endraw %}'" # noqa var-spacing
   register: current_volumes
+  changed_when: no
 
 - name: get requested persistent volumes in compose file
   set_fact:
@@ -11,16 +11,20 @@
 - name: create volumes if they don't exist
   command: docker volume create {{ item }}
   loop: "{{ requested_volumes | difference(current_volumes.stdout.split('\n')) }}"
+  register: vol_create
+  changed_when: "vol_create.stdout = {{ item }}"
 
 - name: template docker-compose.yml to ~/
   template:
     src: ./templates/docker-compose.yml
     dest: /home/{{ ansible_facts['user_id'] }}/docker-compose.yml
+    mode: 0644
 
 - name: add Caddyfile
   copy:
     src: ./templates/Caddyfile
     dest: /home/{{ ansible_facts['user_id'] }}/Caddyfile
+    mode: 0644
   notify: caddy-restart
 
 - name: start services using Compose

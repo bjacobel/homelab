@@ -15,6 +15,7 @@
 - name: get arch from dpkg
   command: dpkg --print-architecture
   register: dpkg_arch
+  changed_when: no
 
 - name: download docker signing gpg key
   become: yes
@@ -29,8 +30,8 @@
     repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
     update_cache: yes
 
-- name: install latest version of docker
+- name: install docker-ce
   become: yes
   apt:
     name: docker-ce
-    state: latest
+    state: present

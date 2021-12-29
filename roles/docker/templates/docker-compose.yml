@@ -39,8 +39,8 @@ services:
     restart: always
     environment:
       AWS_S3_BUCKET_NAME: rpi-volume-backup
-      AWS_ACCESS_KEY_ID: {{AWS_ACCESS_KEY_ID}}
-      AWS_SECRET_ACCESS_KEY: {{AWS_SECRET_ACCESS_KEY}}
+      AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
+      AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
       BACKUP_RETENTION_DAYS: 14
       NOTIFICATION_URLS: slack://{{slack_token}}@C32FHM7CK
     volumes:

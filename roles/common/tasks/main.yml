@@ -15,7 +15,7 @@
     dest: /etc/wpa_supplicant/wpa_supplicant.conf
     owner: root
     group: root
-    mode: u=rw,g=r,o=r
+    mode: 0644
   notify: wifi-reconnect
 
 - name: install useful utils

@@ -13,11 +13,11 @@
   become: yes
   apt:
     name: "{{ packages }}"
-    state: latest
+    state: present
   vars:
     packages:
-      - docker.io
-      - docker-compose
+      - docker.io=20.10.5+dfsg1-1+deb11u1
+      - docker-compose=1.25.0-1
 
 - name: add existing user '{{ ansible_facts['user_id'] }}' to docker group
   user:

@@ -36,11 +36,15 @@
 - name: create avahi aliases for all services
   become: yes
   command:
-    cmd: avahi-add-alias {{item}}
+    cmd: avahi-add-alias {{ item }}
   loop: "{{ aliases | difference(ansible_facts['avahi_aliases']) }}"
+  when: aliases | difference(ansible_facts['avahi_aliases']) | length
+  register: add_alias
+  changed_when: "'added' in add_alias.stdout"
 
 - name: remove undesired avahi aliases
   become: yes
   command:
-    cmd: avahi-remove-alias {{item}}
+    cmd: avahi-remove-alias {{ item }}
   loop: "{{ ansible_facts['avahi_aliases'] | difference(aliases) }}"
+  when: ansible_facts['avahi_aliases'] | difference(aliases) | length
