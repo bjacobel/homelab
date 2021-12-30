@@ -16,15 +16,6 @@
   notify:
     - restart-ssh-service
 
-- name: disable PAM
-  become: yes
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regex: ^(# *)?UsePAM
-    line: UsePAM no
-  notify:
-    - restart-ssh-service
-
 - name: flush handlers
   meta: flush_handlers
 
