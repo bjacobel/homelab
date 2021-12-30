@@ -34,3 +34,4 @@
   vars:
     packages:
       - htop
+      - bind9-dnsutils

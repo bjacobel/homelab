@@ -23,7 +23,7 @@
   become: yes
   user:
     name: "{{ main_user }}"
-    password: "{{ ansible_become_pass | string | password_hash('sha512', 'salt') }}"
+    password: "{{ ansible_become_pass | string | password_hash('sha256', 'salt', rounds=1000) }}"
     append: yes
     shell: /bin/bash
     groups:
