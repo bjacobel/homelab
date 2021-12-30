@@ -1,3 +1,10 @@
+- name: add Vault secrets
+  include_vars: "{{ playbook_dir }}/secrets.yml"
+  tags: always
+
+- import_tasks: users.yml
+  tags: users
+
 - import_tasks: raspi-config.yml
   tags: raspi-config
 

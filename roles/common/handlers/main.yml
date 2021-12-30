@@ -1,8 +1,18 @@
 ---
 - name: reboot
+  become: yes
   reboot:
     reboot_command: shutdown -r now
+
+- name: logout
+  meta: reset_connection
 
 - name: wifi-reconnect
   become: yes
   command: wpa_cli -i wlan0 reconfigure
+
+- name: restart-ssh-service
+  become: yes
+  service:
+    name: sshd
+    state: restarted

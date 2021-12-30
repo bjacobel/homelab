@@ -1,12 +1,10 @@
 - name: apply common configuration
   gather_facts: no
-  hosts: rpi
-  # todo: in future this should run as root and *create* the bjacobel user
-  # remote_user: root
+  hosts: all
   roles:
     - common
 
 - name: install and configure docker and containers
-  hosts: rpi
+  hosts: all
   roles:
     - docker
