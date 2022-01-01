@@ -1,8 +1,12 @@
 version: "2.2"
+networks:
+  default:
 volumes:
   caddy-data:
     external: true
   homebridge-data:
+    external: true
+  pihole-data:
     external: true
 services:
   homebridge:
@@ -28,21 +32,52 @@ services:
     container_name: caddy
     image: caddy:alpine
     restart: always
-    network_mode: host
     logging: *logging
+    networks:
+      - default
+    ports:
+      - 443:443/tcp
+      - 80:80/tcp
+    extra_hosts:
+      - host.docker.internal:host-gateway
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy-data:/data
+  pihole:
+    container_name: pihole
+    image: pihole/pihole
+    restart: always
+    logging: *logging
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+      - 67:67/udp
+      - 80/tcp
+    environment:
+      TZ: 'America/New_York'
+      WEBPASSWORD: {{ pihole_admin_pass }}
+      PIHOLE_DNS: 192.168.1.1;1.1.1.1;8.8.8.8
+      VIRTUAL_HOST: pihole.local
+      FTLCONF_REPLY_ADDR4: {{ ansible_default_ipv4.address }}
+    cap_add:
+      - NET_ADMIN
+    networks:
+      - default
+    volumes:
+      - pihole-data:/etc/pihole/
+    labels:
+      docker-volume-backup.stop-during-backup: true
   backup:
     container_name: backup
     image: bjacobel/docker-volume-backup
     restart: always
     environment:
       AWS_S3_BUCKET_NAME: rpi-volume-backup
-      AWS_ACCESS_KEY_ID: {{aws_access_key_id}}
-      AWS_SECRET_ACCESS_KEY: {{aws_secret_access_key}}
+      AWS_ACCESS_KEY_ID: {{ aws_access_key_id }}
+      AWS_SECRET_ACCESS_KEY: {{ aws_secret_access_key }}
       BACKUP_RETENTION_DAYS: 14
       NOTIFICATION_URLS: slack://{{slack_token}}@C32FHM7CK
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - homebridge-data:/backup/homebridge-data:ro
+      - pihole-data:/backup/pihole-data:ro

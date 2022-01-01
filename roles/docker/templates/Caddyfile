@@ -1,5 +1,9 @@
 homebridge.local {
-  reverse_proxy localhost:8581
+  reverse_proxy host.docker.internal:8581
+}
+
+pihole.local {
+  reverse_proxy pihole:80
 }
 
 pi.local {

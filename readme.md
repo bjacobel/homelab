@@ -3,6 +3,7 @@
 Ansible playbook to setup my Raspberry Pi. Currently includes:
   * homebridge
   * caddy
+  * pi-hole
   * automated backups for data volumes
 
 ### Run
@@ -10,7 +11,7 @@ Ansible playbook to setup my Raspberry Pi. Currently includes:
 ```sh
 mkvirtualenv rpi # or: workon rpi
 pip install -r requirements.txt
-ansible-playbook -i $ip, playbook.yml --vault-password-file vault
+ansible-playbook -i hosts.yml playbook.yml --vault-password-file vault
 ```
 
 You will need the file `vault` containing the Vault password. Get it from 1Password under "rpi Ansible Vault."

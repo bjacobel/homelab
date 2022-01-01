@@ -13,6 +13,7 @@
   vars:
     aliases:
       - homebridge.local
+      - pihole.local
 
 - name: configure wpa_supplicant
   tags: wifi
