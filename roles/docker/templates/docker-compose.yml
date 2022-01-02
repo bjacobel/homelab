@@ -56,7 +56,6 @@ services:
     environment:
       TZ: 'America/New_York'
       WEBPASSWORD: {{ pihole_admin_pass }}
-      PIHOLE_DNS: 192.168.1.1;1.1.1.1;8.8.8.8
       VIRTUAL_HOST: pihole.local
       FTLCONF_REPLY_ADDR4: {{ ansible_default_ipv4.address }}
     cap_add:
