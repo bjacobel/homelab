@@ -45,7 +45,7 @@ services:
       - caddy-data:/data
   pihole:
     container_name: pihole
-    image: pihole/pihole
+    image: pihole/pihole:2021.12.1
     restart: always
     logging: *logging
     ports:
