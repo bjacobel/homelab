@@ -1,9 +1,15 @@
 homebridge.local {
   reverse_proxy host.docker.internal:8581
+  log {
+    level WARN
+  }
 }
 
 pihole.local {
   reverse_proxy pihole:80
+  log {
+    level WARN
+  }
 }
 
 pi.local {
@@ -12,5 +18,8 @@ pi.local {
     uri strip_prefix /certs
     root * /data/caddy/pki/authorities/local
     file_server
+  }
+  log {
+    level WARN
   }
 }
