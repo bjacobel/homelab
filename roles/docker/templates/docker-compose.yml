@@ -11,7 +11,7 @@ volumes:
 services:
   homebridge:
     container_name: homebridge
-    image: oznu/homebridge:latest
+    image: oznu/homebridge:2021-12-12
     restart: always
     network_mode: host
     cpu_percent: 75
@@ -30,7 +30,7 @@ services:
       docker-volume-backup.stop-during-backup: true
   caddy:
     container_name: caddy
-    image: caddy:alpine
+    image: caddy:2.4.6-alpine
     restart: always
     logging: *logging
     networks:
