@@ -27,7 +27,7 @@ services:
     volumes:
       - homebridge-data:/homebridge
     labels:
-      docker-volume-backup.stop-during-backup: true
+      - docker-volume-backup.stop-during-backup=true
   caddy:
     container_name: caddy
     image: caddy:2.4.6-alpine
@@ -68,7 +68,7 @@ services:
     volumes:
       - pihole-data:/etc/pihole/
     labels:
-      docker-volume-backup.stop-during-backup: true
+      - docker-volume-backup.stop-during-backup=true
   backup:
     container_name: backup
     image: bjacobel/docker-volume-backup
