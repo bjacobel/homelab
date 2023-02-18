@@ -61,6 +61,7 @@ services:
       VIRTUAL_HOST: pihole.local
       FTLCONF_REPLY_ADDR4: {{ ansible_default_ipv4.address }}
       FTLCONF_MAXDBDAYS: 60
+      FTLCONF_BLOCK_ICLOUD_PR: "true"
     ulimits:
       nofile:
         soft: 1024
