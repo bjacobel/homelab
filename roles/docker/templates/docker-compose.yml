@@ -53,6 +53,8 @@ services:
       - 53:53/udp
       - 67:67/udp
       - 80/tcp
+    dns:
+      - 127.0.0.1
     environment:
       TZ: 'America/New_York'
       WEBPASSWORD: {{ pihole_admin_pass }}
