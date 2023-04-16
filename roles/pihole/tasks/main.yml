@@ -1,0 +1,57 @@
+- name: add Vault secrets
+  include_vars: "{{ playbook_dir }}/secrets.yml"
+  tags: always
+
+- name: populate FTL blocklist
+  community.docker.docker_container_exec:
+    container: pihole
+    command: pihole -b -nr {{ item }}
+  loop: "{{ blocklist }}"
+  register: ftl_result
+  changed_when: '"Added" in ftl_result.stdout'
+  notify: refresh pihole-FTL
+
+- name: populate FTL regex blocklist
+  community.docker.docker_container_exec:
+    container: pihole
+    command: pihole -b -nr --regex {{ item }}
+  loop: "{{ regex_blocklist }}"
+  register: ftl_result
+  changed_when: '"Added" in ftl_result.stdout'
+  notify: refresh pihole-FTL
+
+- name: populate FTL allowlist
+  community.docker.docker_container_exec:
+    container: pihole
+    command: pihole -w -nr {{ item }}
+  loop: "{{ allowlist }}"
+  register: ftl_result
+  changed_when: '"Added" in ftl_result.stdout'
+  notify: refresh pihole-FTL
+
+- name: get existing hosts lists from sql
+  community.docker.docker_container_exec:
+    container: pihole
+    command: sqlite3 /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
+  register: hostslist_string
+
+- name: compare hosts list to one in vars and check different
+  set_fact:
+    cacheable: yes
+    needs_hosts_update: "{{ adhosts | symmetric_difference(hostslist_string.stdout.split('\n')) | length > 0 }}"
+
+- name: drop all existing gravity hosts
+  when: ansible_facts['needs_hosts_update']
+  community.docker.docker_container_exec:
+    container: pihole
+    command: sqlite3 /etc/pihole/gravity.db "DELETE FROM adlist;"
+  notify: reload gravity
+
+- name: add predefined hosts lists
+  when: ansible_facts['needs_hosts_update']
+  community.docker.docker_container_exec:
+    container: pihole
+    command: sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
+  loop: "{{ adhosts }}"
+  notify: reload gravity
+

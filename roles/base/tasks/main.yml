@@ -5,8 +5,10 @@
 - import_tasks: users.yml
   tags: users
 
-- import_tasks: raspi-config.yml
-  tags: raspi-config
+- import_tasks: hostname.yml
+  tags: hostname
+  vars:
+    hostname: "{{ inventory_hostname }}"
 
 - import_tasks: avahi.yml
   tags: avahi

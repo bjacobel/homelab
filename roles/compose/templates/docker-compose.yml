@@ -11,7 +11,7 @@ volumes:
 services:
   homebridge:
     container_name: homebridge
-    image: oznu/homebridge:2021-12-12
+    image: oznu/homebridge:2023-01-08
     restart: always
     network_mode: host
     cpu_percent: 75
@@ -26,6 +26,7 @@ services:
       - PUID={{ ansible_facts['user_uid'] }}
     volumes:
       - homebridge-data:/homebridge
+      - ./homebridge-config.json:/homebridge/config.json
     labels:
       - docker-volume-backup.stop-during-backup=true
   caddy:
@@ -45,7 +46,7 @@ services:
       - caddy-data:/data
   pihole:
     container_name: pihole
-    image: pihole/pihole:2021.12.1
+    image: pihole/pihole:2023.03.1
     restart: always
     logging: *logging
     ports:
@@ -74,7 +75,7 @@ services:
       - docker-volume-backup.stop-during-backup=true
   backup:
     container_name: backup
-    image: bjacobel/docker-volume-backup
+    image: offen/docker-volume-backup
     restart: always
     environment:
       AWS_S3_BUCKET_NAME: rpi-volume-backup
@@ -82,7 +83,7 @@ services:
       AWS_SECRET_ACCESS_KEY: {{ aws_secret_access_key }}
       BACKUP_RETENTION_DAYS: 14
       NOTIFICATION_URLS: slack://{{slack_token}}@C32FHM7CK
-      # TZ on rpi is set to GMT and should stay that way
+      # TZ on homelab is set to GMT and should stay that way
       BACKUP_CRON_EXPRESSION: 0 7 * * * # 7 am GMT is 2 am EST
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro

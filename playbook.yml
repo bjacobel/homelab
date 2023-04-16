@@ -1,10 +1,22 @@
-- name: apply common configuration
-  gather_facts: no
+- name: apply base configuration
   hosts: all
   roles:
-    - common
+    - base
 
-- name: install and configure docker and containers
+- name: install and configure docker
   hosts: all
   roles:
     - docker
+
+- name: configure docker containers using compose
+  hosts: all
+  roles:
+    - compose
+
+- name: configure services in docker containers with non-env-based setup
+  hosts: all
+  roles:
+    - pihole
+    #- caddy
+    #- homebridge
+    #- backup

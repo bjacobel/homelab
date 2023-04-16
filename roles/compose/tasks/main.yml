@@ -1,3 +1,16 @@
+- name: add Vault secrets
+  include_vars: "{{ playbook_dir }}/secrets.yml"
+  tags: always
+
+- name: install docker-compose
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - docker-compose-plugin
+
 - name: get current docker volumes
   command: "docker volume ls --format='{% raw %}{{.Name}}{% endraw %}'" # noqa var-spacing
   register: current_volumes
@@ -26,6 +39,13 @@
     dest: /home/{{ ansible_facts['user_id'] }}/Caddyfile
     mode: 0644
   notify: caddy-restart
+
+- name: add homebridge config
+  template:
+    src: ./templates/homebridge-config.json
+    dest: /home/{{ ansible_facts['user_id'] }}/homebridge-config.json
+    mode: 0644
+  notify: homebridge-restart
 
 - name: start services using Compose
   community.docker.docker_compose:

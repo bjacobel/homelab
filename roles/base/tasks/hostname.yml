@@ -1,0 +1,16 @@
+- name: get hostname
+  command: "hostname"
+  register: current_hostname
+  changed_when: False
+
+- name: set facts
+  set_fact:
+    current_hostname: "{{ current_hostname.stdout }}"
+  check_mode: no
+
+- name: "set hostname"
+  hostname:
+    name: "{{ hostname }}"
+  when: current_hostname != '{{ hostname }}'
+  notify:
+    - reboot

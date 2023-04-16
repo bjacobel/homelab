@@ -12,7 +12,7 @@ pihole.local {
   }
 }
 
-pi.local {
+homelab.local {
   rewrite /certs /certs/
   handle /certs/* {
     uri strip_prefix /certs

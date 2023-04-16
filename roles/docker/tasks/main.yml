@@ -2,8 +2,63 @@
   include_vars: "{{ playbook_dir }}/secrets.yml"
   tags: always
 
-- import_tasks: installation.yml
-  tags: docker-install
+- name: stat apt lists
+  stat:
+    path: /var/lib/apt/lists/partial
+  register: stat_results
 
-- import_tasks: compose.yml
-  tags: docker-compose
+- name: update apt cache
+  become: yes
+  apt:
+    update_cache: yes
+  when: ((ansible_date_time.epoch|int - stat_results.stat.mtime) > (60 * 60 * 24 * 7)) # not updated in last week
+
+- name: install deps for docker installation
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - ca-certificates
+      - gpg
+
+- name: get arch from dpkg
+  command: dpkg --print-architecture
+  register: dpkg_arch
+  changed_when: no
+
+- name: download docker signing gpg key
+  become: yes
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+
+- name: add the docker sources.list
+  become: yes
+  apt_repository:
+    filename: /etc/apt/sources.list.d/docker
+    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
+    update_cache: yes
+
+- name: install docker-ce
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - docker-ce
+
+- name: add existing user '{{ ansible_facts['user_id'] }}' to docker group
+  user:
+    name: "{{ ansible_facts['user_id'] }}"
+    groups: docker
+    append: yes
+
+- name: make sure docker service is running and enable it on reboot
+  become: yes
+  systemd:
+    state: started
+    enabled: yes
+    name: docker

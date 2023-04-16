@@ -1,0 +1,37 @@
+pihole_admin_pass: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  39656635613931663333633266383135353432633432666261303432646563643863643865336431
+  6466643438356331646230393139306231646637646632620a373338633762393136623763323534
+  39383237316330343038653530393664303632616439333936303835666263646434383134623466
+  6263626664623333640a363962376164313536333639323838383434366530326262663734376163
+  32356661313837363833653334323534373838663465353431386264656336646131
+allowlist:
+  - www.googleadservices.com
+  - www.anrdoezrs.net
+  - www.emjcd.com
+  - www.kqzyfj.com
+  - clickserve.dartsearch.net
+  - analytics.twitter.com
+  - spmailtechno.com
+  - post.spmailtechno.com
+  - m.yap.yahoo.com
+  - ublock.org
+  - t.co
+blocklist:
+  - logging.getgo.com
+regex_blocklist:
+  - (|.)ads.roku.com$
+  - (|.)logs.roku.com$
+adhosts:
+  - https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts
+  - https://v.firebog.net/hosts/Easylist.txt
+  - https://v.firebog.net/hosts/Easyprivacy.txt
+  - https://urlhaus.abuse.ch/downloads/hostfile/
+  - https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt
+  - https://adaway.org/hosts.txt
+  - https://v.firebog.net/hosts/AdguardDNS.txt
+  - https://v.firebog.net/hosts/Admiral.txt
+  - https://raw.githubusercontent.com/anudeepND/blacklist/master/adservers.txt
+  - https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=0&mimetype=plaintext
+  - https://raw.githubusercontent.com/FadeMind/hosts.extras/master/UncheckyAds/hosts
+  - https://raw.githubusercontent.com/bigdargon/hostsVN/master/hosts
