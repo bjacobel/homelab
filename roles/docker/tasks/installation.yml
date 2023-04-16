@@ -16,7 +16,7 @@
     state: present
   vars:
     packages:
-      - docker.io=20.10.5+dfsg1-1+deb11u1
+      - docker.io=20.10.5+dfsg1-1+deb11u2
       - docker-compose=1.25.0-1
 
 - name: add existing user '{{ ansible_facts['user_id'] }}' to docker group
