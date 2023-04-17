@@ -16,6 +16,7 @@
     aliases:
       - homebridge.local
       - pihole.local
+      - homelab.local
 
 - name: configure wpa_supplicant
   tags: wifi

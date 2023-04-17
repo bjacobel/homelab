@@ -1,0 +1,9 @@
+- name: add Vault secrets
+  include_vars: "{{ playbook_dir }}/secrets.yml"
+
+- name: add homebridge config
+  template:
+    src: ./templates/homebridge-config.json
+    dest: /home/{{ ansible_facts['user_id'] }}/homebridge-config.json
+    mode: 0644
+  notify: homebridge-restart

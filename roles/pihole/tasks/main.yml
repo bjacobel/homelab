@@ -1,6 +1,5 @@
 - name: add Vault secrets
   include_vars: "{{ playbook_dir }}/secrets.yml"
-  tags: always
 
 - name: populate FTL blocklist
   community.docker.docker_container_exec:

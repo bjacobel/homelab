@@ -30,4 +30,10 @@ Easily get the IP of the Raspberry PI:
 arp -na | awk '/b8:27:eb/ {print $2}' | tr -d '()'
 ```
 
-This will need to be updated when the new hardware arrives
+This will need to be updated when the new hardware arrives.
+
+### SSL
+Services on the `.local` domain are secured with self-signed certificates. For these certificates to be trusted on the network, clients should add the reverse proxy's root certificate to their trust stores. On OSX, do this over HTTP in one line:
+
+    curl -sk https://pi.local/certs/root.crt -o /tmp/caddy-root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/caddy-root.crt
+

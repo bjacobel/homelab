@@ -1,6 +1,5 @@
 - name: add Vault secrets
   include_vars: "{{ playbook_dir }}/secrets.yml"
-  tags: always
 
 - name: install docker-compose
   become: yes
@@ -33,32 +32,16 @@
     dest: /home/{{ ansible_facts['user_id'] }}/docker-compose.yml
     mode: 0644
 
-- name: add Caddyfile
-  copy:
-    src: ./templates/Caddyfile
-    dest: /home/{{ ansible_facts['user_id'] }}/Caddyfile
-    mode: 0644
-  notify: caddy-restart
+- name: do non-environment config for Caddy
+  include_role: caddy
 
-- name: add homebridge config
-  template:
-    src: ./templates/homebridge-config.json
-    dest: /home/{{ ansible_facts['user_id'] }}/homebridge-config.json
-    mode: 0644
-  notify: homebridge-restart
+- name: do non-environment config for Pihole
+  include_role: pihole
 
-- name: start services using Compose
+- name: do non-environment config for homebridge
+  include_role: homebridge
+
+- name: start services using Compose if not started already
   community.docker.docker_compose:
     project_src: /home/{{ ansible_facts['user_id'] }}
     state: present
-
-- name: inspect ca-certs for Caddy root
-  find:
-    paths: /etc/ssl/certs
-    patterns: caddy-root.pem
-    recurse: no
-    file_type: any
-  register: found_roots
-
-- include_tasks: caddy-root.yml
-  when: found_roots.files | length == 0

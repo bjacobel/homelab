@@ -1,0 +1,20 @@
+- name: add Vault secrets
+  include_vars: "{{ playbook_dir }}/secrets.yml"
+
+- name: add Caddyfile
+  copy:
+    src: ./templates/Caddyfile
+    dest: /home/{{ ansible_facts['user_id'] }}/Caddyfile
+    mode: 0644
+  notify: caddy-restart
+
+- name: inspect ca-certs for Caddy root
+  find:
+    paths: /etc/ssl/certs
+    patterns: caddy-root.pem
+    recurse: no
+    file_type: any
+  register: found_roots
+
+- include_tasks: caddy-root.yml
+  when: found_roots.files | length == 0

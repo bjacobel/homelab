@@ -1,6 +1,5 @@
 - name: add Vault secrets
   include_vars: "{{ playbook_dir }}/secrets.yml"
-  tags: always
 
 - name: stat apt lists
   stat:

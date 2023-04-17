@@ -12,11 +12,3 @@
   hosts: all
   roles:
     - compose
-
-- name: configure services in docker containers with non-env-based setup
-  hosts: all
-  roles:
-    - pihole
-    #- caddy
-    #- homebridge
-    #- backup
