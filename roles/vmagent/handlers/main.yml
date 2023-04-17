@@ -1,0 +1,6 @@
+---
+- name: restart vmagent
+  community.docker.docker_container_exec:
+    container: vmagent
+    command: kill -SIGHUP `pidof vmagent`
+

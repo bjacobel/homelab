@@ -8,6 +8,8 @@ volumes:
     external: true
   pihole-data:
     external: true
+  vmagent-data:
+    external: true
 services:
   homebridge:
     container_name: homebridge
@@ -73,6 +75,30 @@ services:
       - pihole-data:/etc/pihole/
     labels:
       - docker-volume-backup.stop-during-backup=true
+  unifi-poller:
+    container_name: unifi-poller
+    image: ghcr.io/unpoller/unpoller:v2.7.12
+    logging: *logging
+    restart: always
+    environment:
+      - UP_UNIFI_DEFAULT_URL="https://192.168.1.1"
+      - UP_UNIFI_DEFAULT_PASS={{unifi_poller_pass}}
+      - UP_INFLUXDB_DISABLE=true
+    expose:
+      - "9130"
+  vmagent:
+    container_name: vmagent
+    image: victoriametrics/vmagent:v1.90.0
+    logging: *logging
+    restart: always
+    expose:
+      - "8429"
+    volumes:
+      - vmagent-data:/vmagentdata
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - "--promscrape.config=/etc/prometheus/prometheus.yml"
+      - "--remoteWrite.url=https://912271:{{ grafana_cloud_api_key }}prometheus-us-central1.grafana.net/api/prom/push"
   backup:
     container_name: backup
     image: offen/docker-volume-backup

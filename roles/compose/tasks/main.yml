@@ -38,8 +38,10 @@
 - name: do non-environment config for Pihole
   include_role: pihole
 
-- name: do non-environment config for homebridge
+- name: do non-environment config for Homebridge
   include_role: homebridge
+
+- name: do non-environment config for vmagent
 
 - name: start services using Compose if not started already
   community.docker.docker_compose:

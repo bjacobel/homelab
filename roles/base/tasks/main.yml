@@ -17,6 +17,7 @@
       - homebridge.local
       - pihole.local
       - homelab.local
+      - vmagent.local
 
 - name: configure wpa_supplicant
   tags: wifi
