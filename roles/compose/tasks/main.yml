@@ -33,15 +33,20 @@
     mode: 0644
 
 - name: do non-environment config for Caddy
-  include_role: caddy
+  include_role:
+    name: caddy
 
 - name: do non-environment config for Pihole
-  include_role: pihole
+  include_role:
+    name: pihole
 
 - name: do non-environment config for Homebridge
-  include_role: homebridge
+  include_role:
+    name: homebridge
 
 - name: do non-environment config for vmagent
+  include_role:
+    name: caddy
 
 - name: start services using Compose if not started already
   community.docker.docker_compose:

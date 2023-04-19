@@ -8,6 +8,14 @@ Ansible playbook to setup my homelab. (Current tenancy is one Raspberry Pi Model
   * VictoriaMetrics vmagent
   * Automated backups for data volumes
 
+Future plans include:
+  * CAdvisor
+  * Prometheus
+  * Prometheus Pushgateway
+  * Grafana
+  * WireGuard
+  * Node-RED
+
 ### Run
 
 ```sh
@@ -19,10 +27,11 @@ ansible-playbook -i hosts.yml playbook.yml --vault-password-file vault
 You will need the file `vault` containing the Vault password. Get it from 1Password under "Homelab Ansible Vault".
 
 ### Assumptions
-* tenant is running raspbian
-* host machine has installed `sshpass` (`brew install hudochenkov/sshpass/sshpass` if macOS)
-* host machine has an ssh pubkey at `~/.ssh/id_rsa.pub`
-* the UDM has been configured with [udm-utilities](https://github.com/boostchicken/udm-utilities) `on-boot-script-2.x`, `cni-plugins` and `container-common`
+* The tenant is running Debian Bullseye (or Raspbian)
+* The host machine has installed `sshpass` (`brew install hudochenkov/sshpass/sshpass` if macOS)
+* The host machine has an ssh pubkey at `~/.ssh/id_rsa.pub`
+* The network is behind a UDM
+* The UDM has been configured with [udm-utilities](https://github.com/boostchicken/udm-utilities) `on-boot-script-2.x`, `cni-plugins` and `container-common`
   * Other optional current UDM config: `ddns-route53`, `ssh-keys` (this is not configured here)
 
 ### Notes
@@ -35,6 +44,7 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
   * `caddy`
   * `pihole`
   * `homebridge`
+  * `vmagent`
 
 Specific roles can be run using `--tags`.
 
@@ -52,4 +62,11 @@ Services on the `.local` domain are secured with self-signed certificates. For t
 
 ```sh
 curl -sk https://pi.local/certs/root.crt -o /tmp/caddy-root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/caddy-root.crt
+```
+
+#### Vagrant
+There's a Vagrantfile for testing the Ansible playbooks. It only works on an ARM Mac. Follow [the instructions here](https://plugin-activation.hashicorp.com/perk/boxes/debian-11-genericcloud-arm64) and then run:
+
+```
+vagrant destroy -f && vagrant up --provider=qemu && vagrant provision
 ```

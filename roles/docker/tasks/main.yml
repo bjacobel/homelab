@@ -1,17 +1,6 @@
 - name: add Vault secrets
   include_vars: "{{ playbook_dir }}/secrets.yml"
 
-- name: stat apt lists
-  stat:
-    path: /var/lib/apt/lists/partial
-  register: stat_results
-
-- name: update apt cache
-  become: yes
-  apt:
-    update_cache: yes
-  when: ((ansible_date_time.epoch|int - stat_results.stat.mtime) > (60 * 60 * 24 * 7)) # not updated in last week
-
 - name: install deps for docker installation
   become: yes
   apt:

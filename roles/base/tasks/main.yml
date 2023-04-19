@@ -2,16 +2,11 @@
   include_vars: "{{ playbook_dir }}/secrets.yml"
   tags: always
 
-- import_tasks: users.yml
-  tags: users
+- import_tasks: first_run.yml
 
-- import_tasks: hostname.yml
-  tags: hostname
-  vars:
-    hostname: "{{ inventory_hostname }}"
+- import_tasks: lockdown.yml
 
 - import_tasks: avahi.yml
-  tags: avahi
   vars:
     aliases:
       - homebridge.local
@@ -19,23 +14,20 @@
       - homelab.local
       - vmagent.local
 
-- name: configure wpa_supplicant
-  tags: wifi
-  become: yes
-  template:
-    src: ./templates/wpa_supplicant.conf
-    dest: /etc/wpa_supplicant/wpa_supplicant.conf
-    owner: root
-    group: root
-    mode: 0644
-  notify: wifi-reconnect
+- import_tasks: wifi.yml
+
+- name: set hostname
+  become: true
+  hostname:
+    name: "{{ inventory_hostname }}"
+  notify:
+    - reboot
 
 - name: install useful utils
   become: yes
   apt:
     name: "{{ packages }}"
     state: present
-    update_cache: no
   vars:
     packages:
       - htop
@@ -46,3 +38,14 @@
     src: ./templates/.bash_aliases
     dest: /home/{{ ansible_ssh_user }}/.bash_aliases
     mode: 0644
+
+- name: enable memory cgroup in grub
+  become: yes
+  lineinfile:
+    state: present
+    path: /etc/default/grub
+    line: GRUB_CMDLINE_LINUX="cgroup_enable=memory"
+    backup: true
+  notify:
+    - update grub
+    - reboot

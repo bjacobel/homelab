@@ -1,0 +1,18 @@
+- name: install useful utils
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - wpasupplicant
+
+- name: configure wpa_supplicant
+  become: yes
+  template:
+    src: ./templates/wpa_supplicant.conf
+    dest: /etc/wpa_supplicant/wpa_supplicant.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: wifi-reconnect

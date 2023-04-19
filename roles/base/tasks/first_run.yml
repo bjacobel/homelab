@@ -1,0 +1,51 @@
+- name: check if connection using {{ main_user }} and pubkey auth is possible
+  command: ssh -o User={{ main_user }} -o ConnectTimeout=10 -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no {{ansible_ssh_host}} -p {{ansible_ssh_port}} echo "Worked"
+  register: result
+  connection: local
+  ignore_errors: yes
+  changed_when: False
+
+- name: If no connection, change user_name
+  set_fact:
+    ansible_ssh_user: "{{ ansible_user_first_run }}"
+    # it may be necessary to set ansible_ssh_pass here too
+  when: result.failed
+
+- name: create '{{ main_user }}' sudo user
+  become: yes
+  user:
+    name: "{{ main_user }}"
+    password: "{{ ansible_become_pass | string | password_hash('sha256', 'salt', rounds=1000) }}"
+    append: yes
+    shell: /bin/bash
+    groups:
+      - sudo
+
+- name: edit sshd_config to enable pubkey auth
+  become: yes
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regex: ^(# *)?PubkeyAuthentication
+    line: PubkeyAuthentication yes
+  notify:
+    - restart-ssh-service
+    - logout
+
+- name: add the control node's ssh key to authorized_keys for {{ main_user }}
+  become: yes
+  become_user: "{{ main_user }}"
+  ansible.posix.authorized_key:
+    user: "{{ main_user }}"
+    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    state: present
+  notify:
+    - restart-ssh-service
+    - logout
+
+- name: log in as {{ main_user }} using key file ssh from here on out
+  set_fact:
+    ansible_ssh_user: "{{ main_user }}"
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa  # this is just a vagrant quirk, shouldn't be req'd for metal
+
+- name: Flush handlers
+  meta: flush_handlers

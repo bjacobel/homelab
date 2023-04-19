@@ -1,3 +1,13 @@
+- name: install unzip utils
+  become: yes
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - make
+      - unzip
+
 - name: download avahi-aliases
   become: yes
   unarchive:
@@ -6,11 +16,20 @@
     dest: /usr/local/src/
     creates: /usr/local/src/avahi-aliases-main
 
+- name: make /etc/avahi a directory
+  become: yes
+  file:
+    path: /etc/avahi
+    state: directory
+
 - name: install avahi-aliases scripts
+  become: yes
   command:
     chdir: /usr/local/src/avahi-aliases-main
     cmd: make install
     creates: /usr/local/bin/avahi-add-alias
+  register: command_result
+  failed_when: "'Started Avahi Aliases' not in command_result.stdout and 'skipped' not in command_result.stdout"
 
 - name: start/enable avahi-aliases service
   become: yes
@@ -40,6 +59,7 @@
   loop: "{{ aliases | difference(ansible_facts['avahi_aliases']) }}"
   when: aliases | difference(ansible_facts['avahi_aliases']) | length
   register: add_alias
+  failed_when: add_alias.stderr
   changed_when: "'added' in add_alias.stdout"
 
 - name: remove undesired avahi aliases
