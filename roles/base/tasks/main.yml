@@ -1,8 +1,20 @@
-- name: add Vault secrets
-  include_vars: "{{ playbook_dir }}/secrets.yml"
-  tags: always
-
 - import_tasks: first_run.yml
+
+- name: list everything in apt_cache
+  become: true
+  command: apt-cache pkgnames
+  register: apt_pkgs
+  changed_when: False
+
+- name: determine if apt update has never run (netinst)
+  set_fact:
+    netinst: apt_pkgs|length < 1000
+
+- name: run initial populate of apt cache (if empty due to netinst)
+  become: true
+  apt:
+    update_cache: yes
+  when: netinst
 
 - import_tasks: lockdown.yml
 
@@ -15,6 +27,7 @@
       - vmagent.local
 
 - import_tasks: wifi.yml
+  when: "'wlan0' in ansible_interfaces"
 
 - name: set hostname
   become: true
@@ -24,7 +37,7 @@
     - reboot
 
 - name: install useful utils
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -40,7 +53,7 @@
     mode: 0644
 
 - name: enable memory cgroup in grub
-  become: yes
+  become: true
   lineinfile:
     state: present
     path: /etc/default/grub

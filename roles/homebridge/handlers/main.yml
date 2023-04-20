@@ -1,7 +1,7 @@
 ---
 - name: homebridge-restart
   community.docker.docker_compose:
-    project_src: /home/{{ ansible_facts['user_id'] }}
+    project_src: "{{ compose_project_dir }}"
     services: homebridge
     state: present
     restarted: true

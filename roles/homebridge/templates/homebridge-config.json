@@ -201,7 +201,7 @@
       },
       {
           "name": "Google Smart Home",
-          "token": "{{ homebridge-gsh-token }}",
+          "token": "{{ homebridge_gsh_token }}",
           "notice": "Keep your token a secret!",
           "platform": "google-smarthome"
       },

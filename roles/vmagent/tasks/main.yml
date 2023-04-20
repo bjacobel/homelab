@@ -1,9 +1,6 @@
-- name: add Vault secrets
-  include_vars: "{{ playbook_dir }}/secrets.yml"
-
 - name: add Prometheus-compatible scrape config
   copy:
     src: ./templates/prometheus.yml
-    dest: /home/{{ ansible_facts['user_id'] }}/prometheus.yml
+    dest: "{{ compose_project_dir }}/prometheus.yml"
     mode: 0644
   notify: restart vmagent

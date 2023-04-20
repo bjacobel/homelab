@@ -1,16 +1,17 @@
-- name: wait for Caddy service to be running
-  wait_for:
-    host: homelab.local
-    port: 80
+- name: start Caddy
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: caddy
+    state: present
 
 - name: copy out of the Caddy container's mapped data volume
-  become: yes
+  become: true
   command:
     cmd: docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/caddy-root.crt
     creates: /usr/local/share/ca-certificates/caddy-root.crt
 
 - name: update CA trust with Caddy cert
-  become: yes
+  become: true
   command: update-ca-certificates
   register: update
   changed_when: "update.stdout | regex_search('([0-9]+) added, ([0-9]+) removed;') | map('int') | sum > 0"

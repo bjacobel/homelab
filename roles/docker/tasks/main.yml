@@ -1,8 +1,5 @@
-- name: add Vault secrets
-  include_vars: "{{ playbook_dir }}/secrets.yml"
-
-- name: install deps for docker installation
-  become: yes
+- name: install deps for docker installation and orchestration
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -10,6 +7,8 @@
     packages:
       - ca-certificates
       - gpg
+      - python3
+      - python3-pip
 
 - name: get arch from dpkg
   command: dpkg --print-architecture
@@ -17,20 +16,20 @@
   changed_when: no
 
 - name: download docker signing gpg key
-  become: yes
+  become: true
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
     keyring: /usr/share/keyrings/docker-archive-keyring.gpg
 
 - name: add the docker sources.list
-  become: yes
+  become: true
   apt_repository:
     filename: /etc/apt/sources.list.d/docker
     repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
     update_cache: yes
 
 - name: install docker-ce
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -38,15 +37,23 @@
     packages:
       - docker-ce
 
-- name: add existing user '{{ ansible_facts['user_id'] }}' to docker group
+- name: add existing user '{{ main_user }}' to docker group
+  become: true
   user:
-    name: "{{ ansible_facts['user_id'] }}"
+    name: "{{ main_user }}"
     groups: docker
     append: yes
+  notify: logout
 
 - name: make sure docker service is running and enable it on reboot
-  become: yes
+  become: true
   systemd:
     state: started
     enabled: yes
     name: docker
+
+- name: install Python library for Docker so Ansible can orchestrate it
+  pip:
+    name: docker
+    version: ">=5.0.0"
+    state: present

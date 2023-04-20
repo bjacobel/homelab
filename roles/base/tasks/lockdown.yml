@@ -1,8 +1,19 @@
 - name: edit sshd_config to disable password auth
-  become: yes
+  become: true
   lineinfile:
     path: /etc/ssh/sshd_config
     regex: ^(# *)?PasswordAuthentication
     line: PasswordAuthentication no
   notify:
     - restart-ssh-service
+
+# @TODO: remove unused users (vagrant, debian, any others)
+
+# @TODO: update AllowedGroups to only permit our user to SSH
+# https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#secure-etcsshsshd_config
+
+# @TODO: enable UFW
+# https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#firewall-with-ufw-uncomplicated-firewall
+
+# @TODO: set up clamav?
+# https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#anti-virus-scanning-with-clamav-wip

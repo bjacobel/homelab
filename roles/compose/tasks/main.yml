@@ -1,14 +1,20 @@
-- name: add Vault secrets
-  include_vars: "{{ playbook_dir }}/secrets.yml"
+- name: set Compose project directory
+  set_fact:
+    compose_project_dir: /home/{{ main_user }}
 
 - name: install docker-compose
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
   vars:
     packages:
       - docker-compose-plugin
+
+- name: install Python library for Compose so Ansible can orchestrate it
+  pip:
+    name: docker-compose
+    state: present
 
 - name: get current docker volumes
   command: "docker volume ls --format='{% raw %}{{.Name}}{% endraw %}'" # noqa var-spacing
@@ -29,26 +35,26 @@
 - name: template docker-compose.yml to ~/
   template:
     src: ./templates/docker-compose.yml
-    dest: /home/{{ ansible_facts['user_id'] }}/docker-compose.yml
+    dest: "{{ compose_project_dir }}/docker-compose.yml"
     mode: 0644
 
 - name: do non-environment config for Caddy
-  include_role:
+  import_role:
     name: caddy
 
 - name: do non-environment config for Pihole
-  include_role:
+  import_role:
     name: pihole
 
 - name: do non-environment config for Homebridge
-  include_role:
+  import_role:
     name: homebridge
 
 - name: do non-environment config for vmagent
-  include_role:
-    name: caddy
+  import_role:
+    name: vmagent
 
 - name: start services using Compose if not started already
   community.docker.docker_compose:
-    project_src: /home/{{ ansible_facts['user_id'] }}
+    project_src: "{{ compose_project_dir }}"
     state: present

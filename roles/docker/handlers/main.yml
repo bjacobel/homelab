@@ -1,0 +1,3 @@
+---
+- name: logout
+  meta: reset_connection

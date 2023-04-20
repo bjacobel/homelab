@@ -1,5 +1,8 @@
-- name: add Vault secrets
-  include_vars: "{{ playbook_dir }}/secrets.yml"
+- name: start PiHole
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: pihole
+    state: present
 
 - name: populate FTL blocklist
   community.docker.docker_container_exec:
@@ -7,7 +10,7 @@
     command: pihole -b -nr {{ item }}
   loop: "{{ blocklist }}"
   register: ftl_result
-  changed_when: '"Added" in ftl_result.stdout'
+  changed_when: '"Adding" in ftl_result.stdout'
   notify: refresh pihole-FTL
 
 - name: populate FTL regex blocklist
@@ -16,7 +19,7 @@
     command: pihole -b -nr --regex {{ item }}
   loop: "{{ regex_blocklist }}"
   register: ftl_result
-  changed_when: '"Added" in ftl_result.stdout'
+  changed_when: '"Adding" in ftl_result.stdout'
   notify: refresh pihole-FTL
 
 - name: populate FTL allowlist
@@ -25,7 +28,7 @@
     command: pihole -w -nr {{ item }}
   loop: "{{ allowlist }}"
   register: ftl_result
-  changed_when: '"Added" in ftl_result.stdout'
+  changed_when: '"Adding" in ftl_result.stdout'
   notify: refresh pihole-FTL
 
 - name: get existing hosts lists from sql
@@ -33,6 +36,7 @@
     container: pihole
     command: sqlite3 /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
   register: hostslist_string
+  changed_when: False
 
 - name: compare hosts list to one in vars and check different
   set_fact:
@@ -44,6 +48,7 @@
   community.docker.docker_container_exec:
     container: pihole
     command: sqlite3 /etc/pihole/gravity.db "DELETE FROM adlist;"
+  retries: 3
   notify: reload gravity
 
 - name: add predefined hosts lists
@@ -52,5 +57,6 @@
     container: pihole
     command: sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
   loop: "{{ adhosts }}"
+  retries: 3
   notify: reload gravity
 

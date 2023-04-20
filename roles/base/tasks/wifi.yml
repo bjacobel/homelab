@@ -1,5 +1,5 @@
 - name: install useful utils
-  become: yes
+  become: true
   apt:
     name: "{{ packages }}"
     state: present
@@ -8,7 +8,7 @@
       - wpasupplicant
 
 - name: configure wpa_supplicant
-  become: yes
+  become: true
   template:
     src: ./templates/wpa_supplicant.conf
     dest: /etc/wpa_supplicant/wpa_supplicant.conf

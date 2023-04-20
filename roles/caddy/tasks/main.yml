@@ -1,10 +1,7 @@
-- name: add Vault secrets
-  include_vars: "{{ playbook_dir }}/secrets.yml"
-
 - name: add Caddyfile
   copy:
     src: ./templates/Caddyfile
-    dest: /home/{{ ansible_facts['user_id'] }}/Caddyfile
+    dest: "{{ compose_project_dir }}/Caddyfile"
     mode: 0644
   notify: caddy-restart
 

@@ -46,7 +46,7 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
   * `homebridge`
   * `vmagent`
 
-Specific roles can be run using `--tags`.
+Specific roles can be run using `--tags`. Strange things will happen if you don't run the `base` role first, because it sets up the correct user accounts (and deletes the others).
 
 #### Hosts
 Easily get the IP of the Raspberry PI, no matter what DHCP has done to it:
@@ -68,5 +68,11 @@ curl -sk https://pi.local/certs/root.crt -o /tmp/caddy-root.crt && sudo security
 There's a Vagrantfile for testing the Ansible playbooks. It only works on an ARM Mac. Follow [the instructions here](https://plugin-activation.hashicorp.com/perk/boxes/debian-11-genericcloud-arm64) and then run:
 
 ```
-vagrant destroy -f && vagrant up --provider=qemu && vagrant provision
+vagrant destroy -f && killsof 50022 && vagrant up --provider=qemu && vagrant provision
+```
+
+To SSH into the vagrant box under the intended user to scope stuff out, run:
+
+```
+ssh bjacobel@127.0.0.1 -p 50022  -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no
 ```

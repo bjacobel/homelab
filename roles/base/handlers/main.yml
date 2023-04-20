@@ -1,6 +1,6 @@
 ---
 - name: reboot
-  become: yes
+  become: true
   reboot:
     reboot_command: shutdown -r now
 
@@ -8,15 +8,15 @@
   meta: reset_connection
 
 - name: wifi-reconnect
-  become: yes
+  become: true
   command: wpa_cli -i wlan0 reconfigure
 
 - name: restart-ssh-service
-  become: yes
+  become: true
   service:
     name: sshd
     state: restarted
 
 - name: update grub
-  become: yes
+  become: true
   command: update-grub2
