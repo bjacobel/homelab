@@ -1,15 +1,7 @@
-- name: check if connection using {{ main_user }} and pubkey auth is possible
-  command: ssh -o User={{ main_user }} -o ConnectTimeout=10 -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no {{ansible_ssh_host}} -p {{ansible_ssh_port}} echo "Worked"
-  register: result
-  connection: local
-  ignore_errors: true
-  changed_when: False
-
 - name: If no connection, change user_name
   set_fact:
     ansible_ssh_user: "{{ ansible_user_first_run }}"
     # it may be necessary to set ansible_ssh_pass here too
-  when: result.failed
 
 - name: create '{{ main_user }}' sudo user
   become: true
@@ -81,6 +73,8 @@
   set_fact:
     ansible_ssh_user: "{{ main_user }}"
     ansible_ssh_private_key_file: "{{ control_node_sshkey }}"
+  notify:
+    - logout
 
 - name: Flush handlers
   meta: flush_handlers

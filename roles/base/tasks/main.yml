@@ -1,4 +1,12 @@
+- name: check if connection using {{ main_user }} and pubkey auth is possible
+  command: ssh -o User={{ main_user }} -o ConnectTimeout=10 -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no {{ansible_ssh_host}} -p {{ansible_ssh_port}} echo "Worked"
+  register: correct_key_auth
+  connection: local
+  ignore_errors: true
+  changed_when: False
+
 - import_tasks: first_run.yml
+  when: correct_key_auth.failed
 
 - name: list everything in apt_cache
   become: true
