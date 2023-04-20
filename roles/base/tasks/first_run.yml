@@ -31,13 +31,47 @@
     - restart-ssh-service
     - logout
 
+- name: enumerate control node ssh keys
+  local_action:
+    module: stat
+    path: "~/.ssh/id_{{item}}"
+  register: key_stats
+  loop:
+    - ed25519
+    - ecdsa
+    - dsa
+    - rsa
+
+- name: determine if any ssh keys exist
+  set_fact:
+    has_ssh_key: "{{ key_stats.results  | selectattr('stat.exists', 'equalto', true) | length > 0 }}"
+
+- name: choose best ssh key
+  set_fact:
+    control_node_sshkey: "{{ key_stats.results  | selectattr('stat.exists', 'equalto', true) | map(attribute='stat') | map(attribute='path') | first }}"
+  when: has_ssh_key
+
+- name: create an ed25519 ssh key on the control node
+  local_action:
+    module: community.crypto.openssh_keypair
+    path: ~/.ssh/id_ed25519
+    regenerate: never
+    type: ed25519
+    mode: "600"
+  when: not has_ssh_key
+  register: created_ssh_key
+
+- name: set ssh key to the one we just created
+  set_fact:
+    control_node_sshkey: "{{ created_ssh_key.filename }}"
+  when: not has_ssh_key
+
 - name: add the control node's ssh key to authorized_keys for {{ main_user }}
   become: true
   become_user: "{{ main_user }}"
   ansible.posix.authorized_key:
     user: "{{ main_user }}"
-    # @TODO: use an ed25519 ssh key if it exists on th control node (calus has one)
-    key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    key: "{{ lookup('file', control_node_sshkey + '.pub') }}"
     state: present
   notify:
     - restart-ssh-service
@@ -46,7 +80,7 @@
 - name: log in as {{ main_user }} using key file ssh from here on out
   set_fact:
     ansible_ssh_user: "{{ main_user }}"
-    ansible_ssh_private_key_file: ~/.ssh/id_rsa  # this is just a vagrant quirk, shouldn't be req'd for metal
+    ansible_ssh_private_key_file: "{{ control_node_sshkey }}"
 
 - name: Flush handlers
   meta: flush_handlers
