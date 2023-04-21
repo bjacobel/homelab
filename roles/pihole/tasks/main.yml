@@ -1,4 +1,4 @@
-- name: start PiHole
+- name: bring Pi-hole up
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     services: pihole
@@ -35,6 +35,7 @@
   community.docker.docker_container_exec:
     container: pihole
     command: sqlite3 /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
+  retries: 3
   register: hostslist_string
   changed_when: False
 

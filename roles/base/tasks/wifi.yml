@@ -1,4 +1,4 @@
-- name: install useful utils
+- name: install wpa supplicant
   become: true
   apt:
     name: "{{ packages }}"
