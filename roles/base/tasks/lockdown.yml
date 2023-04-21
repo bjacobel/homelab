@@ -9,16 +9,16 @@
 
 # @TODO: This breaks the second-run experience because we can't gather facts using the first_run username anymore
 # This may not be possible while remaining idempotent and being able to run on out-of-the-box server
-# - name: remove unused users
-#   become: true
-#   user:
-#     name: "{{item}}"
-#     state: absent
-#     remove: true
-#     force: true
-#   loop:
-#     - debian
-#     - vagrant
+- name: remove unused users
+  become: true
+  user:
+    name: "{{item}}"
+    state: absent
+    remove: true
+    force: true
+  loop:
+    - debian
+    - vagrant
 
 # @TODO: update AllowedGroups to only permit our user to SSH
 # Same issue here this is probably going to break Vagrant

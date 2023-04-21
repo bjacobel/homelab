@@ -1,6 +1,6 @@
 - name: set Compose project directory
   set_fact:
-    compose_project_dir: /home/{{ main_user }}
+    compose_project_dir: /home/{{ ansible_ssh_user }}
 
 - name: install docker-compose
   become: true

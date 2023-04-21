@@ -4,9 +4,6 @@
   reboot:
     reboot_command: shutdown -r now
 
-- name: logout
-  meta: reset_connection
-
 - name: wifi-reconnect
   become: true
   command: wpa_cli -i wlan0 reconfigure

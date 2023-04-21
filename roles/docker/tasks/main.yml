@@ -37,10 +37,10 @@
     packages:
       - docker-ce
 
-- name: add existing user '{{ main_user }}' to docker group
+- name: add existing user '{{ ansible_ssh_user }}' to docker group
   become: true
   user:
-    name: "{{ main_user }}"
+    name: "{{ ansible_ssh_user }}"
     groups: docker
     append: yes
   notify: logout

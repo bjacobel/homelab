@@ -1,17 +1,21 @@
-- name: If no connection, change user_name
-  set_fact:
-    ansible_ssh_user: "{{ ansible_user_first_run }}"
-    # it may be necessary to set ansible_ssh_pass here too
+- name: check if connection using {{ ansible_ssh_user }} and pubkey auth is possible
+  command: ssh -o User={{ ansible_ssh_user }} -o ConnectTimeout=10 -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no {{ansible_ssh_host}} -p {{ansible_ssh_port}} echo "Worked"
+  register: correct_key_auth
+  connection: local
+  ignore_errors: true
+  changed_when: False
 
-- name: create '{{ main_user }}' sudo user
-  become: true
-  user:
-    name: "{{ main_user }}"
-    password: "{{ ansible_become_pass | string | password_hash('sha256', 'salt', rounds=1000) }}"
-    append: yes
-    shell: /bin/bash
-    groups:
-      - sudo
+- name: backup desired ansible_ssh_user in facts
+  set_fact:
+    desired_new_user: "{{ ansible_ssh_user }}"
+
+- include_tasks: as_default_user.yml
+  when: correct_key_auth.failed
+
+# not running gather_facts messes this up. this is a post-hoc gather_facts with some facts assumed
+- set_fact:
+    ansible_python_interpreter: /usr/bin/python3
+- setup:
 
 - name: edit sshd_config to enable pubkey auth
   become: true
@@ -58,21 +62,27 @@
     control_node_sshkey: "{{ created_ssh_key.filename }}"
   when: not has_ssh_key
 
-- name: add the control node's ssh key to authorized_keys for {{ main_user }}
+- name: add the control node's ssh key to authorized_keys for {{ desired_new_user }}
   become: true
-  become_user: "{{ main_user }}"
+  become_user: "{{ desired_new_user }}"
   ansible.posix.authorized_key:
-    user: "{{ main_user }}"
+    user: "{{ desired_new_user }}"
     key: "{{ lookup('file', control_node_sshkey + '.pub') }}"
     state: present
   notify:
     - restart-ssh-service
     - logout
 
-- name: log in as {{ main_user }} using key file ssh from here on out
+# @TODO this may not be necessary on debian
+- name: use this ssh key for future auth
   set_fact:
-    ansible_ssh_user: "{{ main_user }}"
     ansible_ssh_private_key_file: "{{ control_node_sshkey }}"
+  notify:
+    - logout
+
+- name: log in as {{ ansible_ssh_user }} using key file ssh from here on out
+  set_fact:
+    ansible_ssh_user: "{{ desired_new_user }}"
   notify:
     - logout
 

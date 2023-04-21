@@ -2,7 +2,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "perk/debian-11-genericcloud-arm64"
   config.vm.box_version = "20230124-1270"
 
-  # allows a passwordless login as the first_time_user
+  # allows a passwordless login as the ansible_user_first_run
+  # replicates the conditions that a cloud install would boot under (you provide pubkey to IaaS host during purchase)
   config.ssh.insert_key = true
 
   config.vm.synced_folder ".", "/vagrant", disabled: true

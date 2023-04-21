@@ -1,0 +1,9 @@
+- name: logout
+  meta: reset_connection
+
+- name: restart-ssh-service
+  become: true
+  service:
+    name: sshd
+    state: restarted
+

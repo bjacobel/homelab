@@ -46,7 +46,7 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
   * `homebridge`
   * `vmagent`
 
-Specific roles can be run using `--tags`. Strange things will happen if you don't run the `base` role first, because it sets up the correct user accounts (and deletes the others).
+Specific roles can be run using `--tags`.
 
 #### Hosts
 Easily get the IP of the Raspberry PI, no matter what DHCP has done to it:

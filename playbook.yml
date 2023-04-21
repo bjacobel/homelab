@@ -1,3 +1,10 @@
+- name: first run - insecure ssh to default user account
+  hosts: all
+  vars_files: vars.yml
+  gather_facts: false
+  roles:
+   - first_run
+
 - name: apply base configuration
   hosts: all
   vars_files: vars.yml
