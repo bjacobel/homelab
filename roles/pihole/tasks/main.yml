@@ -34,7 +34,7 @@
 - name: get existing hosts lists from sql
   community.docker.docker_container_exec:
     container: pihole
-    command: sqlite3 /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
+    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
   retries: 3
   register: hostslist_string
   changed_when: False
@@ -48,7 +48,7 @@
   when: ansible_facts['needs_hosts_update']
   community.docker.docker_container_exec:
     container: pihole
-    command: sqlite3 /etc/pihole/gravity.db "DELETE FROM adlist;"
+    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "DELETE FROM adlist;"
   retries: 3
   notify: reload gravity
 
@@ -56,7 +56,7 @@
   when: ansible_facts['needs_hosts_update']
   community.docker.docker_container_exec:
     container: pihole
-    command: sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
+    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
   loop: "{{ adhosts }}"
   retries: 3
   notify: reload gravity
