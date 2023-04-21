@@ -1,3 +1,4 @@
+---
 - name: If no connection, change user_name
   set_fact:
     ansible_ssh_user: "{{ ansible_user_first_run }}"
@@ -8,7 +9,7 @@
   user:
     name: "{{ desired_new_user }}"
     password: "{{ ansible_become_pass | string | password_hash('sha256', 'salt', rounds=1000) }}"
-    append: yes
+    append: true
     shell: /bin/bash
     groups:
       - sudo
@@ -26,7 +27,7 @@
 - name: enumerate control node ssh keys
   local_action:
     module: stat
-    path: "~/.ssh/id_{{item}}"
+    path: ~/.ssh/id_{{item}}
   register: key_stats
   loop:
     - ed25519

@@ -1,3 +1,4 @@
+---
 - name: install deps for docker installation and orchestration
   become: true
   apt:
@@ -13,7 +14,7 @@
 - name: get arch from dpkg
   command: dpkg --print-architecture
   register: dpkg_arch
-  changed_when: no
+  changed_when: false
 
 - name: download docker signing gpg key
   become: true
@@ -25,8 +26,9 @@
   become: true
   apt_repository:
     filename: /etc/apt/sources.list.d/docker
-    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
-    update_cache: yes
+    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename
+      }} stable
+    update_cache: true
 
 - name: install docker-ce
   become: true
@@ -42,14 +44,14 @@
   user:
     name: "{{ ansible_ssh_user }}"
     groups: docker
-    append: yes
+    append: true
   notify: logout
 
 - name: make sure docker service is running and enable it on reboot
   become: true
   systemd:
     state: started
-    enabled: yes
+    enabled: true
     name: docker
 
 - name: install Python library for Docker so Ansible can orchestrate it

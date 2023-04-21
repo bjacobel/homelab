@@ -1,3 +1,4 @@
+---
 - name: install wpa supplicant
   become: true
   apt:
@@ -14,5 +15,5 @@
     dest: /etc/wpa_supplicant/wpa_supplicant.conf
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   notify: wifi-reconnect

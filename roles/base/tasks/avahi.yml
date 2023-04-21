@@ -1,3 +1,4 @@
+---
 - name: install avahi dependencies
   become: true
   apt:
@@ -12,7 +13,7 @@
 - name: download avahi-aliases
   become: true
   unarchive:
-    remote_src: yes
+    remote_src: true
     src: https://github.com/scott-ainsworth/avahi-aliases/archive/refs/heads/main.zip
     dest: /usr/local/src/
     creates: /usr/local/src/avahi-aliases-main
@@ -36,7 +37,7 @@
   become: true
   systemd:
     state: started
-    enabled: yes
+    enabled: true
     name: avahi-alias
 
 - name: get existing avahi aliases
@@ -50,7 +51,7 @@
 
 - name: split avahi aliases to array
   set_fact:
-    cacheable: yes
+    cacheable: true
     avahi_aliases: "{{ aliasfile_content.split('\n') }}"
 
 - name: create avahi aliases for all services

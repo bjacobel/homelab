@@ -1,3 +1,4 @@
+---
 - name: install docker-compose
   become: true
   apt:
@@ -13,9 +14,9 @@
     state: present
 
 - name: get current docker volumes
-  command: "docker volume ls --format='{% raw %}{{.Name}}{% endraw %}'" # noqa var-spacing
+  command: docker volume ls --format='{% raw %}{{.Name}}{% endraw %}' # noqa var-spacing
   register: current_volumes
-  changed_when: no
+  changed_when: false
 
 - name: get requested persistent volumes in compose file
   set_fact:
@@ -32,7 +33,7 @@
   template:
     src: ./templates/docker-compose.yml
     dest: "{{ compose_project_dir }}/docker-compose.yml"
-    mode: 0644
+    mode: "0644"
 
 - name: do non-environment config for Caddy
   import_role:

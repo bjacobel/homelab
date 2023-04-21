@@ -1,8 +1,9 @@
+---
 - name: list everything in apt_cache
   become: true
   command: apt-cache pkgnames
   register: apt_pkgs
-  changed_when: False
+  changed_when: false
 
 - name: determine if apt update has never run (netinst)
   set_fact:
@@ -11,7 +12,7 @@
 - name: run initial populate of apt cache (if empty due to netinst)
   become: true
   apt:
-    update_cache: yes
+    update_cache: true
   when: netinst
 
 - import_tasks: lockdown.yml
@@ -49,7 +50,7 @@
   template:
     src: ./templates/.bash_aliases
     dest: /home/{{ ansible_ssh_user }}/.bash_aliases
-    mode: 0644
+    mode: "0644"
 
 - name: enable memory cgroup in grub
   become: true

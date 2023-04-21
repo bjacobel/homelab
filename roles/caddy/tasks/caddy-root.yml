@@ -1,3 +1,4 @@
+---
 - name: start Caddy
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
@@ -14,5 +15,4 @@
   become: true
   command: update-ca-certificates
   register: update
-  changed_when: "update.stdout | regex_search('([0-9]+) added, ([0-9]+) removed;') | map('int') | sum > 0"
-
+  changed_when: update.stdout | regex_search('([0-9]+) added, ([0-9]+) removed;') | map('int') | sum > 0

@@ -1,15 +1,16 @@
+---
 - name: add Caddyfile
   copy:
     src: ./templates/Caddyfile
     dest: "{{ compose_project_dir }}/Caddyfile"
-    mode: 0644
+    mode: "0644"
   notify: caddy-restart
 
 - name: inspect ca-certs for Caddy root
   find:
     paths: /etc/ssl/certs
     patterns: caddy-root.pem
-    recurse: no
+    recurse: false
     file_type: any
   register: found_roots
 

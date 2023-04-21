@@ -1,3 +1,4 @@
+---
 - name: bring Pi-hole up
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
@@ -37,11 +38,11 @@
     command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
   retries: 3
   register: hostslist_string
-  changed_when: False
+  changed_when: false
 
 - name: compare hosts list to one in vars and check different
   set_fact:
-    cacheable: yes
+    cacheable: true
     needs_hosts_update: "{{ adhosts | symmetric_difference(hostslist_string.stdout.split('\n')) | length > 0 }}"
 
 - name: drop all existing gravity hosts
@@ -56,8 +57,8 @@
   when: ansible_facts['needs_hosts_update']
   community.docker.docker_container_exec:
     container: pihole
-    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
+    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE
+      NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
   loop: "{{ adhosts }}"
   retries: 3
   notify: reload gravity
-

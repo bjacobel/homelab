@@ -1,3 +1,4 @@
+---
 - name: edit sshd_config to disable password auth
   become: true
   lineinfile:

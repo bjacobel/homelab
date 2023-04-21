@@ -1,7 +1,8 @@
+---
 - name: enumerate control node ssh keys
   local_action:
     module: stat
-    path: "~/.ssh/id_{{item}}"
+    path: ~/.ssh/id_{{item}}
   register: key_stats
   loop:
     - ed25519
