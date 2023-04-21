@@ -4,9 +4,3 @@
     dest: "{{ compose_project_dir }}/prometheus.yml"
     mode: 0644
   notify: restart vmagent
-
-- name: bring vmagent up
-  community.docker.docker_compose:
-    project_src: "{{ compose_project_dir }}"
-    services: vmagent
-    state: present

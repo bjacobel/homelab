@@ -1,6 +1,8 @@
 ---
 - name: restart vmagent
-  community.docker.docker_container_exec:
-    container: vmagent
-    command: kill -SIGHUP $(pidof vmagent)
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: vmagent
+    state: present
+    restarted: true
 

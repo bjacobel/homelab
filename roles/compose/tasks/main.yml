@@ -50,7 +50,7 @@
   import_role:
     name: vmagent
 
-# - name: start services using Compose if not started already
-#   community.docker.docker_compose:
-#     project_src: "{{ compose_project_dir }}"
-#     state: present
+- name: start services using Compose if not started already
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    state: present
