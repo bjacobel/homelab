@@ -7,8 +7,6 @@
   notify:
     - restart-ssh-service
 
-# @TODO: This breaks the second-run experience because we can't gather facts using the first_run username anymore
-# This may not be possible while remaining idempotent and being able to run on out-of-the-box server
 - name: remove unused users
   become: true
   user:
@@ -20,9 +18,27 @@
     - debian
     - vagrant
 
-# @TODO: update AllowedGroups to only permit our user to SSH
-# Same issue here this is probably going to break Vagrant
-# https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#secure-etcsshsshd_config
+- name: create sshers group
+  become: true
+  group:
+    name: sshers
+    state: present
+
+- name: put {{ ansible_ssh_user }} in sshers group
+  become: true
+  user:
+    name: "{{ ansible_ssh_user }}"
+    groups: sshers
+    append: true
+
+- name: configure ssh so that only sshers can ssh
+  become: true
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regex: ^(# *)?AllowGroups
+    line: AllowGroups sshers
+  notify:
+    - restart-ssh-service
 
 # @TODO: enable UFW
 # https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#firewall-with-ufw-uncomplicated-firewall
