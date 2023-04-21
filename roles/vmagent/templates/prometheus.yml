@@ -1,5 +1,5 @@
 scrape_configs:
-  - job_name: 'unifipoller'
+  - job_name: unifipoller
     scrape_interval: 30s
     static_configs:
     - targets:
@@ -9,3 +9,8 @@ scrape_configs:
     static_configs:
     - targets:
       - cadvisor:8080
+  - job_name: node-exporter
+    scrape_interval: 30s
+    static_configs:
+    - targets:
+      - node-exporter:9100

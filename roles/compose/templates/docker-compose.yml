@@ -102,6 +102,7 @@ services:
   cadvisor:
     container_name: cadvisor
     image: gcr.io/cadvisor/cadvisor:v0.47.0
+    restart: always
     devices:
       - "/dev/kmsg:/dev/kmsg"
     expose:
@@ -114,6 +115,21 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
       - /var/run/docker.sock:/var/run/docker.sock:rw
+  node-exporter:
+    container_name: node-exporter
+    image: prom/node-exporter:v1.5.0
+    restart: always
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    expose:
+      - 9100
   backup:
     container_name: backup
     image: offen/docker-volume-backup
