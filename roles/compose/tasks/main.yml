@@ -1,7 +1,3 @@
-- name: set Compose project directory
-  set_fact:
-    compose_project_dir: /home/{{ ansible_ssh_user }}
-
 - name: install docker-compose
   become: true
   apt:
@@ -54,7 +50,7 @@
   import_role:
     name: vmagent
 
-- name: start services using Compose if not started already
-  community.docker.docker_compose:
-    project_src: "{{ compose_project_dir }}"
-    state: present
+# - name: start services using Compose if not started already
+#   community.docker.docker_compose:
+#     project_src: "{{ compose_project_dir }}"
+#     state: present

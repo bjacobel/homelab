@@ -1,4 +1,5 @@
 ansible_ssh_user: bjacobel
+compose_project_dir: /home/{{ansible_ssh_user}}
 ansible_become_pass: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   65666134333931663632636430346534376566613438336664396538383138356161343236376463
