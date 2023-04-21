@@ -6,10 +6,10 @@ Ansible playbook to setup my homelab. (Current tenancy is one Raspberry Pi Model
   * Pi-hole
   * Unifi-poller
   * VictoriaMetrics vmagent
+  * CAdvisor
   * Automated backups for data volumes
 
 Future plans include:
-  * CAdvisor
   * Prometheus
   * Prometheus Pushgateway
   * Grafana

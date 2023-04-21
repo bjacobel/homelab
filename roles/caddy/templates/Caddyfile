@@ -19,6 +19,13 @@ vmagent.local {
   }
 }
 
+cadvisor.local {
+  reverse_proxy cadvisor:8080
+  log {
+    level WARN
+  }
+}
+
 homelab.local {
   rewrite /certs /certs/
   handle /certs/* {

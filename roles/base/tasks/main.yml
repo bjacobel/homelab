@@ -23,6 +23,7 @@
       - pihole.local
       - homelab.local
       - vmagent.local
+      - cadvisor.local
 
 - import_tasks: wifi.yml
   when: "'wlan0' in ansible_interfaces"
