@@ -12,7 +12,7 @@
 
 - name: Choose best ssh key
   ansible.builtin.set_fact:
-    control_node_sshkey: "{{ key_stats.results | selectattr('stat.exists', 'equalto', true) | map(attribute='stat') | map(attribute='path') | first }}"
+    control_node_sshkey: "{{ key_stats.results | selectattr('stat.exists', 'equalto', true) | map(attribute='stat.path') | first }}"
 
 - name: Use this ssh key for future auth
   ansible.builtin.set_fact:

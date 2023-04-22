@@ -1,30 +1,12 @@
-homebridge.local {
-  reverse_proxy host.docker.internal:8581
+{% for site in proxied_hosts %}
+{{ site.name }}.local {
+  reverse_proxy {{ site.http.host | default(site.name, True) }}:{{ site.http.port }}
   log {
     level WARN
   }
 }
 
-pihole.local {
-  reverse_proxy pihole:80
-  log {
-    level WARN
-  }
-}
-
-vmagent.local {
-  reverse_proxy vmagent:8429
-  log {
-    level WARN
-  }
-}
-
-cadvisor.local {
-  reverse_proxy cadvisor:8080
-  log {
-    level WARN
-  }
-}
+{% endfor %}
 
 homelab.local {
   rewrite /certs /certs/

@@ -45,7 +45,7 @@
 
 - name: Choose best ssh key
   ansible.builtin.set_fact:
-    control_node_sshkey: "{{ key_stats.results | selectattr('stat.exists', 'equalto', true) | map(attribute='stat') | map(attribute='path') | first }}"
+    control_node_sshkey: "{{ key_stats.results | selectattr('stat.exists', 'equalto', true) | map(attribute='stat.path') | first }}"
   when: has_ssh_key
 
 - name: Create an ed25519 ssh key on the control node
