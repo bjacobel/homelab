@@ -1,23 +1,25 @@
 ---
-- name: list everything in apt_cache
+- name: List everything in apt_cache
   become: true
   command: apt-cache pkgnames
   register: apt_pkgs
   changed_when: false
 
-- name: determine if apt update has never run (netinst)
-  set_fact:
+- name: Determine if apt update has never run (netinst)
+  ansible.builtin.set_fact:
     netinst: apt_pkgs|length < 1000
 
-- name: run initial populate of apt cache (if empty due to netinst)
+- name: Run initial populate of apt cache (if empty due to netinst)
   become: true
   apt:
     update_cache: true
   when: netinst
 
-- import_tasks: lockdown.yml
+- name: Do security setup
+  import_tasks: lockdown.yml
 
-- import_tasks: avahi.yml
+- name: Configure avahi and daemon for .local hostnames
+  import_tasks: avahi.yml
   vars:
     aliases:
       - homebridge.local
@@ -26,17 +28,18 @@
       - vmagent.local
       - cadvisor.local
 
-- import_tasks: wifi.yml
+- name: Setup WiFi
+  import_tasks: wifi.yml
   when: "'wlan0' in ansible_interfaces"
 
-- name: set hostname
+- name: Set hostname
   become: true
   hostname:
     name: "{{ inventory_hostname }}"
   notify:
-    - reboot
+    - Reboot
 
-- name: install useful utils
+- name: Install useful utils
   become: true
   apt:
     name: "{{ packages }}"
@@ -46,13 +49,13 @@
       - htop
       - bind9-dnsutils
 
-- name: set up bash aliases
-  template:
+- name: Set up bash aliases
+  ansible.builtin.template:
     src: ./templates/.bash_aliases
     dest: /home/{{ ansible_ssh_user }}/.bash_aliases
     mode: "0644"
 
-- name: enable memory cgroup in grub
+- name: Enable memory cgroup in grub
   become: true
   lineinfile:
     state: present
@@ -60,5 +63,5 @@
     line: GRUB_CMDLINE_LINUX="cgroup_enable=memory"
     backup: true
   notify:
-    - update grub
-    - reboot
+    - Update grub
+    - Reboot

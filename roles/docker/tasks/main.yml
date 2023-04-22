@@ -1,5 +1,5 @@
 ---
-- name: install deps for docker installation and orchestration
+- name: Install deps for docker installation and orchestration
   become: true
   apt:
     name: "{{ packages }}"
@@ -11,26 +11,26 @@
       - python3
       - python3-pip
 
-- name: get arch from dpkg
+- name: Get arch from dpkg
   command: dpkg --print-architecture
   register: dpkg_arch
   changed_when: false
 
-- name: download docker signing gpg key
+- name: Download docker signing gpg key
   become: true
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
     keyring: /usr/share/keyrings/docker-archive-keyring.gpg
 
-- name: add the docker sources.list
+- name: Add the docker sources.list
   become: true
   apt_repository:
     filename: /etc/apt/sources.list.d/docker
-    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename
-      }} stable
+    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
+      https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
     update_cache: true
 
-- name: install docker-ce
+- name: Install docker-ce
   become: true
   apt:
     name: "{{ packages }}"
@@ -39,22 +39,22 @@
     packages:
       - docker-ce
 
-- name: add existing user '{{ ansible_ssh_user }}' to docker group
+- name: "Add existing user to docker group: {{ ansible_ssh_user }}"
   become: true
   user:
     name: "{{ ansible_ssh_user }}"
     groups: docker
     append: true
-  notify: logout
+  notify: Logout
 
-- name: make sure docker service is running and enable it on reboot
+- name: Make sure docker service is running and enable it on reboot
   become: true
   systemd:
     state: started
     enabled: true
     name: docker
 
-- name: install Python library for Docker so Ansible can orchestrate it
+- name: Install Python library for Docker so Ansible can orchestrate it
   pip:
     name: docker
     version: ">=5.0.0"

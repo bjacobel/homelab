@@ -1,5 +1,5 @@
 ---
-- name: first run - insecure ssh to default user account
+- name: First run - insecure ssh to default user account
   hosts: all
   vars_files: vars.yml
   gather_facts: false
@@ -7,19 +7,19 @@
   roles:
     - first_run
 
-- name: apply base configuration
+- name: Apply base configuration
   hosts: all
   vars_files: vars.yml
   roles:
     - base
 
-- name: install and configure docker
+- name: Install and configure docker
   hosts: all
   vars_files: vars.yml
   roles:
     - docker
 
-- name: configure docker containers using compose
+- name: Configure docker containers using compose
   hosts: all
   vars_files: vars.yml
   roles:

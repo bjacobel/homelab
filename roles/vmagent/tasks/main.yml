@@ -1,7 +1,7 @@
 ---
-- name: add Prometheus-compatible scrape config
+- name: Add Prometheus-compatible scrape config
   copy:
     src: ./templates/prometheus.yml
     dest: "{{ compose_project_dir }}/prometheus.yml"
     mode: "0644"
-  notify: restart vmagent
+  notify: Restart vmagent

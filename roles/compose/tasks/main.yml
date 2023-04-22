@@ -1,5 +1,5 @@
 ---
-- name: install docker-compose
+- name: Install docker-compose
   become: true
   apt:
     name: "{{ packages }}"
@@ -8,50 +8,50 @@
     packages:
       - docker-compose-plugin
 
-- name: install Python library for Compose so Ansible can orchestrate it
+- name: Install Python library for Compose so Ansible can orchestrate it
   pip:
     name: docker-compose
     state: present
 
-- name: get current docker volumes
-  command: docker volume ls --format='{% raw %}{{.Name}}{% endraw %}' # noqa var-spacing
+- name: Get current docker volumes
+  command: docker volume ls --format='{% raw %}{{.Name}}{% endraw %}' # noqa jinja[spacing]
   register: current_volumes
   changed_when: false
 
-- name: get requested persistent volumes in compose file
-  set_fact:
+- name: Get requested persistent volumes in compose file
+  ansible.builtin.set_fact:
     requested_volumes: "{{ lookup('template', './docker-compose.yml') | from_yaml | json_query('volumes') | list }}"
 
 # TODO: this will try to recreate ALL volumes, not just `external: true` ones
-- name: create volumes if they don't exist
+- name: Create volumes if they don't exist
   command: docker volume create {{ item }}
   loop: "{{ requested_volumes | difference(current_volumes.stdout.split('\n')) }}"
   register: vol_create
   changed_when: vol_create.stdout == item
 
-- name: template docker-compose.yml to ~/
-  template:
+- name: Template docker-compose.yml to ~/
+  ansible.builtin.template:
     src: ./templates/docker-compose.yml
     dest: "{{ compose_project_dir }}/docker-compose.yml"
     mode: "0644"
 
-- name: do non-environment config for Caddy
+- name: Do non-environment config for Caddy
   import_role:
     name: caddy
 
-- name: do non-environment config for Pihole
+- name: Do non-environment config for Pihole
   import_role:
     name: pihole
 
-- name: do non-environment config for Homebridge
+- name: Do non-environment config for Homebridge
   import_role:
     name: homebridge
 
-- name: do non-environment config for vmagent
+- name: Do non-environment config for vmagent
   import_role:
     name: vmagent
 
-- name: start services using Compose if not started already
+- name: Start services using Compose if not started already
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     state: present

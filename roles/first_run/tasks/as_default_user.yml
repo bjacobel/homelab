@@ -1,12 +1,12 @@
 ---
 - name: If no connection, change user_name
-  set_fact:
+  ansible.builtin.set_fact:
     ansible_ssh_user: "{{ ansible_user_first_run }}"
     # it may be necessary to set ansible_ssh_pass here too, if the machine wants password ssh after a fresh install
 
-- name: create '{{ desired_new_user }}' sudo user
+- name: "Create new sudo user: {{ ansible_ssh_user }}"
   become: true
-  user:
+  ansible.builtin.user:
     name: "{{ desired_new_user }}"
     password: "{{ ansible_become_pass | string | password_hash('sha256', 'salt', rounds=1000) }}"
     append: true
@@ -14,20 +14,20 @@
     groups:
       - sudo
 
-- name: edit sshd_config to enable pubkey auth
+- name: Edit sshd_config to enable pubkey auth
   become: true
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regex: ^(# *)?PubkeyAuthentication
     line: PubkeyAuthentication yes
   notify:
-    - restart-ssh-service
-    - logout
+    - Restart ssh service
+    - Logout
 
-- name: enumerate control node ssh keys
-  local_action:
-    module: stat
-    path: ~/.ssh/id_{{item}}
+- name: Enumerate control node ssh keys
+  delegate_to: localhost
+  stat:
+    path: ~/.ssh/id_{{ item }}
   register: key_stats
   loop:
     - ed25519
@@ -35,18 +35,18 @@
     - dsa
     - rsa
 
-- name: determine if any ssh keys exist
-  set_fact:
-    has_ssh_key: "{{ key_stats.results  | selectattr('stat.exists', 'equalto', true) | length > 0 }}"
+- name: Determine if any ssh keys exist
+  ansible.builtin.set_fact:
+    has_ssh_key: "{{ key_stats.results | selectattr('stat.exists', 'equalto', true) | length > 0 }}"
 
-- name: choose best ssh key
-  set_fact:
-    control_node_sshkey: "{{ key_stats.results  | selectattr('stat.exists', 'equalto', true) | map(attribute='stat') | map(attribute='path') | first }}"
+- name: Choose best ssh key
+  ansible.builtin.set_fact:
+    control_node_sshkey: "{{ key_stats.results | selectattr('stat.exists', 'equalto', true) | map(attribute='stat') | map(attribute='path') | first }}"
   when: has_ssh_key
 
-- name: create an ed25519 ssh key on the control node
-  local_action:
-    module: community.crypto.openssh_keypair
+- name: Create an ed25519 ssh key on the control node
+  delegate_to: localhost
+  community.crypto.openssh_keypair:
     path: ~/.ssh/id_ed25519
     regenerate: never
     type: ed25519
@@ -54,12 +54,12 @@
   when: not has_ssh_key
   register: created_ssh_key
 
-- name: set ssh key to the one we just created
-  set_fact:
+- name: Set ssh key to the one we just created
+  ansible.builtin.set_fact:
     control_node_sshkey: "{{ created_ssh_key.filename }}"
   when: not has_ssh_key
 
-- name: add the control node's ssh key to authorized_keys for {{ desired_new_user }}
+- name: Add the control node's ssh key to authorized_keys for {{ desired_new_user }}
   become: true
   become_user: "{{ desired_new_user }}"
   ansible.posix.authorized_key:
@@ -67,11 +67,11 @@
     key: "{{ lookup('file', control_node_sshkey + '.pub') }}"
     state: present
   notify:
-    - restart-ssh-service
-    - logout
+    - Restart ssh service
+    - Logout
 
-- name: use this ssh key for future auth
-  set_fact:
+- name: Use this ssh key for future auth
+  ansible.builtin.set_fact:
     ansible_ssh_private_key_file: "{{ control_node_sshkey }}"
   notify:
-    - logout
+    - Logout

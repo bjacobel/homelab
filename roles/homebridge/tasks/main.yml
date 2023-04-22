@@ -1,7 +1,7 @@
 ---
-- name: add homebridge config
-  template:
+- name: Add homebridge config
+  ansible.builtin.template:
     src: ./templates/homebridge-config.json
     dest: "{{ compose_project_dir }}/homebridge-config.json"
     mode: "0644"
-  notify: homebridge-restart
+  notify: Restart homebridge

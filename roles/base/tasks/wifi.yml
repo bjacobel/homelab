@@ -1,5 +1,5 @@
 ---
-- name: install wpa supplicant
+- name: Install wpa supplicant
   become: true
   apt:
     name: "{{ packages }}"
@@ -8,12 +8,12 @@
     packages:
       - wpasupplicant
 
-- name: configure wpa_supplicant
+- name: Configure wpa_supplicant
   become: true
-  template:
+  ansible.builtin.template:
     src: ./templates/wpa_supplicant.conf
     dest: /etc/wpa_supplicant/wpa_supplicant.conf
     owner: root
     group: root
     mode: "0644"
-  notify: wifi-reconnect
+  notify: Reconnect WiFi

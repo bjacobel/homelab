@@ -1,38 +1,38 @@
 ---
-- name: bring Pi-hole up
+- name: Bring Pi-hole up
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     services: pihole
     state: present
 
-- name: populate FTL blocklist
+- name: Populate FTL blocklist
   community.docker.docker_container_exec:
     container: pihole
     command: pihole -b -nr {{ item }}
   loop: "{{ blocklist }}"
   register: ftl_result
   changed_when: '"Adding" in ftl_result.stdout'
-  notify: refresh pihole-FTL
+  notify: Refresh pihole-FTL
 
-- name: populate FTL regex blocklist
+- name: Populate FTL regex blocklist
   community.docker.docker_container_exec:
     container: pihole
     command: pihole -b -nr --regex {{ item }}
   loop: "{{ regex_blocklist }}"
   register: ftl_result
   changed_when: '"Adding" in ftl_result.stdout'
-  notify: refresh pihole-FTL
+  notify: Refresh pihole-FTL
 
-- name: populate FTL allowlist
+- name: Populate FTL allowlist
   community.docker.docker_container_exec:
     container: pihole
     command: pihole -w -nr {{ item }}
   loop: "{{ allowlist }}"
   register: ftl_result
   changed_when: '"Adding" in ftl_result.stdout'
-  notify: refresh pihole-FTL
+  notify: Refresh pihole-FTL
 
-- name: get existing hosts lists from sql
+- name: Get existing hosts lists from sql
   community.docker.docker_container_exec:
     container: pihole
     command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "select address from adlist where enabled = 1;"
@@ -40,25 +40,25 @@
   register: hostslist_string
   changed_when: false
 
-- name: compare hosts list to one in vars and check different
-  set_fact:
+- name: Compare hosts list to one in vars and check different
+  ansible.builtin.set_fact:
     cacheable: true
     needs_hosts_update: "{{ adhosts | symmetric_difference(hostslist_string.stdout.split('\n')) | length > 0 }}"
 
-- name: drop all existing gravity hosts
+- name: Drop all existing gravity hosts
   when: ansible_facts['needs_hosts_update']
   community.docker.docker_container_exec:
     container: pihole
     command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "DELETE FROM adlist;"
   retries: 3
-  notify: reload gravity
+  notify: Reload gravity
 
-- name: add predefined hosts lists
+- name: Add predefined hosts lists
   when: ansible_facts['needs_hosts_update']
   community.docker.docker_container_exec:
     container: pihole
-    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment) SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE
-      NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
+    command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment)
+      SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
   loop: "{{ adhosts }}"
   retries: 3
-  notify: reload gravity
+  notify: Reload gravity

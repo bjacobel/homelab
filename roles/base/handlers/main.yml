@@ -1,19 +1,19 @@
 ---
-- name: reboot
+- name: Reboot
   become: true
-  reboot:
+  ansible.builtin.reboot:
     reboot_command: shutdown -r now
 
-- name: wifi-reconnect
+- name: Reconnect WiFi
   become: true
-  command: wpa_cli -i wlan0 reconfigure
+  ansible.builtin.command: wpa_cli -i wlan0 reconfigure
 
-- name: restart-ssh-service
+- name: Restart ssh service
   become: true
   service:
     name: sshd
     state: restarted
 
-- name: update grub
+- name: Update grub
   become: true
   command: update-grub2

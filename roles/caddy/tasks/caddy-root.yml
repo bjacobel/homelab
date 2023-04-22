@@ -1,17 +1,17 @@
 ---
-- name: start Caddy
+- name: Start Caddy
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     services: caddy
     state: present
 
-- name: copy out of the Caddy container's mapped data volume
+- name: Copy out of the Caddy container's mapped data volume
   become: true
   command:
     cmd: docker cp caddy:/data/caddy/pki/authorities/local/root.crt /usr/local/share/ca-certificates/caddy-root.crt
     creates: /usr/local/share/ca-certificates/caddy-root.crt
 
-- name: update CA trust with Caddy cert
+- name: Update CA trust with Caddy cert
   become: true
   command: update-ca-certificates
   register: update

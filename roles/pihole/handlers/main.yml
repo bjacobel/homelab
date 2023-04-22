@@ -1,10 +1,10 @@
 ---
-- name: refresh pihole-FTL
+- name: Refresh pihole-FTL
   community.docker.docker_container_exec:
     container: pihole
     command: pihole restartdns reload-lists && sudo service pihole-FTL restart
 
-- name: reload gravity
+- name: Reload gravity
   community.docker.docker_container_exec:
     container: pihole
     command: pihole -g

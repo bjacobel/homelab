@@ -1,5 +1,5 @@
 ---
-- name: restart vmagent
+- name: Restart vmagent
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     services: vmagent

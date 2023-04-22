@@ -1,12 +1,12 @@
 ---
-- name: add Caddyfile
+- name: Add Caddyfile
   copy:
     src: ./templates/Caddyfile
     dest: "{{ compose_project_dir }}/Caddyfile"
     mode: "0644"
-  notify: caddy-restart
+  notify: Restart caddy
 
-- name: inspect ca-certs for Caddy root
+- name: Inspect ca-certs for Caddy root
   find:
     paths: /etc/ssl/certs
     patterns: caddy-root.pem
@@ -14,5 +14,6 @@
     file_type: any
   register: found_roots
 
-- include_tasks: caddy-root.yml
+- name: Accept Caddy root CAs
+  include_tasks: caddy-root.yml
   when: found_roots.files | length == 0

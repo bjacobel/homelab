@@ -1,8 +1,8 @@
 ---
-- name: logout
-  meta: reset_connection
+- name: Logout
+  ansible.builtin.meta: reset_connection
 
-- name: restart-ssh-service
+- name: Restart ssh service
   become: true
   service:
     name: sshd

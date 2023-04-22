@@ -1,17 +1,17 @@
 ---
-- name: edit sshd_config to disable password auth
+- name: Edit sshd_config to disable password auth
   become: true
   lineinfile:
     path: /etc/ssh/sshd_config
     regex: ^(# *)?PasswordAuthentication
     line: PasswordAuthentication no
   notify:
-    - restart-ssh-service
+    - Restart ssh service
 
-- name: remove unused users
+- name: Remove unused users
   become: true
   user:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: absent
     remove: true
     force: true
@@ -19,27 +19,27 @@
     - debian
     - vagrant
 
-- name: create sshers group
+- name: Create sshers group
   become: true
   group:
     name: sshers
     state: present
 
-- name: put {{ ansible_ssh_user }} in sshers group
+- name: "Put user in sshers group: {{ ansible_ssh_user }}"
   become: true
   user:
     name: "{{ ansible_ssh_user }}"
     groups: sshers
     append: true
 
-- name: configure ssh so that only sshers can ssh
+- name: Configure ssh so that only sshers can ssh
   become: true
   lineinfile:
     path: /etc/ssh/sshd_config
     regex: ^(# *)?AllowGroups
     line: AllowGroups sshers
   notify:
-    - restart-ssh-service
+    - Restart ssh service
 
 # @TODO: enable UFW
 # https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#firewall-with-ufw-uncomplicated-firewall

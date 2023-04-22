@@ -1,31 +1,38 @@
 ---
-- name: check if connection using {{ ansible_ssh_user }} and pubkey auth is possible
-  command: ssh -o User={{ ansible_ssh_user }} -o ConnectTimeout=10 -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no {{ansible_ssh_host}}
-    -p {{ansible_ssh_port}} echo "Worked"
+- name: "Check if connection using pubkey auth is possible for user: {{ ansible_ssh_user }}"
+  command: ssh -o User={{ ansible_ssh_user }} -o ConnectTimeout=10
+    -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes
+    -o StrictHostKeyChecking=no {{ ansible_ssh_host }}
+    -p {{ ansible_ssh_port }} echo "Worked"
   register: correct_key_auth
   connection: local
   ignore_errors: true
   changed_when: false
 
-- name: backup desired ansible_ssh_user in facts
-  set_fact:
+- name: Backup desired ansible_ssh_user in facts
+  ansible.builtin.set_fact:
     desired_new_user: "{{ ansible_ssh_user }}"
 
-- include_tasks: as_default_user.yml
+- name: Run first-time setup using machine's default user
+  include_tasks: as_default_user.yml
   when: correct_key_auth.failed
 
-- include_tasks: as_desired_user.yml
+- name: "Run second-time setup using desired user: {{ ansible_ssh_user }}"
+  include_tasks: as_desired_user.yml
   when: not correct_key_auth.failed
 
-# not running gather_facts messes this up. this is a post-hoc gather_facts with some facts assumed
-- set_fact:
+- name: Fix Python interpreter bug caused by skipping gather_facts
+  ansible.builtin.set_fact:
     ansible_python_interpreter: /usr/bin/python3
-- setup:
-- name: log in as {{ ansible_ssh_user }} using key file ssh from here on out
-  set_fact:
+
+- name: Run gather_facts late
+  ansible.builtin.setup:
+
+- name: "Log in using key file ssh from here on out, using user: {{ ansible_ssh_user }}"
+  ansible.builtin.set_fact:
     ansible_ssh_user: "{{ desired_new_user }}"
   notify:
-    - logout
+    - Logout
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers

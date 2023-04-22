@@ -1,5 +1,5 @@
 ---
-- name: install avahi dependencies
+- name: Install avahi dependencies
   become: true
   apt:
     name: "{{ packages }}"
@@ -10,7 +10,7 @@
       - unzip
       - avahi-daemon
 
-- name: download avahi-aliases
+- name: Download avahi-aliases
   become: true
   unarchive:
     remote_src: true
@@ -18,13 +18,14 @@
     dest: /usr/local/src/
     creates: /usr/local/src/avahi-aliases-main
 
-- name: make /etc/avahi a directory
+- name: Make /etc/avahi a directory
   become: true
   file:
     path: /etc/avahi
     state: directory
+    mode: "755"
 
-- name: install avahi-aliases scripts
+- name: Install avahi-aliases scripts
   become: true
   command:
     chdir: /usr/local/src/avahi-aliases-main
@@ -33,28 +34,28 @@
   register: command_result
   failed_when: "'Started Avahi Aliases' not in command_result.stdout and 'skipped' not in command_result.stdout"
 
-- name: start/enable avahi-aliases service
+- name: Start/enable avahi-aliases service
   become: true
   systemd:
     state: started
     enabled: true
     name: avahi-alias
 
-- name: get existing avahi aliases
+- name: Get existing avahi aliases
   slurp:
     src: /etc/avahi/aliases
   register: slurped
 
-- name: set avahi aliases as facts
-  set_fact:
+- name: Set avahi aliases as facts
+  ansible.builtin.set_fact:
     aliasfile_content: "{{ slurped['content'] | b64decode | trim }}"
 
-- name: split avahi aliases to array
-  set_fact:
+- name: Split avahi aliases to array
+  ansible.builtin.set_fact:
     cacheable: true
     avahi_aliases: "{{ aliasfile_content.split('\n') }}"
 
-- name: create avahi aliases for all services
+- name: Create avahi aliases for all services
   become: true
   command:
     cmd: avahi-add-alias {{ item }}
@@ -64,7 +65,7 @@
   failed_when: add_alias.stderr
   changed_when: "'added' in add_alias.stdout"
 
-- name: remove undesired avahi aliases
+- name: Remove undesired avahi aliases
   become: true
   command:
     cmd: avahi-remove-alias {{ item }}
