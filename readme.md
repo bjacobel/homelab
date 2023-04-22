@@ -29,9 +29,11 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
 
 ### Assumptions
 * The tenant is running Debian Bullseye (or Raspbian)
-* The tenant has been configured with a default user/password and an SSH server
+* The tenant has been configured with `password` as the root password (will be overwritten)
+* The tenant has been configured with a user `debian` with password `password` (will be removed)
+* The tenant has an SSH server, and the user `debian` can SSH
+* The user `debian` is in sudoers
 * The host machine has installed `sshpass` (`brew install hudochenkov/sshpass/sshpass` if macOS)
-* The host machine has an ssh pubkey at `~/.ssh/id_rsa.pub`
 * The network is behind a UDM
 * The UDM has been configured with [udm-utilities](https://github.com/boostchicken/udm-utilities) `on-boot-script-2.x`, `cni-plugins` and `container-common`
   * Other optional current UDM config: `ddns-route53`, `ssh-keys` (this is not configured here)

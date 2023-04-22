@@ -3,7 +3,7 @@
   command: ssh -o User={{ ansible_ssh_user }} -o ConnectTimeout=10
     -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes
     -o StrictHostKeyChecking=no {{ ansible_ssh_host }}
-    -p {{ ansible_ssh_port }} echo "Worked"
+    -p {{ ansible_ssh_port | default(22, True) }} echo "Worked"
   register: correct_key_auth
   connection: local
   ignore_errors: true
@@ -28,12 +28,19 @@
 - name: Run gather_facts late
   ansible.builtin.setup:
 
-- name: "Log in using key file ssh from here on out, using user: {{ ansible_ssh_user }}"
+- name: "From here on out, log in using user: {{ desired_new_user }}"
   ansible.builtin.set_fact:
     ansible_ssh_user: "{{ desired_new_user }}"
-    ansible_ssh_pass:
   notify:
     - Logout
 
 - name: Flush handlers
   ansible.builtin.meta: flush_handlers
+
+- name: Verify that first-run or second-run SSH setup was sucessful
+  command: ssh -o User={{ ansible_ssh_user }} -o ConnectTimeout=10
+    -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes
+    -o StrictHostKeyChecking=no {{ ansible_ssh_host }}
+    -p {{ ansible_ssh_port | default(22, True) }} echo "Worked"
+  connection: local
+  changed_when: false

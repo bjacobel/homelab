@@ -1,22 +1,40 @@
 ---
-- name: If no connection, change user_name
+- name: If no connection, change user_name and password to defaults
   ansible.builtin.set_fact:
-    ansible_ssh_user: "{{ ansible_user_first_run }}"
+    # vagrant overrides this by setting ansible_user_first_run in vars because the username for that machine is "vagrant" (ofc)
+    ansible_ssh_user: "{{ ansible_user_first_run | default('debian', True) }}"
+    # vagrant will ignore this information because the ssh key is copied by the provisioner, and that is preferred
+    # setting it for playbook runs against vagrant is harmless
+    ansible_ssh_pass: password
 
-- name: Additionally, set password, if it is defined
+- name: Use the default insecure root password
   ansible.builtin.set_fact:
-    ansible_ssh_pass: "{{ ansible_pass_first_run }}"
-  when: ansible_pass_first_run is not undefined
+    ansible_become_pass: password
 
-- name: "Create new sudo user: {{ ansible_ssh_user }}"
+- name: "Create new sudo user: {{ desired_new_user }}"
   become: true
   ansible.builtin.user:
     name: "{{ desired_new_user }}"
-    password: "{{ ansible_become_pass | string | password_hash('sha256', 'salt', rounds=1000) }}"
+    password: "{{ desired_password | string | password_hash('sha256', 'salt', rounds=1000) }}"
     append: true
     shell: /bin/bash
     groups:
       - sudo
+
+- name: Change the password for the root user
+  become: true
+  ansible.builtin.user:
+    name: root
+    password: "{{ desired_password | string | password_hash('sha256', 'salt', rounds=1000) }}"
+  notify:
+    Logout
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Use the new root password from here on out
+  ansible.builtin.set_fact:
+    ansible_become_pass: "{{ desired_password }}"
 
 - name: Edit sshd_config to enable pubkey auth
   become: true
