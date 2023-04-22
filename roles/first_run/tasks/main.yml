@@ -31,6 +31,7 @@
 - name: "Log in using key file ssh from here on out, using user: {{ ansible_ssh_user }}"
   ansible.builtin.set_fact:
     ansible_ssh_user: "{{ desired_new_user }}"
+    ansible_ssh_pass:
   notify:
     - Logout
 

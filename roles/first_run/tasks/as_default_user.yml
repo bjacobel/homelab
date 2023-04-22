@@ -2,7 +2,11 @@
 - name: If no connection, change user_name
   ansible.builtin.set_fact:
     ansible_ssh_user: "{{ ansible_user_first_run }}"
-    # it may be necessary to set ansible_ssh_pass here too, if the machine wants password ssh after a fresh install
+
+- name: Additionally, set password, if it is defined
+  ansible.builtin.set_fact:
+    ansible_ssh_pass: "{{ ansible_pass_first_run }}"
+  when: ansible_pass_first_run is not undefined
 
 - name: "Create new sudo user: {{ ansible_ssh_user }}"
   become: true
