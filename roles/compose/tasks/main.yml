@@ -24,10 +24,12 @@
 
 # TODO: this will try to recreate ALL volumes, not just `external: true` ones
 - name: Create volumes if they don't exist
-  command: docker volume create {{ item }}
+  command: docker volume create {{ volume }}
   loop: "{{ requested_volumes | difference(current_volumes.stdout.split('\n')) }}"
+  loop_control:
+    loop_var: volume
   register: vol_create
-  changed_when: vol_create.stdout == item
+  changed_when: vol_create.stdout == volume
 
 - name: Template docker-compose.yml to ~/
   ansible.builtin.template:
@@ -35,21 +37,16 @@
     dest: "{{ compose_project_dir }}/docker-compose.yml"
     mode: "0644"
 
-- name: Do non-environment config for Caddy
-  import_role:
-    name: caddy
+- name: Determine services that need file-based or shell-involved config
+  ansible.builtin.set_fact:
+    role_config_required: "{{ services | selectattr('role_config', 'defined') | map(attribute='name') }}"
 
-- name: Do non-environment config for Pihole
-  import_role:
-    name: pihole
-
-- name: Do non-environment config for Homebridge
-  import_role:
-    name: homebridge
-
-- name: Do non-environment config for vmagent
-  import_role:
-    name: vmagent
+- name: "Run config role for extra-config service: {{ role }}"
+  include_role:
+    name: "{{ role }}"
+  loop: "{{ role_config_required }}"
+  loop_control:
+    loop_var: role
 
 - name: Start services using Compose if not started already
   community.docker.docker_compose:

@@ -8,8 +8,10 @@
 - name: Populate FTL blocklist
   community.docker.docker_container_exec:
     container: pihole
-    command: pihole -b -nr {{ item }}
+    command: pihole -b -nr {{ blocked_domain }}
   loop: "{{ blocklist }}"
+  loop_control:
+    loop_var: blocked_domain
   register: ftl_result
   changed_when: '"Adding" in ftl_result.stdout'
   notify: Refresh pihole-FTL
@@ -17,8 +19,10 @@
 - name: Populate FTL regex blocklist
   community.docker.docker_container_exec:
     container: pihole
-    command: pihole -b -nr --regex {{ item }}
+    command: pihole -b -nr --regex {{ blocked_regex }}
   loop: "{{ regex_blocklist }}"
+  loop_control:
+    loop_var: blocked_regex
   register: ftl_result
   changed_when: '"Adding" in ftl_result.stdout'
   notify: Refresh pihole-FTL
@@ -26,8 +30,10 @@
 - name: Populate FTL allowlist
   community.docker.docker_container_exec:
     container: pihole
-    command: pihole -w -nr {{ item }}
+    command: pihole -w -nr {{ allowed_domain }}
   loop: "{{ allowlist }}"
+  loop_control:
+    loop_var: allowed_domain
   register: ftl_result
   changed_when: '"Adding" in ftl_result.stdout'
   notify: Refresh pihole-FTL
@@ -58,7 +64,9 @@
   community.docker.docker_container_exec:
     container: pihole
     command: sqlite3 -cmd ".timeout 1000" /etc/pihole/gravity.db "INSERT INTO adlist(address, enabled, comment)
-      SELECT '{{ item }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ item }}');"
+      SELECT '{{ adhost }}', 1, 'Managed by Ansible' WHERE NOT EXISTS(SELECT 1 FROM adlist WHERE enabled = 1 AND address = '{{ adhost }}');"
   loop: "{{ adhosts }}"
+  loop_control:
+    loop_var: adhost
   retries: 3
   notify: Reload gravity
