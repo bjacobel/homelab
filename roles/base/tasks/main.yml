@@ -20,13 +20,6 @@
 
 - name: Configure avahi and daemon for .local hostnames
   import_tasks: avahi.yml
-  vars:
-    aliases:
-      - homebridge.local
-      - pihole.local
-      - homelab.local
-      - vmagent.local
-      - cadvisor.local
 
 - name: Setup WiFi
   import_tasks: wifi.yml

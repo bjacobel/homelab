@@ -41,6 +41,14 @@
     enabled: true
     name: avahi-alias
 
+- name: Get desired avahi aliases from services definition
+  ansible.builtin.set_fact:
+    desired_aliases: "{{ services | selectattr('http', 'defined') | map(attribute='name') | map('regex_replace', '$', '.local') }}"
+
+- name: "Additionally set a top-level .local Avahi hostname for the box: {{ inventory_hostname }}"
+  ansible.builtin.set_fact:
+    desired_aliases: "{{ desired_aliases + [inventory_hostname + '.local'] }}"
+
 - name: Get existing avahi aliases
   slurp:
     src: /etc/avahi/aliases
@@ -53,14 +61,14 @@
 - name: Split avahi aliases to array
   ansible.builtin.set_fact:
     cacheable: true
-    avahi_aliases: "{{ aliasfile_content.split('\n') }}"
+    existing_aliases: "{{ aliasfile_content.split('\n') }}"
 
 - name: Create avahi aliases for all services
   become: true
   command:
     cmd: avahi-add-alias {{ item }}
-  loop: "{{ aliases | difference(ansible_facts['avahi_aliases']) }}"
-  when: aliases | difference(ansible_facts['avahi_aliases']) | length
+  loop: "{{ desired_aliases | difference(existing_aliases) }}"
+  when: desired_aliases | difference(existing_aliases) | length
   register: add_alias
   failed_when: add_alias.stderr
   changed_when: "'added' in add_alias.stdout"
@@ -69,5 +77,5 @@
   become: true
   command:
     cmd: avahi-remove-alias {{ item }}
-  loop: "{{ ansible_facts['avahi_aliases'] | difference(aliases) }}"
-  when: ansible_facts['avahi_aliases'] | difference(aliases) | length
+  loop: "{{ existing_aliases | difference(desired_aliases) }}"
+  when: existing_aliases | difference(desired_aliases) | length
