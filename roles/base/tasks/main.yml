@@ -48,6 +48,20 @@
     dest: /home/{{ ansible_ssh_user }}/.bash_aliases
     mode: "0644"
 
+- name: Disable sleep/hibernate
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ target }}"
+    enabled: false
+    masked: true
+  loop:
+    - sleep.target
+    - suspend.target
+    - hibernate.target
+    - hybrid-sleep.target
+  loop_control:
+    loop_var: target
+
 - name: Enable memory cgroup in grub
   become: true
   lineinfile:
