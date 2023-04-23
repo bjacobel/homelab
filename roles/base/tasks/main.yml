@@ -31,16 +31,6 @@
   notify:
     - Reboot
 
-- name: Install useful utils
-  become: true
-  apt:
-    name: "{{ packages }}"
-    state: present
-  vars:
-    packages:
-      - htop
-      - bind9-dnsutils
-
 - name: Set up bash aliases
   ansible.builtin.template:
     src: ./templates/.bash_aliases

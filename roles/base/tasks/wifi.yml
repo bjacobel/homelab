@@ -3,8 +3,8 @@
   become: true
   ansible.builtin.shell:
     cmd: dmesg -l err | grep "failed to load iwlwifi"
-  register: intel_wifi_module
-  failed_when: intel_wifi_module.stdout
+  register: intel_wifi_module_failed
+  failed_when: False
   changed_when: False
 
 - name: Install nonfree Intel wifi firmware
@@ -12,14 +12,14 @@
   apt:
     name: firmware-iwlwifi
     state: present
-  when: intel_wifi_module.failed
+  when: intel_wifi_module_failed.stdout
 
 - name: Add nonfree Intel wifi kernel module
   become: true
   community.general.modprobe:
     name: iwlwifi
     state: present
-  when: intel_wifi_module.failed
+  when: intel_wifi_module_failed.stdout
   notify: Reboot
 
 - name: Flush handlers
@@ -40,6 +40,7 @@
     state: present
 
 - name: Connect to wifi using nmcli (NetworkManager)
+  become: true
   community.general.nmcli:
     type: wifi
     conn_name: IOT WiFi Network

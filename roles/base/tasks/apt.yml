@@ -17,5 +17,23 @@
   notify:
     - Update apt-cache
 
+- name: Install useful utils
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - htop
+      - bind9-dnsutils
+      - mesa-utils
+
+- name: Install nonfree firmware
+  become: true
+  ansible.builtin.apt:
+    package: firmware-misc-nonfree
+    state: present
+  notify: Reboot
+
 - name: Flush handlers
   meta: flush_handlers
