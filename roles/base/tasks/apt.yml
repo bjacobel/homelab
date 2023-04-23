@@ -28,6 +28,7 @@
       - bind9-dnsutils
       - mesa-utils
 
+# This should get both Bluetooth and accelerated graphics working
 - name: Install nonfree firmware
   become: true
   ansible.builtin.apt:

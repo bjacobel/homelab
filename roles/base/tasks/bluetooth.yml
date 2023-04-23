@@ -1,14 +1,20 @@
-- name: Grep dmesg to determine if we need nonfree Bluetooth firmware
-  become: true
-  ansible.builtin.shell:
-    cmd: "dmesg -l err | grep 'Bluetooth: hci0: Failed to load Intel'"
-  register: intel_bluetooth_errors
-  failed_when: intel_bluetooth_errors.stderr
-  changed_when: False
+---
 
-- name: Install nonfree Intel wifi firmware
+- name: Install Bluetooth dependencies
   become: true
-  apt:
-    name: firmware-iwlwifi
+  ansible.builtin.apt:
+    package: "{{ item }}"
     state: present
-  when: not intel_bluetooth_errors.failed
+  loop:
+    - bluetooth
+    - bluez
+
+- name: Enable bluetooth service
+  become: true
+  service:
+    name: bluetooth
+    enabled: true
+    state: started
+
+# Instructions on connecting a device using `bluetooth-agent` here:
+# https://wiki.debian.org/BluetoothUser#Pairing%20using%20CLI

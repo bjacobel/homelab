@@ -11,9 +11,8 @@
 - name: Setup WiFi
   import_tasks: wifi.yml
 
-# @TODO set up bluetooth if needed
-
-# @TODO set up graphics adapter if needed
+- name: Setup Bluetooth
+  import_tasks: bluetooth.yml
 
 - name: Set hostname
   become: true
