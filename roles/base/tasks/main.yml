@@ -1,19 +1,6 @@
 ---
-- name: List everything in apt_cache
-  become: true
-  command: apt-cache pkgnames
-  register: apt_pkgs
-  changed_when: false
-
-- name: Determine if apt update has never run (netinst)
-  ansible.builtin.set_fact:
-    netinst: apt_pkgs|length < 1000
-
-- name: Run initial populate of apt cache (if empty due to netinst)
-  become: true
-  apt:
-    update_cache: true
-  when: netinst
+- name: Configure and populate apt sources
+  import_tasks: apt.yml
 
 - name: Do security setup
   import_tasks: lockdown.yml
@@ -23,12 +10,24 @@
 
 - name: Setup WiFi
   import_tasks: wifi.yml
-  when: "'wlan0' in ansible_interfaces"
+
+# @TODO set up bluetooth if needed
+
+# @TODO set up graphics adapter if needed
 
 - name: Set hostname
   become: true
   hostname:
     name: "{{ inventory_hostname }}"
+  notify:
+    - Reboot
+
+- name: Update hosts file with new hostname
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    search_string: "127.0.1.1"
+    line: "127.0.1.1 {{ inventory_hostname }}"
   notify:
     - Reboot
 

@@ -4,9 +4,17 @@
   ansible.builtin.reboot:
     reboot_command: shutdown -r now
 
-- name: Reconnect WiFi
+- name: Restart wpa_supplicant service
   become: true
-  ansible.builtin.command: wpa_cli -i wlan0 reconfigure
+  service:
+    name: wpa_supplicant
+    state: restarted
+
+- name: Restart networking service
+  become: true
+  service:
+    name: networking
+    state: restarted
 
 - name: Restart ssh service
   become: true
@@ -17,3 +25,8 @@
 - name: Update grub
   become: true
   command: update-grub2
+
+- name: Update apt-cache
+  become: true
+  apt:
+    update_cache: true

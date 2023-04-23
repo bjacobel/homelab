@@ -1,0 +1,21 @@
+# sources.list is massively misconfigured if network was not present during OS install
+- name: Overwrite default sources.list
+  become: true
+  ansible.builtin.copy:
+    src: ./templates/sources.list
+    dest: /etc/apt/sources.list
+    mode: "644"
+  notify:
+    - Update apt-cache
+
+- name: Determine if number of known packages is very small (potentially netinst)
+  become: true
+  command: apt-cache pkgnames
+  register: apt_pkgs
+  changed_when: apt_pkgs.stdout | length < 1000
+  no_log: true
+  notify:
+    - Update apt-cache
+
+- name: Flush handlers
+  meta: flush_handlers

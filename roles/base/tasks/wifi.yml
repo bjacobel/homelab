@@ -1,12 +1,43 @@
 ---
-- name: Install wpa supplicant
+- name: Install wpa_supplicant
   become: true
   apt:
-    name: "{{ packages }}"
+    name: wpasupplicant
     state: present
-  vars:
-    packages:
-      - wpasupplicant
+
+- name: Grep dmesg to determine if we need nonfree wifi firmware
+  become: true
+  ansible.builtin.shell:
+    cmd: dmesg -l err | grep "failed to load iwlwifi"
+  register: intel_wifi_module
+  failed_when: intel_wifi_module.stdout
+  changed_when: False
+
+- name: Install nonfree Intel wifi firmware
+  become: true
+  apt:
+    name: firmware-iwlwifi
+    state: present
+  when: intel_wifi_module.failed
+
+- name: Add nonfree Intel wifi kernel module
+  become: true
+  community.general.modprobe:
+    name: iwlwifi
+    state: present
+  when: intel_wifi_module.failed
+  notify: Reboot
+
+- name: Flush handlers
+  meta: flush_handlers
+
+- name: Re-gather facts on network interfaces
+  ansible.builtin.setup:
+    gather_subset: interfaces
+
+- name: Identify wireless interface (if exists)
+  ansible.builtin.set_fact:
+    wireless_interface: "{{ ansible_interfaces | select('match', 'wl*') | first | default(False) }}"
 
 - name: Configure wpa_supplicant
   become: true
@@ -16,4 +47,18 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reconnect WiFi
+  when: wireless_interface
+  notify:
+    - Restart wpa_supplicant service
+
+- name: Configure interfaces.d
+  become: true
+  ansible.builtin.template:
+    src: ./templates/iface.conf
+    dest: /etc/network/interfaces.d/{{ wireless_interface }}.conf
+    owner: root
+    group: root
+    mode: "644"
+  when: wireless_interface
+  notify:
+    - Restart networking service

@@ -35,6 +35,7 @@
 - name: Use the new root password from here on out
   ansible.builtin.set_fact:
     ansible_become_pass: "{{ desired_password }}"
+    no_log: true
 
 - name: Edit sshd_config to enable pubkey auth
   become: true

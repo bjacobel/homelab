@@ -1,0 +1,14 @@
+- name: Grep dmesg to determine if we need nonfree Bluetooth firmware
+  become: true
+  ansible.builtin.shell:
+    cmd: "dmesg -l err | grep 'Bluetooth: hci0: Failed to load Intel'"
+  register: intel_bluetooth_errors
+  failed_when: intel_bluetooth_errors.stderr
+  changed_when: False
+
+- name: Install nonfree Intel wifi firmware
+  become: true
+  apt:
+    name: firmware-iwlwifi
+    state: present
+  when: not intel_bluetooth_errors.failed
