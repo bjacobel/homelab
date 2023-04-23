@@ -46,8 +46,11 @@
     conn_name: IOT WiFi Network
     ifname: "{{ wireless_interface }}"
     ssid: "brian iot ssid"
+    wifi:
+      hidden: true
     wifi_sec:
       key-mgmt: wpa-psk
       psk: "{{ wifi_psk }}"
     state: present
     autoconnect: true
+  notify: Restart NetworkManager service

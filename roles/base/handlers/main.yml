@@ -10,6 +10,13 @@
     name: sshd
     state: restarted
 
+- name: Restart NetworkManager service
+  become: true
+  service:
+    name: NetworkManager
+    enabled: true
+    state: restarted
+
 - name: Update grub
   become: true
   command: update-grub2
