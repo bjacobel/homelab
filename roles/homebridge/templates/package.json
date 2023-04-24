@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "description": "This file keeps track of which plugins should be installed.",
+  "dependencies": {
+    "homebridge-gsh": "2.2.0",
+    "homebridge-magichome-dynamic-platform": "1.9.7",
+    "homebridge-roku": "3.0.2",
+    "homebridge-tplink-smarthome": "6.4.0",
+    "homebridge-tuya": "2.0.1",
+    "homebridge-xbox-tv": "2.0.0-beta.564",
+    "homebridge-zp": "1.4.26"
+  }
+}

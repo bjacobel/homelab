@@ -5,3 +5,13 @@
     dest: "{{ compose_project_dir }}/homebridge-config.json"
     mode: "0644"
   notify: Restart homebridge
+
+- name: Add homebridge plugins
+  ansible.builtin.copy:
+    src: ./templates/package.json
+    dest: "{{ compose_project_dir }}/package.json"
+    mode: "0644"
+  notify:
+   - Restart homebridge
+   - Install plugins
+

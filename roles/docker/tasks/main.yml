@@ -59,3 +59,6 @@
     name: docker
     version: ">=5.0.0"
     state: present
+
+- name: Improve the formatting of 'docker ps'
+  import_tasks: dops.yml

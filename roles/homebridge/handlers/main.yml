@@ -5,3 +5,8 @@
     services: homebridge
     state: present
     restarted: true
+
+- name: Install plugins
+  community.docker.docker_container_exec:
+    container: homebridge
+    command: npm install

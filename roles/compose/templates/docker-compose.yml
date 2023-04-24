@@ -29,6 +29,7 @@ services:
     volumes:
       - homebridge-data:/homebridge
       - ./homebridge-config.json:/homebridge/config.json
+      - ./package.json:/homebridge/package.json
     labels:
       - docker-volume-backup.stop-during-backup=true
   caddy:
