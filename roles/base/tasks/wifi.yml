@@ -2,10 +2,12 @@
 - name: Grep dmesg to determine if we need nonfree wifi firmware
   become: true
   ansible.builtin.shell:
-    cmd: dmesg -l err | grep "failed to load iwlwifi"
+    cmd: |
+      set -o pipefail #
+      dmesg -l err | grep "failed to load iwlwifi"
   register: intel_wifi_module_failed
-  failed_when: False
-  changed_when: False
+  failed_when: false
+  changed_when: false
 
 - name: Install nonfree Intel wifi firmware
   become: true

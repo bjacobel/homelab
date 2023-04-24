@@ -1,10 +1,10 @@
 # homelab
 
-Ansible playbook to setup my homelab. (Current tenancy is one Raspberry Pi Model B rev. 2.) Currently includes:
+Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre m710 Tiny.) Currently includes:
   * Homebridge
   * Caddy
   * Pi-hole
-  * Unifi-poller
+  * UniFi Poller
   * VictoriaMetrics vmagent
   * CAdvisor
   * Prometheus node-exporter
@@ -14,7 +14,7 @@ Future plans include:
   * Prometheus
   * Prometheus Pushgateway
   * Grafana
-  * WireGuard
+  * WireGuard/Gluetun
   * Node-RED
 
 ### Run
@@ -33,7 +33,6 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
 * The tenant has been configured with a user `debian` with password `password` (will be removed)
 * The tenant has an SSH server, and the user `debian` can SSH
 * The user `debian` is in sudoers
-* The host machine has installed `sshpass` (`brew install hudochenkov/sshpass/sshpass` if macOS)
 * The network is behind a UDM
 * The UDM has been configured with [udm-utilities](https://github.com/boostchicken/udm-utilities) `on-boot-script-2.x`, `cni-plugins` and `container-common`
   * Other optional current UDM config: `ddns-route53`, `ssh-keys` (this is not configured here)
@@ -53,13 +52,13 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
 Specific roles can be run using `--tags`.
 
 #### Hosts
-Easily get the IP of the Raspberry PI, no matter what DHCP has done to it:
+Easily get the IP of the ThinkCentre, no matter what DHCP has done to it:
 
 ```sh
-arp -na | awk '/b8:27:eb/ {print $2}' | tr -d '()'
+arp -na | awk '/6c:4b:90/ {print $2}' | tr -d '()'
 ```
 
-This will need to be updated when the new hardware arrives.
+The hardware is also bound to a static IP 192.168.1.72 in the UniFi interface.
 
 #### SSL
 Services on the `.local` domain are secured with self-signed certificates. For these certificates to be trusted on the network, clients should add the reverse proxy's root certificate to their trust stores. On OSX, do this over HTTP in one line:
@@ -80,3 +79,5 @@ To SSH into the vagrant box under the intended user to scope stuff out, run:
 ```
 ssh bjacobel@127.0.0.1 -p 50022  -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no
 ```
+
+This may not work anymore; things have diverged a little bit. This was basically just for a sandbox so I didn't brick the ThinkCentre too many times.
