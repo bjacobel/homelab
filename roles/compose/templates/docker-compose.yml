@@ -130,6 +130,10 @@ services:
       - /var/lib/docker/:/var/lib/docker:ro
       - /dev/disk/:/dev/disk:ro
       - /var/run/docker.sock:/var/run/docker.sock:rw
+    command:
+      - '--housekeeping_interval=55s'
+      - '--enable_metrics=cpu,memory,network'
+      - '--docker_only=true'
   node-exporter:
     container_name: node-exporter
     image: prom/node-exporter:v1.5.0
