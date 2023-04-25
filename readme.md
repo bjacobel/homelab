@@ -1,20 +1,21 @@
 # homelab
 
 Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre m710 Tiny.) Currently includes:
-  * Homebridge
-  * Caddy
-  * Pi-hole
-  * UniFi Poller
-  * VictoriaMetrics vmagent
-  * CAdvisor
-  * Prometheus node-exporter
-  * Automated backups for data volumes
+  * [Homebridge](https://homebridge.io/)
+  * [Caddy](https://caddyserver.com/)
+  * [Pi-hole](https://pi-hole.net/)
+  * [pihole-exporter](https://github.com/eko/pihole-exporter)
+  * [UniFi Poller](https://unpoller.com/)
+  * [VictoriaMetrics vmagent](https://docs.victoriametrics.com/vmagent.html)
+  * [CAdvisor](https://github.com/google/cadvisor)
+  * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
+  * [Automated backups for data volumes](https://github.com/offen/docker-volume-backup)
 
 Future plans include:
   * Prometheus
   * Prometheus Pushgateway
   * Grafana
-  * WireGuard/Gluetun
+  * VPN client and server (Gluetun/Tailscale)
   * Node-RED
 
 ### Run
