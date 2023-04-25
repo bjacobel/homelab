@@ -56,7 +56,8 @@ services:
       - 53:53/tcp
       - 53:53/udp
       - 67:67/udp
-      - 80/tcp
+    expose:
+      - "80"
     dns:
       - 127.0.0.1
     environment:

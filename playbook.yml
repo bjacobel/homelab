@@ -24,3 +24,9 @@
   vars_files: vars.yml
   roles:
     - compose
+
+- name: Set up a VNC server that boots XFCE
+  hosts: all
+  vars_files: vars.yml
+  roles:
+    - vnc
