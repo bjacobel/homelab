@@ -200,18 +200,13 @@
           "platform": "TuyaLan"
       },
       {
-          "name": "Google Smart Home",
-          "token": "{{ homebridge_gsh_token }}",
-          "notice": "Keep your token a secret!",
-          "platform": "google-smarthome"
-      },
-      {
           "name": "Sonos",
           "service": "fan",
           "platform": "ZP"
       }
   ],
   "disabledPlugins": [
+      "homebridge-gsh",
       "homebridge-tuya-platform",
       "homebridge-pihole"
   ]
