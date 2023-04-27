@@ -10,3 +10,4 @@
   community.docker.docker_container_exec:
     container: homebridge
     command: npm install
+  notify: Restart homebridge
