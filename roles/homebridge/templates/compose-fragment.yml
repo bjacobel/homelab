@@ -1,0 +1,15 @@
+homebridge:
+  container_name: homebridge
+  image: oznu/homebridge:2023-01-08
+  restart: always
+  network_mode: host
+  environment:
+    - TZ=America/New_York
+    - PGID={{ ansible_facts['user_gid'] }}
+    - PUID={{ ansible_facts['user_uid'] }}
+  volumes:
+    - homebridge-data:/homebridge
+    - ./homebridge-config.json:/homebridge/config.json
+    - ./package.json:/homebridge/package.json
+  labels:
+    - docker-volume-backup.stop-during-backup=true

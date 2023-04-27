@@ -1,0 +1,9 @@
+unifi-poller:
+  container_name: unifi-poller
+  image: ghcr.io/unpoller/unpoller:v2.7.12
+  environment:
+    - UP_UNIFI_DEFAULT_URL=https://192.168.1.1
+    - UP_UNIFI_DEFAULT_PASS={{unifi_poller_pass}}
+    - UP_INFLUXDB_DISABLE=true
+  expose:
+    - "9130"

@@ -20,7 +20,7 @@
 
 - name: Get requested persistent volumes in compose file
   ansible.builtin.set_fact:
-    requested_volumes: "{{ lookup('template', './docker-compose.yml') | from_yaml | json_query('volumes') | list }}"
+    requested_volumes: "{{ lookup('template', './docker-compose.yml.j2') | from_yaml | json_query('volumes') | list }}"
 
 # TODO: this will try to recreate ALL volumes, not just `external: true` ones
 - name: Create volumes if they don't exist
@@ -33,13 +33,14 @@
 
 - name: Template docker-compose.yml to ~/
   ansible.builtin.template:
-    src: ./templates/docker-compose.yml
+    src: ./templates/docker-compose.yml.j2
     dest: "{{ compose_project_dir }}/docker-compose.yml"
     mode: "0644"
+  diff: true
 
 - name: Determine services that need file-based or shell-involved config
   ansible.builtin.set_fact:
-    role_config_required: "{{ services | selectattr('role_config', 'defined') | map(attribute='name') }}"
+    role_config_required: "{{ compose_services | selectattr('role_config', 'defined') | map(attribute='name') }}"
 
 - name: "Run config role for extra-config service: {{ role }}"
   include_role:

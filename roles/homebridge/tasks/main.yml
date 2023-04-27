@@ -12,5 +12,5 @@
     dest: "{{ compose_project_dir }}/package.json"
     mode: "0644"
   notify:
-    - Restart homebridge
     - Install plugins
+    - Restart homebridge

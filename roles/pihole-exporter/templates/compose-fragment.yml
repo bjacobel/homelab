@@ -1,0 +1,11 @@
+pihole-exporter:
+  container_name: pihole-exporter
+  image: ekofr/pihole-exporter:v0.4.0
+  environment:
+    - PIHOLE_HOSTNAME=pihole
+    - PIHOLE_PASSWORD={{ pihole_admin_pass }}
+    - PORT=9617
+  expose:
+    - "9617"
+  links:
+    - pihole

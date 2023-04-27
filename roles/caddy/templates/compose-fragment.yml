@@ -1,0 +1,13 @@
+caddy:
+  container_name: caddy
+  image: caddy:2.4.6-alpine
+  networks:
+    - default
+  ports:
+    - 443:443/tcp
+    - 80:80/tcp
+  extra_hosts:
+    - host.docker.internal:host-gateway
+  volumes:
+    - ./Caddyfile:/etc/caddy/Caddyfile
+    - caddy-data:/data

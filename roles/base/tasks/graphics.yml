@@ -1,0 +1,16 @@
+---
+- name: Grep dmesg to determine if we need nonfree graphics firmware
+  become: true
+  ansible.builtin.shell:
+    cmd: dmesg -l err | grep "failed to load i915"
+  register: intel_graphics_module_failed
+  failed_when: False
+  changed_when: False
+
+- name: Install nonfree firmware
+  become: true
+  ansible.builtin.apt:
+    package: firmware-misc-nonfree
+    state: present
+  when: intel_graphics_module_failed.stdout
+  notify: Reboot

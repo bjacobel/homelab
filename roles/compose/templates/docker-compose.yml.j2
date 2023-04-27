@@ -1,0 +1,25 @@
+{% macro service_fragment(name) %}
+  {% include "roles/" + name + "/templates/compose-fragment.yml" %}
+{% endmacro %}
+version: "2.2"
+networks:
+  default:
+volumes:
+  caddy-data:
+    external: true
+  homebridge-data:
+    external: true
+  pihole-data:
+    external: true
+  vmagent-data:
+    external: true
+services:
+{% for service in compose_services %}
+{{ service_fragment(service.name) | indent(2) }}
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+{% endfor %}

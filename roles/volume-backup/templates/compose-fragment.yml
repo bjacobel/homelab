@@ -1,0 +1,16 @@
+backup:
+  container_name: backup
+  image: offen/docker-volume-backup
+  restart: always
+  environment:
+    AWS_S3_BUCKET_NAME: rpi-volume-backup
+    AWS_ACCESS_KEY_ID: {{ aws_access_key_id }}
+    AWS_SECRET_ACCESS_KEY: {{ aws_secret_access_key }}
+    BACKUP_RETENTION_DAYS: 14
+    NOTIFICATION_URLS: slack://{{slack_token}}@C32FHM7CK
+    # TZ on homelab is set to GMT and should stay that way
+    BACKUP_CRON_EXPRESSION: 0 7 * * * # 7 am GMT is 2 am EST
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - homebridge-data:/backup/homebridge-data:ro
+    - pihole-data:/backup/pihole-data:ro

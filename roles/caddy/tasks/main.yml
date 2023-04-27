@@ -1,7 +1,7 @@
 ---
 - name: Determine services that need to have reverse_proxy config
   ansible.builtin.set_fact:
-    proxied_hosts: "{{ services | selectattr('http', 'defined') }}"
+    proxied_hosts: "{{ compose_services | selectattr('http', 'defined') }}"
 
 - name: Add Caddyfile
   ansible.builtin.template:
