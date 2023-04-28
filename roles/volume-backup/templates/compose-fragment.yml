@@ -1,7 +1,6 @@
 backup:
   container_name: backup
   image: offen/docker-volume-backup
-  restart: always
   environment:
     AWS_S3_BUCKET_NAME: rpi-volume-backup
     AWS_ACCESS_KEY_ID: {{ aws_access_key_id }}

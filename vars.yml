@@ -13,6 +13,8 @@ compose_services:
   - name: pihole-exporter
   - name: unifi-poller
   - name: volume-backup
+  - name: wireguard
+    role_config: true
   - name: caddy
     role_config: true
   - name: homebridge

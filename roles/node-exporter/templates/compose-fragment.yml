@@ -1,7 +1,6 @@
 node-exporter:
   container_name: node-exporter
   image: prom/node-exporter:v1.5.0
-  restart: always
   volumes:
     - /proc:/host/proc:ro
     - /sys:/host/sys:ro

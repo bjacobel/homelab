@@ -11,12 +11,12 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
   * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
   * [Automated backups for data volumes](https://github.com/offen/docker-volume-backup)
   * [TightVNC](https://www.tightvnc.com/)
+  * [Wireguard](https://www.wireguard.com/)
 
 Future plans include:
   * Prometheus
   * Prometheus Pushgateway
   * Grafana
-  * VPN client and server (Gluetun/Tailscale)
   * Node-RED
 
 ### Run

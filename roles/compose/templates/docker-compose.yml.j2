@@ -13,6 +13,8 @@ volumes:
     external: true
   vmagent-data:
     external: true
+  wireguard-data:
+    external: true
 services:
 {% for service in compose_services %}
 {{ service_fragment(service.name) | indent(2) }}
