@@ -42,6 +42,8 @@
     dest: "{{ compose_project_dir }}/docker-compose.yml"
     mode: "0644"
   diff: true
+  when: (ansible_run_tags == ['all']) or (ansible_run_tags | intersect(compose_services | map(attribute='name')) | length)
+  tags: always
 
 - name: Determine services that need file-based or shell-involved config
   ansible.builtin.set_fact:
@@ -61,3 +63,5 @@
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     state: present
+  when: (ansible_run_tags == ['all']) or (ansible_run_tags | intersect(compose_services | map(attribute='name')) | length)
+  tags: always

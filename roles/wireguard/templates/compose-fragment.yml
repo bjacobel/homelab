@@ -9,6 +9,7 @@ wireguard:
     - TZ=America/New_York
     - SERVERURL=home.bjacobel.com
     - PEERS=calus,clovis
+    - PEERDNS=1.1.1.1
     - PERSISTENTKEEPALIVE_PEERS=all
     - SERVERPORT=51820
   volumes:
