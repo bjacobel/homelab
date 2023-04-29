@@ -17,10 +17,6 @@
     enabled: true
     state: restarted
 
-- name: Update grub
-  become: true
-  command: update-grub2
-
 - name: Update apt-cache
   become: true
   apt:

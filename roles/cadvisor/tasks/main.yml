@@ -1,0 +1,10 @@
+- name: Enable memory cgroup in grub
+  become: true
+  lineinfile:
+    state: present
+    path: /etc/default/grub
+    line: GRUB_CMDLINE_LINUX="cgroup_enable=memory"
+    backup: true
+  notify:
+    - Update grub
+    - Reboot

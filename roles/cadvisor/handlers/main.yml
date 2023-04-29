@@ -1,0 +1,8 @@
+- name: Update grub
+  become: true
+  command: update-grub2
+
+- name: Reboot
+  become: true
+  ansible.builtin.reboot:
+    reboot_command: shutdown -r now

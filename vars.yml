@@ -31,5 +31,6 @@ compose_services:
     http:
       port: 8429
   - name: cadvisor
+    role_config: true
     http:
       port: 8080

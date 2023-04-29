@@ -36,6 +36,15 @@
     dest: /home/{{ ansible_ssh_user }}/.bash_aliases
     mode: "0644"
 
+- name: Set up motd
+  become: true
+  ansible.builtin.copy:
+    src: ./templates/motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+
 - name: Disable sleep/hibernate
   become: true
   ansible.builtin.systemd:
@@ -49,14 +58,3 @@
     - hybrid-sleep.target
   loop_control:
     loop_var: target
-
-- name: Enable memory cgroup in grub
-  become: true
-  lineinfile:
-    state: present
-    path: /etc/default/grub
-    line: GRUB_CMDLINE_LINUX="cgroup_enable=memory"
-    backup: true
-  notify:
-    - Update grub
-    - Reboot
