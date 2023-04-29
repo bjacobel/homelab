@@ -10,6 +10,7 @@
 - name: Route 'docker ps' calls to dops with .bashrc function
   ansible.builtin.blockinfile:
     dest: /home/{{ ansible_ssh_user }}/.bashrc
+    marker: "# {mark} dops"
     content: |
       docker() {
         case $1 in

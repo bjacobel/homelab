@@ -21,3 +21,11 @@
   become: true
   apt:
     update_cache: true
+
+- name: Kill tmux sessions
+  ansible.builtin.command:
+    cmd: tmux kill-server
+
+- name: Fetch tmux plugins
+  ansible.builtin.command:
+    cmd: /home/{{ ansible_ssh_user }}/.tmux/plugins/tpm/scripts/install_plugins.sh

@@ -1,0 +1,71 @@
+- name: Install dependencies
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - mosh
+      - tmux
+
+- name: Create tmux plugins dir
+  file:
+    path: /home/{{ ansible_ssh_user }}/.tmux/plugins
+    state: directory
+    mode: 0755
+
+- name: Download TPM
+  unarchive:
+    remote_src: true
+    src: https://github.com/tmux-plugins/tpm/archive/refs/tags/v3.1.0.zip
+    dest: /home/{{ ansible_ssh_user }}/.tmux/plugins/
+    creates: /home/{{ ansible_ssh_user }}/.tmux/plugins/tpm-3.1.0
+
+- name: Create symbolic link to TPM in expected location
+  file:
+    path: /home/{{ ansible_ssh_user }}/.tmux/plugins/tpm
+    src: /home/{{ ansible_ssh_user }}/.tmux/plugins/tpm-3.1.0
+    state: link
+    mode: 0755
+
+- name: Set up tmux config
+  ansible.builtin.copy:
+    src: ./templates/.tmux.conf
+    dest: /home/{{ ansible_ssh_user }}/.tmux.conf
+    mode: "0644"
+  notify:
+    - Fetch tmux plugins
+    - Kill tmux sessions
+
+- name: Configure better tmux defaults for exit behavior
+  ansible.builtin.blockinfile:
+    dest: /home/{{ ansible_ssh_user }}/.bashrc
+    marker: "# {mark} tmux exit"
+    content: |
+      exit() {
+        if [[ -z $TMUX ]]; then
+          builtin exit
+          return
+        fi
+
+        panes=$(tmux list-panes | wc -l)
+        wins=$(tmux list-windows | wc -l)
+        count=$(($panes + $wins - 1))
+        if [ $count -eq 1 ]; then
+          tmux detach
+        else
+          builtin exit
+        fi
+      }
+  notify: Kill tmux sessions
+
+- name: Print motd for tmux sessions
+  ansible.builtin.blockinfile:
+    dest: /home/{{ ansible_ssh_user }}/.bashrc
+    marker: "# {mark} tmux motd"
+    content: |
+      if [ -n "$TMUX" ]; then
+        cat /etc/motd
+      fi
+  notify: Kill tmux sessions
+

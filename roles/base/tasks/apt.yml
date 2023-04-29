@@ -28,7 +28,7 @@
       - bind9-dnsutils
       - mesa-utils
       - net-tools
-      - mosh
+      - nmap
 
 # This should get both Bluetooth and accelerated graphics working
 - name: Install nonfree firmware
