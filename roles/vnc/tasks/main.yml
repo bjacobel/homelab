@@ -1,4 +1,7 @@
 ---
+- name: Gather facts
+  setup:
+
 - name: Install packages
   become: true
   ansible.builtin.apt:

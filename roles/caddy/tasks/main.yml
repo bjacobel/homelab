@@ -1,23 +1,26 @@
 ---
-- name: Determine services that need to have reverse_proxy config
-  ansible.builtin.set_fact:
-    proxied_hosts: "{{ compose_services | selectattr('http', 'defined') }}"
+- block:
+  - name: Determine services that need to have reverse_proxy config
+    ansible.builtin.set_fact:
+      proxied_hosts: "{{ compose_services | selectattr('http', 'defined') }}"
 
-- name: Add Caddyfile
-  ansible.builtin.template:
-    src: ./templates/Caddyfile
-    dest: "{{ compose_project_dir }}/Caddyfile"
-    mode: "0644"
-  notify: Restart caddy
+  - name: Add Caddyfile
+    ansible.builtin.template:
+      src: ./templates/Caddyfile
+      dest: "{{ compose_project_dir }}/Caddyfile"
+      mode: "0644"
+    notify: Restart caddy
 
-- name: Inspect ca-certs for Caddy root
-  find:
-    paths: /etc/ssl/certs
-    patterns: caddy-root.pem
-    recurse: false
-    file_type: any
-  register: found_roots
+  - name: Inspect ca-certs for Caddy root
+    find:
+      paths: /etc/ssl/certs
+      patterns: caddy-root.pem
+      recurse: false
+      file_type: any
+    register: found_roots
 
-- name: Accept Caddy root CAs
-  include_tasks: caddy-root.yml
-  when: found_roots.files | length == 0
+  - name: Accept Caddy root CAs
+    include_tasks: caddy-root.yml
+    when: found_roots.files | length == 0
+
+  tags: caddy

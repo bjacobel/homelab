@@ -1,4 +1,9 @@
 ---
+- name: Gather facts
+  tags: always
+  when: (ansible_run_tags == ['all']) or (ansible_run_tags.length > 0)
+  setup:
+
 - name: Install docker-compose
   become: true
   apt:
@@ -41,6 +46,7 @@
 - name: Determine services that need file-based or shell-involved config
   ansible.builtin.set_fact:
     role_config_required: "{{ compose_services | selectattr('role_config', 'defined') | map(attribute='name') }}"
+  tags: always
 
 - name: "Run config role for extra-config service: {{ role }}"
   include_role:
@@ -48,6 +54,8 @@
   loop: "{{ role_config_required }}"
   loop_control:
     loop_var: role
+  when: (ansible_run_tags == ['all']) or (role in ansible_run_tags)
+  tags: always
 
 - name: Start services using Compose if not started already
   community.docker.docker_compose:

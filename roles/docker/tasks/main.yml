@@ -1,4 +1,7 @@
 ---
+- name: Gather facts
+  setup:
+
 - name: Install deps for docker installation and orchestration
   become: true
   apt:

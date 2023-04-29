@@ -10,23 +10,27 @@
 - name: Apply base configuration
   hosts: all
   vars_files: vars.yml
+  gather_facts: false
   roles:
     - base
 
 - name: Install and configure docker
   hosts: all
   vars_files: vars.yml
+  gather_facts: false
   roles:
     - docker
 
 - name: Configure docker containers using compose
   hosts: all
   vars_files: vars.yml
+  gather_facts: false
   roles:
     - compose
 
 - name: Set up a VNC server that boots XFCE
   hosts: all
   vars_files: vars.yml
+  gather_facts: false
   roles:
     - vnc

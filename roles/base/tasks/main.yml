@@ -1,4 +1,7 @@
 ---
+- name: Gather facts
+  setup:
+
 - name: Configure and populate apt sources
   import_tasks: apt.yml
 
