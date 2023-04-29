@@ -6,5 +6,3 @@ pihole-exporter:
     - PORT=9617
   expose:
     - "9617"
-  links:
-    - pihole

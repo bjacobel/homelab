@@ -7,8 +7,6 @@ pihole:
     - 67:67/udp
   expose:
     - "80"
-  dns:
-    - 127.0.0.1
   environment:
     TZ: 'America/New_York'
     VIRTUAL_HOST: pihole.local
