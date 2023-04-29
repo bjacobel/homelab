@@ -6,8 +6,6 @@
   register: key_stats
   loop:
     - ed25519
-    - ecdsa
-    - dsa
     - rsa
 
 - name: Choose best ssh key

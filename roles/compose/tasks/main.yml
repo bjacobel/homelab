@@ -1,7 +1,7 @@
 ---
 - name: Gather facts
   tags: always
-  when: (ansible_run_tags == ['all']) or (ansible_run_tags.length > 0)
+  when: (ansible_run_tags == ['all']) or (ansible_run_tags | length)
   setup:
 
 - name: Install docker-compose

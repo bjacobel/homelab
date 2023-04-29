@@ -49,8 +49,6 @@
   register: key_stats
   loop:
     - ed25519
-    - ecdsa
-    - dsa
     - rsa
 
 - name: Determine if any ssh keys exist
