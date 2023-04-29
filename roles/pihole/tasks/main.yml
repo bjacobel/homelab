@@ -6,6 +6,12 @@
       services: pihole
       state: present
 
+  - name: Remove password requirement
+    expect:
+      command: docker exec -it pihole sh -c "pihole -a -p"
+      responses:
+        Enter New Password: ""
+
   - name: Populate FTL blocklist
     community.docker.docker_container_exec:
       container: pihole

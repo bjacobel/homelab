@@ -7,15 +7,14 @@
 - name: Install docker-compose
   become: true
   apt:
-    name: "{{ packages }}"
+    name: docker-compose-plugin
     state: present
-  vars:
-    packages:
-      - docker-compose-plugin
 
-- name: Install Python library for Compose so Ansible can orchestrate it
+- name: Install Python libraries for Compose and req'd deps
   pip:
-    name: docker-compose
+    name:
+      - docker-compose
+      - pexpect
     state: present
 
 - name: Get current docker volumes

@@ -11,7 +11,6 @@ pihole:
     - 127.0.0.1
   environment:
     TZ: 'America/New_York'
-    WEBPASSWORD: {{ pihole_admin_pass }}
     VIRTUAL_HOST: pihole.local
     FTLCONF_REPLY_ADDR4: {{ ansible_default_ipv4.address }}
     FTLCONF_MAXDBDAYS: 60

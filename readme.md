@@ -16,8 +16,11 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
 Future plans include:
   * Prometheus
   * Prometheus Pushgateway
+  * Promtail
+  * Loki
   * Grafana
   * Node-RED
+  * Authelia
 
 ### Run
 

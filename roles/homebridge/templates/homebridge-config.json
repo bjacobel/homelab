@@ -124,7 +124,8 @@
       {
           "name": "Config",
           "port": 8581,
-          "platform": "config"
+          "platform": "config",
+          "auth": "none"
       },
       {
           "name": "TplinkSmarthome",
