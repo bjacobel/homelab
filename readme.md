@@ -1,17 +1,23 @@
 # homelab
 
 Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre m710 Tiny.) Currently includes:
-  * [Homebridge](https://homebridge.io/)
-  * [Caddy](https://caddyserver.com/)
-  * [Pi-hole](https://pi-hole.net/)
-  * [pihole-exporter](https://github.com/eko/pihole-exporter)
-  * [UniFi Poller](https://unpoller.com/)
-  * [VictoriaMetrics vmagent](https://docs.victoriametrics.com/vmagent.html)
-  * [CAdvisor](https://github.com/google/cadvisor)
-  * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
-  * [Automated backups for data volumes](https://github.com/offen/docker-volume-backup)
-  * [TightVNC](https://www.tightvnc.com/)
-  * [Wireguard](https://www.wireguard.com/)
+  * Home automation/customization
+    * [Homebridge](https://homebridge.io/)
+    * [Pi-hole](https://pi-hole.net/)
+    * [pihole-exporter](https://github.com/eko/pihole-exporter)
+  * Monitoring/analytics
+    * [CAdvisor](https://github.com/google/cadvisor)
+    * [UniFi Poller](https://unpoller.com/)
+    * [VictoriaMetrics vmagent](https://docs.victoriametrics.com/vmagent.html)
+    * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
+  * Security/management
+    * [Authelia](https://authelia.com)
+    * [TightVNC](https://www.tightvnc.com/)
+    * [Wireguard](https://www.wireguard.com/)
+  * Misc
+    * [Caddy](https://caddyserver.com/)
+    * [Redis](https://redis.io)
+    * [Automated backups for data volumes](https://github.com/offen/docker-volume-backup)
 
 Future plans include:
   * Prometheus
@@ -20,7 +26,6 @@ Future plans include:
   * Loki
   * Grafana
   * Node-RED
-  * Authelia
 
 ### Run
 
