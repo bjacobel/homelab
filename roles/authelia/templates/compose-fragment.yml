@@ -1,0 +1,9 @@
+authelia:
+  image: authelia/authelia
+  container_name: authelia
+  volumes:
+    - ./authelia-config:/config
+  expose:
+    - "9091"
+  environment:
+    - TZ=America/New_York

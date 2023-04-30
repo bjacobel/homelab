@@ -1,0 +1,9 @@
+redis:
+  image: redis:alpine
+  container_name: redis
+  volumes:
+    - redis-volume:/data
+  ports:
+    - "6379"
+  environment:
+    - TZ=America/New_York

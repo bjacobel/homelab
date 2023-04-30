@@ -1,6 +1,26 @@
+(trusted_proxy_list) {
+  trusted_proxies 10.0.0.0/8 172.16.0.0/16 192.168.0.0/16 fc00::/7
+}
+
+auth.homelab.local {
+  reverse_proxy authelia:9091 {
+    import trusted_proxy_list
+  }
+}
+
 {% for site in proxied_hosts %}
-{{ site.name }}.local {
-  reverse_proxy {{ site.http.host | default(site.name, True) }}:{{ site.http.port }}
+{{ site.name }}.homelab.local {
+  forward_auth authelia:9091 {
+    uri /api/verify?rd=https://auth.homelab.local/
+    copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+
+    import trusted_proxy_list
+  }
+
+  reverse_proxy {{ site.http.host | default(site.name, True) }}:{{ site.http.port }} {
+    import trusted_proxy_list
+  }
+
   log {
     level WARN
   }
@@ -8,10 +28,8 @@
 
 {% endfor %}
 
-homelab.local {
-  rewrite /certs /certs/
-  handle /certs/* {
-    uri strip_prefix /certs
+certs.homelab.local {
+  handle /* {
     root * /data/caddy/pki/authorities/local
     file_server
   }
