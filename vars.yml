@@ -15,6 +15,7 @@ compose_services:
   - name: volume-backup
   - name: redis
   - name: authelia
+    role_config: true
   - name: wireguard
     role_config: true
   - name: caddy

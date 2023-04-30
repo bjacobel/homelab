@@ -41,9 +41,17 @@
     enabled: true
     name: avahi-alias
 
-- name: "Set an Avahi hostname for the box: {{ inventory_hostname }}"
+- name: Get desired avahi aliases from services definition
   ansible.builtin.set_fact:
-    desired_aliases: "{{ [inventory_hostname + '.local'] }}"
+    desired_aliases: "{{ compose_services | selectattr('http', 'defined') | map(attribute='name') | map('regex_replace', '$', '.' + inventory_hostname + '.local') }}"
+
+- name: "Additionally set a .local Avahi hostname for Authelia"
+  ansible.builtin.set_fact:
+    desired_aliases: "{{ desired_aliases + ['auth.' + inventory_hostname + '.local'] }}"
+
+- name: "Additionally set a top-level .local Avahi hostname for the box: {{ inventory_hostname }}"
+  ansible.builtin.set_fact:
+    desired_aliases: "{{ desired_aliases + [inventory_hostname + '.local'] }}"
 
 - name: Get existing avahi aliases
   slurp:

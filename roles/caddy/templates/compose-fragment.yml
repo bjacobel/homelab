@@ -1,6 +1,6 @@
 caddy:
   container_name: caddy
-  image: caddy:2.4.6-alpine
+  image: caddy:2.6.4-alpine
   networks:
     - default
   ports:

@@ -4,8 +4,9 @@
 ###############################################################
 
 # This secret can also be set using the env variables AUTHELIA_JWT_SECRET_FILE
-jwt_secret: a_very_important_secret
-default_redirection_url: https://hello.homelab.local
+jwt_secret: {{ jwt_secret }}
+default_redirection_url: https://homelab.local
+theme: dark
 
 server:
   host: 0.0.0.0
@@ -14,9 +15,6 @@ server:
 log:
   level: debug
 
-totp:
-  issuer: authelia.com
-
 authentication_backend:
   file:
     path: /config/users_database.yml
@@ -24,28 +22,25 @@ authentication_backend:
 access_control:
   default_policy: deny
   rules:
-    - domain: homebridge.homelab.local
+{% for site in authed_proxies %}
+    - domain: {{ site.name }}.homelab.local
       policy: one_factor
-    - domain: pihole.homelab.local
-      policy: one_factor
-    - domain: certs.homelab.local
+{% endfor %}
+    - domain: homelab.local
       policy: bypass
 
 session:
+  name: authelia_session
+  domain: homelab.local
+  expiration: 3600
+  inactivity: 300
+  remember_me_duration:  1M
   # This secret can also be set using the env variables AUTHELIA_SESSION_SECRET_FILE
-  secret: unsecure_session_secret
-
-  cookies:
-    - name: authelia_session
-      domain: homelab.local  # Should match whatever your root protected domain is
-      expiration: 3600  # 1 hour
-      inactivity: 300  # 5 minutes
+  secret: {{ session_secret }}
 
   redis:
     host: redis
     port: 6379
-    # This secret can also be set using the env variables AUTHELIA_SESSION_REDIS_PASSWORD_FILE
-    password: authelia
 
 regulation:
   max_retries: 3
@@ -53,6 +48,11 @@ regulation:
   ban_time: 300
 
 storage:
-  encryption_key: you_must_generate_a_random_string_of_more_than_twenty_chars_and_configure_this
+  encryption_key: {{ storage_encryption_key }}
   local:
     path: /config/db.sqlite3
+
+notifier:
+  disable_startup_check: false
+  filesystem:
+    filename: /config/notification.txt

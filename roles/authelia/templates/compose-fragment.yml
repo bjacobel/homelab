@@ -2,8 +2,10 @@ authelia:
   image: authelia/authelia
   container_name: authelia
   volumes:
-    - ./authelia-config:/config
+    - ./authelia:/config
   expose:
     - "9091"
   environment:
+    - PGID={{ ansible_facts['user_gid'] }}
+    - PUID={{ ansible_facts['user_uid'] }}
     - TZ=America/New_York

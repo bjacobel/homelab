@@ -28,11 +28,20 @@ auth.homelab.local {
 
 {% endfor %}
 
-certs.homelab.local {
-  handle /* {
+homelab.local {
+  handle / {
+      respond "<h1>homelab</h1>"
+      header Content-Type "text/html"
+  }
+
+  rewrite /certs /certs/
+
+  handle /certs/* {
+    uri strip_prefix /certs
     root * /data/caddy/pki/authorities/local
     file_server
   }
+
   log {
     level WARN
   }
