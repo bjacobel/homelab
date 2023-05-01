@@ -1,0 +1,14 @@
+---
+- block:
+  - name: Create configuration directory
+    file:
+      path: "{{ compose_project_dir }}/promtail"
+      state: directory
+      mode: 0755
+
+  - name: Template promtail config
+    ansible.builtin.template:
+      src: ./templates/config.yml
+      dest: "{{ compose_project_dir }}/promtail/config.yml"
+
+  tags: promtail

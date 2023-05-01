@@ -20,6 +20,8 @@ compose_services:
     role_config: true
   - name: caddy
     role_config: true
+  - name: promtail
+    role_config: true
   - name: homebridge
     role_config: true
     http:
