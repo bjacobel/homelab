@@ -1,16 +1,22 @@
 ---
 - block:
+  - name: Create configuration directory
+    file:
+      path: "{{ compose_project_dir }}/homebridge"
+      state: directory
+      mode: 0755
+
   - name: Add homebridge config
     ansible.builtin.template:
       src: ./templates/homebridge-config.json
-      dest: "{{ compose_project_dir }}/homebridge-config.json"
+      dest: "{{ compose_project_dir }}/homebridge/homebridge-config.json"
       mode: "0644"
     notify: Restart homebridge
 
   - name: Add homebridge plugins
     ansible.builtin.copy:
       src: ./templates/package.json
-      dest: "{{ compose_project_dir }}/package.json"
+      dest: "{{ compose_project_dir }}/homebridge/package.json"
       mode: "0644"
     notify:
       - Install plugins

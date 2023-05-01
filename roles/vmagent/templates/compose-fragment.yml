@@ -5,7 +5,7 @@ vmagent:
     - "8429"
   volumes:
     - vmagent-data:/vmagentdata
-    - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    - ./vmagent/prometheus.yml:/etc/prometheus/prometheus.yml
   command:
     - "--promscrape.config=/etc/prometheus/prometheus.yml"
     - "--remoteWrite.url=https://912271:{{ grafana_cloud_api_key }}@prometheus-us-central1.grafana.net/api/prom/push"

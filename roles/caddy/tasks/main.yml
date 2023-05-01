@@ -1,5 +1,11 @@
 ---
 - block:
+  - name: Create configuration directory
+    file:
+      path: "{{ compose_project_dir }}/caddy"
+      state: directory
+      mode: 0755
+
   - name: Determine services that need to have reverse_proxy config
     ansible.builtin.set_fact:
       proxied_hosts: "{{ compose_services | selectattr('http', 'defined') }}"
@@ -7,7 +13,7 @@
   - name: Add Caddyfile
     ansible.builtin.template:
       src: ./templates/Caddyfile
-      dest: "{{ compose_project_dir }}/Caddyfile"
+      dest: "{{ compose_project_dir }}/caddy/Caddyfile"
       mode: "0644"
     notify: Restart caddy
 

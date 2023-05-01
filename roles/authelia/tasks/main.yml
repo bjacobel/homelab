@@ -3,7 +3,7 @@
   - name: Create configuration directory
     become: true
     file:
-      path: /home/{{ ansible_ssh_user }}/authelia
+      path: "{{ compose_project_dir }}/authelia"
       state: directory
       owner: "{{ ansible_ssh_user }}"
       group: "{{ ansible_ssh_user }}"

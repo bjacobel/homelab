@@ -1,6 +1,6 @@
 ---
 ansible_ssh_user: bjacobel
-compose_project_dir: /home/{{ansible_ssh_user}}
+compose_project_dir: /home/{{ ansible_ssh_user }}/compose
 desired_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   65666134333931663632636430346534376566613438336664396538383138356161343236376463
