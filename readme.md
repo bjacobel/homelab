@@ -10,6 +10,7 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
     * [UniFi Poller](https://unpoller.com/)
     * [VictoriaMetrics vmagent](https://docs.victoriametrics.com/vmagent.html)
     * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
+    * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
   * Security/management
     * [Authelia](https://authelia.com)
     * [TightVNC](https://www.tightvnc.com/)
@@ -22,7 +23,6 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
 Future plans include:
   * Prometheus
   * Prometheus Pushgateway
-  * Promtail
   * Loki
   * Grafana
   * Node-RED

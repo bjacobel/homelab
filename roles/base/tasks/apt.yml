@@ -29,6 +29,7 @@
       - mesa-utils
       - net-tools
       - nmap
+      - curl
 
 # This should get both Bluetooth and accelerated graphics working
 - name: Install nonfree firmware
