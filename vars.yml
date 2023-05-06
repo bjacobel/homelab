@@ -14,6 +14,7 @@ compose_services:
   - name: unifi-poller
   - name: volume-backup
   - name: redis
+  - name: playwright
   - name: authelia
     role_config: true
   - name: wireguard
@@ -39,3 +40,6 @@ compose_services:
     role_config: true
     http:
       port: 8080
+  - name: changedetection
+    http:
+      port: 5000

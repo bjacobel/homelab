@@ -17,6 +17,8 @@ volumes:
     external: true
   redis-data:
     external: true
+  changedetection-data:
+    external: true
 services:
 {% for service in compose_services %}
 {{ service_fragment(service.name) | indent(2) }}
