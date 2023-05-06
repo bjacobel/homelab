@@ -1,0 +1,7 @@
+---
+- name: Restart ddns-route53
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: ddns-route53
+    state: present
+    restarted: true

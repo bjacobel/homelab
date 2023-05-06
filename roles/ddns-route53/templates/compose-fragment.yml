@@ -1,0 +1,10 @@
+ddns-route53:
+  image: crazymax/ddns-route53
+  container_name: ddns-route53
+  volumes:
+    - ./ddns-route53/config.yml:/ddns-route53.yml:ro
+  environment:
+  - "TZ=America/New_York"
+  - "SCHEDULE=*/30 * * * *"
+  - "LOG_LEVEL=warn"
+  - "LOG_JSON=false"

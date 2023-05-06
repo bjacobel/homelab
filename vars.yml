@@ -19,12 +19,15 @@ compose_services:
   - name: playwright
   - name: authelia
     role_config: true
-    # Authelia has its own hardcoded Caddy reverse proxy config, it doesn't need a `proxy` block
+    # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
+    # It doesn't need a `proxy` or `internet` block.
   - name: wireguard
     role_config: true
   - name: caddy
     role_config: true
   - name: promtail
+    role_config: true
+  - name: ddns-route53
     role_config: true
   - name: homebridge
     role_config: true

@@ -7,7 +7,7 @@ wireguard:
     - PUID={{ ansible_facts['user_uid'] }}
     - PGID={{ ansible_facts['user_gid'] }}
     - TZ=America/New_York
-    - SERVERURL=home.bjacobel.com
+    - SERVERURL=lab.bjacobel.com
     - PEERS=calus,clovis
     - PEERDNS=1.1.1.1
     - PERSISTENTKEEPALIVE_PEERS=all

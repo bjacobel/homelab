@@ -19,6 +19,7 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
     * [Caddy](https://caddyserver.com/)
     * [Redis](https://redis.io)
     * [Automated backups for data volumes](https://github.com/offen/docker-volume-backup)
+    * [Route 53 dynamic DNS](https://crazymax.dev/ddns-route53/)
 
 Future plans include:
   * Prometheus
@@ -43,9 +44,8 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
 * The tenant has been configured with a user `debian` with password `password` (will be removed)
 * The tenant has an SSH server, and the user `debian` can SSH
 * The user `debian` is in sudoers
-* The network is behind a UDM
+* The network is behind a UDM with correct port forwarding and firewall rules
 * The UDM has been configured with [udm-utilities](https://github.com/boostchicken/udm-utilities) `on-boot-script-2.x`, `cni-plugins` and `container-common`
-  * Other optional current UDM config: `ddns-route53`, `ssh-keys` (this is not configured here)
 
 ### Notes
 
