@@ -13,3 +13,5 @@ changedetection:
   depends_on:
     playwright:
       condition: service_started
+  labels:
+    - docker-volume-backup.stop-during-backup=true

@@ -13,3 +13,4 @@ backup:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - homebridge-data:/backup/homebridge-data:ro
     - pihole-data:/backup/pihole-data:ro
+    - changedetection-data:/backup/changedetection-data:ro
