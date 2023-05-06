@@ -8,6 +8,8 @@ desired_password: !vault |
   31383439613737326261663064326462613334323363396465653436613966636139616633383536
   3662313962633236650a613538653962306235666362343834336165353064363331663830663131
   66346132363564616661346164306565376331313434366132653933623236303364
+local_domain: lab.local
+internet_domain: bjacobel.com
 compose_services:
   - name: node-exporter
   - name: pihole-exporter
@@ -17,6 +19,7 @@ compose_services:
   - name: playwright
   - name: authelia
     role_config: true
+    # Authelia has its own hardcoded Caddy reverse proxy config, it doesn't need a `proxy` block
   - name: wireguard
     role_config: true
   - name: caddy
@@ -25,21 +28,21 @@ compose_services:
     role_config: true
   - name: homebridge
     role_config: true
-    http:
+    proxy:
       host: host.docker.internal
-      port: 8581
+      http: 8581
   - name: pihole
     role_config: true
-    http:
-      port: 80
+    proxy:
+      http: 80
   - name: vmagent
     role_config: true
-    http:
-      port: 8429
+    proxy:
+      http: 8429
   - name: cadvisor
     role_config: true
-    http:
-      port: 8080
+    proxy:
+      http: 8080
   - name: changedetection
-    http:
-      port: 5000
+    proxy:
+      http: 5000

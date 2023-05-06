@@ -5,7 +5,7 @@
 
 # This secret can also be set using the env variables AUTHELIA_JWT_SECRET_FILE
 jwt_secret: {{ jwt_secret }}
-default_redirection_url: https://homelab.local
+default_redirection_url: https://lab.{{ internet_domain }}
 theme: dark
 
 server:
@@ -23,15 +23,15 @@ access_control:
   default_policy: deny
   rules:
 {% for site in authed_proxies %}
-    - domain: {{ site.name }}.homelab.local
+    - domain: {{ site.name }}.{{ internet_domain }}
       policy: one_factor
 {% endfor %}
-    - domain: homelab.local
+    - domain: lab.{{ internet_domain }}
       policy: bypass
 
 session:
   name: authelia_session
-  domain: homelab.local
+  domain: {{ internet_domain }}
   expiration: 3600
   inactivity: 300
   remember_me_duration:  1M

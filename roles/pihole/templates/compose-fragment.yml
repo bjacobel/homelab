@@ -9,7 +9,7 @@ pihole:
     - "80"
   environment:
     TZ: 'America/New_York'
-    VIRTUAL_HOST: pihole.homelab.local
+    VIRTUAL_HOST: pihole.{{ local_domain }}
     FTLCONF_REPLY_ADDR4: {{ ansible_default_ipv4.address }}
     FTLCONF_MAXDBDAYS: 60
     FTLCONF_BLOCK_ICLOUD_PR: "true"
