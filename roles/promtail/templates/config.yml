@@ -25,4 +25,13 @@ scrape_configs:
         - localhost
       labels:
         job: varlogs
-        __path__: /var/log/*.log
+        __path__: /mapped/var/log/*.log
+  - job_name: systemd-journal
+    journal:
+      path: /mapped/var/log/journal
+      labels:
+        job: systemd-journal
+    relabel_configs:
+      - source_labels: ['__journal__systemd_unit']
+        target_label: 'systemd_unit'
+

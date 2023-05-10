@@ -10,5 +10,6 @@
     ansible.builtin.template:
       src: ./templates/config.yml
       dest: "{{ compose_project_dir }}/promtail/config.yml"
+    notify: Restart promtail
 
   tags: promtail
