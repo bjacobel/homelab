@@ -32,6 +32,8 @@ auth.{{ internet_domain }} {
     import trusted_proxy_list
   }
 
+  tls bjacobel@gmail.com
+
   log {
     level WARN
   }

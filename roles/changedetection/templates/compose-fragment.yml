@@ -9,7 +9,7 @@ changedetection:
     - PGID={{ ansible_facts['user_gid'] }}
     - PUID={{ ansible_facts['user_uid'] }}
     - PLAYWRIGHT_DRIVER_URL=ws://playwright:3000/?stealth=1&--disable-web-security=true
-    - BASE_URL=https://changedetection.{{ local_domain }}
+    - BASE_URL=https://changedetection.{{ internet_domain }}
   depends_on:
     playwright:
       condition: service_started

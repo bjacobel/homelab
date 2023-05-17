@@ -47,5 +47,6 @@ compose_services:
     proxy:
       http: 8080
   - name: changedetection
+    internet: true
     proxy:
       http: 5000
