@@ -1,5 +1,5 @@
 changedetection:
-  image: ghcr.io/dgtlmoon/changedetection.io
+  image: ghcr.io/dgtlmoon/changedetection.io:0.42
   container_name: changedetection
   volumes:
     - changedetection-data:/datastore
