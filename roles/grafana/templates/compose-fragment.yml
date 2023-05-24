@@ -1,0 +1,20 @@
+grafana:
+  image: grafana/grafana-oss
+  container_name: grafana
+  volumes:
+    - grafana-data:/var/lib/grafana
+  expose:
+    - "3000"
+  labels:
+    - docker-volume-backup.stop-during-backup=true
+  environment:
+    - GF_AUTH_PROXY_ENABLED=true
+    - GF_AUTH_PROXY_HEADER_NAME=Remote-User
+    - GF_AUTH_PROXY_HEADER_PROPERTY=username
+    - GF_AUTH_PROXY_HEADERS=Name:Remote-Name Groups:Remote-Groups Email:Remote-Email
+    - GF_AUTH_PROXY_WHITELIST=172.19.0.0/16
+    - GF_AUTH_PROXY_AUTO_SIGN_UP=true
+    - GF_USERS_ALLOW_SIGN_UP=false
+    - GF_USERS_AUTO_ASSIGN_ORG=true
+    - GF_USERS_AUTO_ASSIGN_ORG_ROLE=Editor
+    - GF_LOG_CONSOLE_FORMAT=json

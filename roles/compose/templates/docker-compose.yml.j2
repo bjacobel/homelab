@@ -19,6 +19,8 @@ volumes:
     external: true
   changedetection-data:
     external: true
+  grafana-data:
+    external: true
 services:
 {% for service in compose_services %}
 {{ service_fragment(service.name) | indent(2) }}

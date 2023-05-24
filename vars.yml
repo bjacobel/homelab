@@ -50,3 +50,7 @@ compose_services:
     internet: true
     proxy:
       http: 5000
+  - name: grafana
+    internet: true
+    proxy:
+      http: 3000

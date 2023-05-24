@@ -13,7 +13,7 @@ dkill() {
 # Run `command` in running container named `container`
 # Usage: `dash [container] ["command"]`
 dash() {
-  docker exec -it `/usr/bin/docker ps -q --filter "name=$1"` sh -c "$2"
+  docker exec -it `/usr/bin/docker ps -q --filter "name=^$1$"` sh -c "$2"
 }
 
 mkcdir() {
