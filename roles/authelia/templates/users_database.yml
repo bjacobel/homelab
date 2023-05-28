@@ -15,11 +15,3 @@ users:
     groups:
       - admins
       - dev
-  kmfeatherston:
-    disabled: false
-    displayname: "Kate Featherston"
-    password: "{{ authelia_crypted_pw }}"
-    email: kmfeatherston@gmail.com
-    groups:
-      - admins
-      - dev

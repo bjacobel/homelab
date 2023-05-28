@@ -1,0 +1,21 @@
+---
+- block:
+  - name: Create configuration directories
+    file:
+      path: "{{ compose_project_dir }}/{{ item }}"
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
+      state: directory
+      mode: 0755
+    loop:
+      - grafana
+      - grafana/datasources
+
+  - name: Add provisioning files
+    copy:
+      src: ./templates/datasources/datasource.yml
+      dest: "{{ compose_project_dir }}/grafana/datasources/datasource.yml"
+      mode: "0644"
+    notify: Restart grafana
+
+  tags: grafana

@@ -1,0 +1,10 @@
+prometheus:
+  image: prom/prometheus
+  container_name: prometheus
+  volumes:
+    - prometheus-data:/data
+    - ./prometheus:/etc/prometheus
+  expose:
+    - "9090"
+  environment:
+    - TZ=America/New_York

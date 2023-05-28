@@ -1,0 +1,20 @@
+---
+- block:
+  - name: Create configuration directory
+    become: true
+    file:
+      path: "{{ compose_project_dir }}/prometheus"
+      state: directory
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
+      mode: 0755
+
+  - name: Copy Prometheus config to configuration directory
+    template:
+      src: ./templates/prometheus.yml
+      dest: "{{ compose_project_dir }}/prometheus/prometheus.yml"
+      mode: "0644"
+    notify: Restart prometheus
+
+  tags: prometheus
+

@@ -17,6 +17,8 @@ compose_services:
   - name: volume-backup
   - name: redis
   - name: playwright
+  - name: prometheus
+    role_config: true
   - name: authelia
     role_config: true
     # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
@@ -51,6 +53,7 @@ compose_services:
     proxy:
       http: 5000
   - name: grafana
+    role_config: true
     internet: true
     proxy:
       http: 3000

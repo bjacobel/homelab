@@ -8,6 +8,8 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
   * Monitoring/analytics
     * [CAdvisor](https://github.com/google/cadvisor)
     * [UniFi Poller](https://unpoller.com/)
+    * [Grafana](https://grafana.com/grafana/)
+    * [Prometheus](https://prometheus.io/)
     * [VictoriaMetrics vmagent](https://docs.victoriametrics.com/vmagent.html)
     * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
     * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
@@ -22,10 +24,7 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
     * [Route 53 dynamic DNS](https://crazymax.dev/ddns-route53/)
 
 Future plans include:
-  * Prometheus
-  * Prometheus Pushgateway
   * Loki
-  * Grafana
   * Node-RED
 
 ### Run
@@ -57,7 +56,6 @@ You will need the file `vault` containing the Vault password. Get it from 1Passw
   * `caddy`
   * `pihole`
   * `homebridge`
-  * `vmagent`
 
 Specific roles can be run using `--tags`.
 
