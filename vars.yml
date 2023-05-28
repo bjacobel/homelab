@@ -31,6 +31,8 @@ compose_services:
     role_config: true
   - name: ddns-route53
     role_config: true
+  - name: loki
+    role_config: true
   - name: homebridge
     role_config: true
     proxy:

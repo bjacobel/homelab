@@ -10,6 +10,7 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
     * [UniFi Poller](https://unpoller.com/)
     * [Grafana](https://grafana.com/grafana/)
     * [Prometheus](https://prometheus.io/)
+    * [Loki](https://grafana.com/oss/loki/)
     * [VictoriaMetrics vmagent](https://docs.victoriametrics.com/vmagent.html)
     * [Prometheus node-exporter](https://github.com/prometheus/node_exporter)
     * [Promtail](https://grafana.com/docs/loki/latest/clients/promtail/)
@@ -22,10 +23,6 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
     * [Redis](https://redis.io)
     * [Automated backups for data volumes](https://github.com/offen/docker-volume-backup)
     * [Route 53 dynamic DNS](https://crazymax.dev/ddns-route53/)
-
-Future plans include:
-  * Loki
-  * Node-RED
 
 ### Run
 
