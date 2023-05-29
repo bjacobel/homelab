@@ -1,6 +1,6 @@
 wireguard:
   container_name: wireguard
-  image: linuxserver/wireguard:1.0.20210914-alpine
+  image: linuxserver/wireguard
   cap_add:
     - NET_ADMIN
   environment:
@@ -16,4 +16,6 @@ wireguard:
     - wireguard-data:/config
   ports:
     - 51820:51820/udp
+  labels:
+    - "com.centurylinklabs.watchtower.monitor-only=true"
 

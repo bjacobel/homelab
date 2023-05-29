@@ -1,6 +1,6 @@
 pihole-exporter:
   container_name: pihole-exporter
-  image: ekofr/pihole-exporter:v0.4.0
+  image: ekofr/pihole-exporter
   environment:
     - PIHOLE_HOSTNAME=pihole
     - PORT=9617

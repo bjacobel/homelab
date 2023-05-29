@@ -17,6 +17,7 @@ compose_services:
   - name: volume-backup
   - name: redis
   - name: playwright
+  - name: watchtower
   - name: prometheus
     role_config: true
   - name: authelia

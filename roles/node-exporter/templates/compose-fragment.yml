@@ -1,6 +1,6 @@
 node-exporter:
   container_name: node-exporter
-  image: prom/node-exporter:v1.5.0
+  image: prom/node-exporter
   user: root
   volumes:
     - /proc:/host/proc:ro,rslave

@@ -24,3 +24,4 @@ pihole:
     - pihole-data:/etc/pihole/
   labels:
     - docker-volume-backup.stop-during-backup=true
+    - com.centurylinklabs.watchtower.monitor-only=true
