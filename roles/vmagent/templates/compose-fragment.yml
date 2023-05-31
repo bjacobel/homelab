@@ -9,3 +9,4 @@ vmagent:
   command:
     - "--promscrape.config=/etc/prometheus/prometheus.yml"
     - "--remoteWrite.url=http://prometheus:9090/api/prom/push"
+    - "--opentsdbHTTPListenAddr=:4242"
