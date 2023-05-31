@@ -1,6 +1,6 @@
 cadvisor:
   container_name: cadvisor
-  image: gcr.io/cadvisor/cadvisor
+  image: gcr.io/cadvisor/cadvisor:v0.47.0
   devices:
     - "/dev/kmsg:/dev/kmsg"
   expose:
