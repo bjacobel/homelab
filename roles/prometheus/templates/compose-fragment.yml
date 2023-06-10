@@ -2,7 +2,7 @@ prometheus:
   image: prom/prometheus
   container_name: prometheus
   volumes:
-    - prometheus-data:/data
+    - prometheus-data:/prometheus
     - ./prometheus:/etc/prometheus
   expose:
     - "9090"
