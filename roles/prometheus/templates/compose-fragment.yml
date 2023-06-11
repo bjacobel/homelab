@@ -8,3 +8,6 @@ prometheus:
     - "9090"
   environment:
     - TZ=America/New_York
+  command:
+    - "--web.enable-remote-write-receiver"
+    - "--config.file=/etc/prometheus/prometheus.yml"
