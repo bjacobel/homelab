@@ -17,7 +17,6 @@ Ansible playbook to setup my homelab. (Current tenancy is one Lenovo ThinkCentre
   * Security/management
     * [Authelia](https://authelia.com)
     * [TightVNC](https://www.tightvnc.com/)
-    * [Wireguard](https://www.wireguard.com/)
   * Misc
     * [Caddy](https://caddyserver.com/)
     * [Redis](https://redis.io)

@@ -24,8 +24,6 @@ compose_services:
     role_config: true
     # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
     # It doesn't need a `proxy` or `internet` block.
-  - name: wireguard
-    role_config: true
   - name: caddy
     role_config: true
   - name: promtail
