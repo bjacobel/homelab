@@ -8,6 +8,9 @@ route53:
     - name: "lab.{{ internet_domain }}."
       type: "A"
       ttl: 300
+    - name: "vpn.{{ internet_domain }}."
+      type: "A"
+      ttl: 300
     - name: "auth.{{ internet_domain }}."
       type: "A"
       ttl: 300
