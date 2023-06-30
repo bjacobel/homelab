@@ -3,3 +3,7 @@ trackr:
   container_name: trackr
   expose:
     - "3000"
+  environment:
+    - OPENTSDB_HOST=vmagent
+    - OPENTSDB_PORT=4242
+    - NEXT_PUBLIC_TRACKD_RELATIVE="Ringing,Anxiety,Headaches,Jaw pain,Back pain"
