@@ -18,6 +18,7 @@ compose_services:
   - name: redis
   - name: playwright
   - name: watchtower
+  - name: cups
   - name: prometheus
     role_config: true
   - name: authelia
@@ -62,7 +63,3 @@ compose_services:
     internet: true
     proxy:
       http: 3000
-  - name: cups
-    role_config: true
-    proxy:
-      http: 631

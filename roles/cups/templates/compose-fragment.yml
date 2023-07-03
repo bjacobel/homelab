@@ -2,11 +2,18 @@ cups:
   image: drpsychick/airprint-bridge
   privileged: true
   container_name: cups
-  expose:
-    - "631"
+  networks:
+    - macvlan
+  ports:
+    - "137:137/udp"
+    - "139:139/tcp"
+    - "445:445/tcp"
+    - "631:631/tcp"
+    - "5353:5353/udp"
   environment:
-    - CUPS_WEBINTERFACE=yes
-    - CUPS_REMOTE_ADMIN=yes
+    - CUPS_SHARE_PRINTERS=yes
+    - CUPS_ACCESS_LOGLEVEL=access
+    - CUPS_LOGLEVEL=info
     - CUPS_LPADMIN_PRINTER1=lpadmin -p Brother-HL-L2300D -D 'Brother HL-L2300D' -m 'drv:///brlaser.drv/brl2300d.ppd' -v 'usb://Brother/HL-L2300D%20series?serial=U63878M5N412212'
     - CUPS_LPADMIN_PRINTER1_ENABLE=cupsenable Brother-HL-L2300D
     - CUPS_LPADMIN_PRINTER1_ACCEPT=cupsaccept Brother-HL-L2300D
