@@ -62,3 +62,7 @@ compose_services:
     internet: true
     proxy:
       http: 3000
+  - name: cups
+    role_config: true
+    proxy:
+      http: 631

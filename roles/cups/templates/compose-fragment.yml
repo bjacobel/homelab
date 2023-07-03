@@ -1,0 +1,12 @@
+cups:
+  image: drpsychick/airprint-bridge
+  privileged: true
+  container_name: cups
+  expose:
+    - "631"
+  environment:
+    - CUPS_WEBINTERFACE=yes
+    - CUPS_REMOTE_ADMIN=yes
+    - CUPS_LPADMIN_PRINTER1=lpadmin -p Brother-HL-L2300D -D 'Brother HL-L2300D' -m 'drv:///brlaser.drv/brl2300d.ppd' -v 'usb://Brother/HL-L2300D%20series?serial=U63878M5N412212'
+    - CUPS_LPADMIN_PRINTER1_ENABLE=cupsenable Brother-HL-L2300D
+    - CUPS_LPADMIN_PRINTER1_ACCEPT=cupsaccept Brother-HL-L2300D
