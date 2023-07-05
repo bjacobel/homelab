@@ -1,0 +1,30 @@
+- name: Install packages for vlan support
+  become: true
+  apt:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - vlan
+      - ifupdown
+
+- name: Add vlan support to routing tables
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/iproute2/rt_tables
+    line: "500 firsttable"
+
+
+- name: Add the 802.1q kernel module
+  become: true
+  community.general.modprobe:
+    name: 8021q
+    state: present
+
+- name: Add vlan configuration to interfaces.d
+  become: true
+  ansible.builtin.copy:
+    src: ./templates/vlan
+    dest: /etc/network/interfaces.d/vlan
+    mode: "0644"
+  notify: Reboot

@@ -17,6 +17,9 @@
 - name: Setup Bluetooth
   import_tasks: bluetooth.yml
 
+- name: Setup VLAN support
+  import_tasks: vlan.yml
+
 - name: Setup mosh as replacement ssh
   import_tasks: mosh.yml
 
