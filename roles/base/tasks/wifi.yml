@@ -41,7 +41,7 @@
     package: network-manager
     state: present
 
-- name: Connect to wifi using nmcli (NetworkManager)
+- name: Add connection to IoT wifi using nmcli (NetworkManager)
   become: true
   community.general.nmcli:
     type: wifi
@@ -54,5 +54,5 @@
       key-mgmt: wpa-psk
       psk: "{{ wifi_psk }}"
     state: present
-    autoconnect: true
+    autoconnect: false # Note: We used to autoconnect, but this interface has issues
   notify: Restart NetworkManager service
