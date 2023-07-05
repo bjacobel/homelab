@@ -4,7 +4,8 @@
       "username": "0E:44:44:8C:A5:6E",
       "port": 52172,
       "pin": "031-45-154",
-      "advertiser": "avahi"
+      "advertiser": "ciao",
+      "bind": ["enp0s31f6", "enp0s31f6.20"]
   },
   "accessories": [
       {
