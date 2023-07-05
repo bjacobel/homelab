@@ -172,7 +172,7 @@
                   "xboxWebApiToken": "{{ xbox_web_api_token }}",
                   "disableLogInfo": true,
                   "webApiControl": false,
-                  "volumeControl": 0,
+                  "volumeControl": -1,
                   "switchInfoMenu": false,
                   "getInputsFromDevice": false,
                   "filterGames": false,
