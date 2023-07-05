@@ -54,5 +54,5 @@
       key-mgmt: wpa-psk
       psk: "{{ wifi_psk }}"
     state: present
-    autoconnect: false # Note: We used to autoconnect, but this interface has issues
+    autoconnect: true
   notify: Restart NetworkManager service
