@@ -4,8 +4,6 @@ homebridge:
   network_mode: host
   environment:
     - TZ=America/New_York
-    - PGID={{ ansible_facts['user_gid'] }}
-    - PUID={{ ansible_facts['user_uid'] }}
   volumes:
     - homebridge-data:/homebridge
     - ./homebridge/homebridge-config.json:/homebridge/config.json
