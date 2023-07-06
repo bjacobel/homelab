@@ -1,13 +1,13 @@
 ---
+- name: Install plugins
+  community.docker.docker_container_exec:
+    container: homebridge
+    command: npm install
+  notify: Restart homebridge
+
 - name: Restart homebridge
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     services: homebridge
     state: present
     restarted: true
-
-- name: Install plugins
-  community.docker.docker_container_exec:
-    container: homebridge
-    command: npm install
-  notify: Restart homebridge
