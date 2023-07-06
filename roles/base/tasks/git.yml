@@ -1,0 +1,38 @@
+- name: Install git
+  become: true
+  apt:
+    name: git
+    state: present
+
+- name: Check for host ssh public key
+  delegate_to: localhost
+  stat:
+    path: ~/.ssh/id_ed25519.pub
+  register: host_key_stats
+  loop:
+    - ed25519
+    - rsa
+- name: Create an ed25519 ssh key on the host
+  community.crypto.openssh_keypair:
+    path: ~/.ssh/id_ed25519
+    regenerate: never
+    type: ed25519
+    mode: "600"
+  when: host_key_stats.results | selectattr('stat.exists', 'equalto', false)
+  register: created_ssh_key
+
+- name: Echo the contents of the ssh pubkey to add to GitHub
+  when: host_key_stats.results | selectattr('stat.exists', 'equalto', false)
+  debug:
+    msg: |
+      Add this SSH public key to your GitHub account (https://github.com/settings/keys):
+
+      {{ created_ssh_key.public_key }}
+
+- name: Copy .gitconfig
+  ansible.builtin.template:
+    src: ./templates/.gitconfig
+    dest: /home/{{ ansible_ssh_user }}/.gitconfig
+    mode: "0644"
+
+

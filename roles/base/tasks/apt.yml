@@ -30,7 +30,6 @@
       - net-tools
       - nmap
       - curl
-      - git
 
 # This should get both Bluetooth and accelerated graphics working
 - name: Install nonfree firmware
