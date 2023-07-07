@@ -1,214 +1,200 @@
 {
   "bridge": {
-      "name": "Homebridge A56E",
-      "username": "0E:44:44:8C:A5:6E",
-      "port": 52172,
-      "pin": "031-45-154",
-      "advertiser": "ciao"
+    "name": "Homebridge A56E",
+    "username": "0E:44:44:8C:A5:6E",
+    "port": 52172,
+    "pin": "031-45-154",
+    "advertiser": "ciao"
   },
   "accessories": [
-      {
-          "name": "Roku",
-          "accessory": "Roku",
-          "ip": "http://192.168.1.165:8060",
-          "inputs": [
-              {
-                  "id": "tvinput.hdmi2",
-                  "name": "HDMI 2"
-              },
-              {
-                  "id": "tvinput.hdmi1",
-                  "name": "Computer"
-              },
-              {
-                  "id": "tvinput.hdmi3",
-                  "name": "Console"
-              },
-              {
-                  "id": "2285",
-                  "name": "Hulu"
-              },
-              {
-                  "id": "12",
-                  "name": "Netflix"
-              },
-              {
-                  "id": "13",
-                  "name": "Prime Video"
-              },
-              {
-                  "id": "61322",
-                  "name": "HBO Max"
-              },
-              {
-                  "id": "22297",
-                  "name": "Spotify Music"
-              }
-          ],
-          "info": {
-              "udn": "298c0025-4406-10bf-8038-c4985c8aeb27",
-              "serialNumber": "YS00UA442168",
-              "deviceId": "FSU8CU442168",
-              "advertisingId": "22d9ef57-3485-50f1-a52c-5761ead13989",
-              "vendorName": "TCL",
-              "modelName": "49S517",
-              "modelNumber": "7117X",
-              "modelRegion": "US",
-              "isTv": "true",
-              "isStick": "false",
-              "screenSize": "49",
-              "panelId": "32",
-              "uiResolution": "1080p",
-              "tunerType": "ATSC",
-              "supportsEthernet": "true",
-              "wifiMac": "c4:98:5c:8a:eb:27",
-              "wifiDriver": "realtek",
-              "hasWifiExtender": "false",
-              "hasWifi5GSupport": "true",
-              "canUseWifiExtender": "true",
-              "ethernetMac": "34:93:42:3f:c8:5b",
-              "networkType": "ethernet",
-              "friendlyDeviceName": "the TV",
-              "friendlyModelName": "TCL•Roku TV",
-              "defaultDeviceName": "TCL•Roku TV - YS00UA442168",
-              "userDeviceName": "the TV",
-              "userDeviceLocation": "Living room",
-              "buildNumber": "30A.50E04210A",
-              "softwareVersion": "10.5.0",
-              "softwareBuild": "4210",
-              "secureDevice": "true",
-              "language": "en",
-              "country": "US",
-              "locale": "en_US",
-              "timeZoneAuto": "true",
-              "timeZone": "US/Eastern",
-              "timeZoneName": "United States/Eastern",
-              "timeZoneTz": "America/New_York",
-              "timeZoneOffset": "-300",
-              "clockFormat": "12-hour",
-              "uptime": "17862",
-              "powerMode": "PowerOn",
-              "supportsSuspend": "true",
-              "supportsFindRemote": "true",
-              "findRemoteIsPossible": "false",
-              "supportsAudioGuide": "true",
-              "supportsRva": "true",
-              "developerEnabled": "false",
-              "keyedDeveloperId": "",
-              "searchEnabled": "true",
-              "searchChannelsEnabled": "true",
-              "voiceSearchEnabled": "true",
-              "notificationsEnabled": "true",
-              "notificationsFirstUse": "true",
-              "supportsPrivateListening": "true",
-              "supportsPrivateListeningDtv": "true",
-              "supportsWarmStandby": "true",
-              "headphonesConnected": "false",
-              "supportsAudioSettings": "false",
-              "expertPqEnabled": "1.0",
-              "supportsEcsTextedit": "true",
-              "supportsEcsMicrophone": "true",
-              "supportsWakeOnWlan": "true",
-              "supportsAirplay": "true",
-              "hasPlayOnRoku": "true",
-              "hasMobileScreensaver": "false",
-              "supportUrl": "support.tcl.com/us",
-              "grandcentralVersion": "6.3.25",
-              "trcVersion": "3.0",
-              "trcChannelVersion": "6.0.15",
-              "davinciVersion": "2.8.20"
-          }
+    {
+      "name": "Roku",
+      "accessory": "Roku",
+      "ip": "http://192.168.1.165:8060",
+      "inputs": [
+        {
+          "id": "tvinput.hdmi2",
+          "name": "HDMI 2"
+        },
+        {
+          "id": "tvinput.hdmi1",
+          "name": "Computer"
+        },
+        {
+          "id": "tvinput.hdmi3",
+          "name": "Console"
+        },
+        {
+          "id": "2285",
+          "name": "Hulu"
+        },
+        {
+          "id": "12",
+          "name": "Netflix"
+        },
+        {
+          "id": "13",
+          "name": "Prime Video"
+        },
+        {
+          "id": "61322",
+          "name": "HBO Max"
+        },
+        {
+          "id": "22297",
+          "name": "Spotify Music"
+        }
+      ],
+      "info": {
+        "udn": "298c0025-4406-10bf-8038-c4985c8aeb27",
+        "serialNumber": "YS00UA442168",
+        "deviceId": "FSU8CU442168",
+        "advertisingId": "22d9ef57-3485-50f1-a52c-5761ead13989",
+        "vendorName": "TCL",
+        "modelName": "49S517",
+        "modelNumber": "7117X",
+        "modelRegion": "US",
+        "isTv": "true",
+        "isStick": "false",
+        "screenSize": "49",
+        "panelId": "32",
+        "uiResolution": "1080p",
+        "tunerType": "ATSC",
+        "supportsEthernet": "true",
+        "wifiMac": "c4:98:5c:8a:eb:27",
+        "wifiDriver": "realtek",
+        "hasWifiExtender": "false",
+        "hasWifi5GSupport": "true",
+        "canUseWifiExtender": "true",
+        "ethernetMac": "34:93:42:3f:c8:5b",
+        "networkType": "ethernet",
+        "friendlyDeviceName": "the TV",
+        "friendlyModelName": "TCL•Roku TV",
+        "defaultDeviceName": "TCL•Roku TV - YS00UA442168",
+        "userDeviceName": "the TV",
+        "userDeviceLocation": "Living room",
+        "buildNumber": "30A.50E04210A",
+        "softwareVersion": "10.5.0",
+        "softwareBuild": "4210",
+        "secureDevice": "true",
+        "language": "en",
+        "country": "US",
+        "locale": "en_US",
+        "timeZoneAuto": "true",
+        "timeZone": "US/Eastern",
+        "timeZoneName": "United States/Eastern",
+        "timeZoneTz": "America/New_York",
+        "timeZoneOffset": "-300",
+        "clockFormat": "12-hour",
+        "uptime": "17862",
+        "powerMode": "PowerOn",
+        "supportsSuspend": "true",
+        "supportsFindRemote": "true",
+        "findRemoteIsPossible": "false",
+        "supportsAudioGuide": "true",
+        "supportsRva": "true",
+        "developerEnabled": "false",
+        "keyedDeveloperId": "",
+        "searchEnabled": "true",
+        "searchChannelsEnabled": "true",
+        "voiceSearchEnabled": "true",
+        "notificationsEnabled": "true",
+        "notificationsFirstUse": "true",
+        "supportsPrivateListening": "true",
+        "supportsPrivateListeningDtv": "true",
+        "supportsWarmStandby": "true",
+        "headphonesConnected": "false",
+        "supportsAudioSettings": "false",
+        "expertPqEnabled": "1.0",
+        "supportsEcsTextedit": "true",
+        "supportsEcsMicrophone": "true",
+        "supportsWakeOnWlan": "true",
+        "supportsAirplay": "true",
+        "hasPlayOnRoku": "true",
+        "hasMobileScreensaver": "false",
+        "supportUrl": "support.tcl.com/us",
+        "grandcentralVersion": "6.3.25",
+        "trcVersion": "3.0",
+        "trcChannelVersion": "6.0.15",
+        "davinciVersion": "2.8.20"
       }
+    }
   ],
   "platforms": [
-      {
-          "name": "Config",
-          "port": 8581,
-          "platform": "config",
-          "auth": "none"
+    {
+      "name": "Config",
+      "port": 8581,
+      "platform": "config",
+      "auth": "none"
+    },
+    {
+      "name": "TplinkSmarthome",
+      "addCustomCharacteristics": false,
+      "broadcast": "192.168.2.255",
+      "deviceTypes": [
+        "plug",
+        "bulb"
+      ],
+      "platform": "TplinkSmarthome"
+    },
+    {
+      "pruning": {
+        "pruneMissingCachedAccessories": false,
+        "restartsBeforeMissingAccessoriesPruned": 3,
+        "pruneAllAccessoriesNextRestart": false
       },
-      {
-          "name": "TplinkSmarthome",
-          "addCustomCharacteristics": false,
-          "broadcast": "192.168.2.255",
-          "deviceTypes": [
-              "plug",
-              "bulb"
-          ],
-          "platform": "TplinkSmarthome"
+      "whiteEffects": {
+        "simultaniousDevicesColorWhite": false,
+        "colorWhiteThreshold": 10,
+        "colorWhiteThresholdSimultaniousDevices": 50,
+        "colorOffThresholdSimultaniousDevices": 5
       },
-      {
-          "pruning": {
-              "pruneMissingCachedAccessories": false,
-              "restartsBeforeMissingAccessoriesPruned": 3,
-              "pruneAllAccessoriesNextRestart": false
-          },
-          "whiteEffects": {
-              "simultaniousDevicesColorWhite": false,
-              "colorWhiteThreshold": 10,
-              "colorWhiteThresholdSimultaniousDevices": 50,
-              "colorOffThresholdSimultaniousDevices": 5
-          },
-          "deviceManagement": {
-              "blacklistOrWhitelist": "blacklist",
-              "blacklistedUniqueIDs": [
-                  ""
-              ]
-          },
-          "advancedOptions": {
-              "periodicDiscovery": true,
-              "namesWithMacAddress": false,
-              "logLevel": 3
-          },
-          "platform": "homebridge-magichome-dynamic-platform"
+      "deviceManagement": {
+        "blacklistOrWhitelist": "blacklist",
+        "blacklistedUniqueIDs": [
+          ""
+        ]
       },
-      {
-          "devices": [
-              {
-                  "name": "Xbox Series X",
-                  "host": "192.168.1.123",
-                  "xboxLiveId": "F4000DACFFF0608C",
-                  "clientId": "5e5ead27-ed60-482d-b3fc-702b28a97404",
-                  "xboxWebApiToken": "{{ xbox_web_api_token }}",
-                  "disableLogInfo": true,
-                  "webApiControl": false,
-                  "volumeControl": -1,
-                  "switchInfoMenu": false,
-                  "getInputsFromDevice": false,
-                  "filterGames": false,
-                  "filterApps": false,
-                  "filterSystemApps": false,
-                  "filterDlc": false,
-                  "enableDebugMode": false
-              }
-          ],
-          "platform": "XboxTv"
+      "advancedOptions": {
+        "periodicDiscovery": true,
+        "namesWithMacAddress": false,
+        "logLevel": 3
       },
-      {
-          "devices": [
-              {
-                  "type": "RGBTWLight",
-                  "name": "Table Lamp",
-                  "id": "ebda114010657feb0bc22x",
-                  "key": "c63191edb4fa258c",
-                  "manufacturer": "Feit",
-                  "model": "OM60/RGBW/CA/AG (P)",
-                  "dpBrightness": 3,
-                  "dpColorTemperature": 4,
-                  "colorFunction": "HEXHSB"
-              }
-          ],
-          "platform": "TuyaLan"
-      },
-      {
-          "name": "Sonos",
-          "service": "fan",
-          "platform": "ZP"
-      }
+      "platform": "homebridge-magichome-dynamic-platform"
+    },
+    {
+      "devices": [
+        {
+          "name": "Xbox Series X",
+          "host": "192.168.1.123",
+          "xboxLiveId": "F4000DACFFF0608C",
+          "clientId": "5e5ead27-ed60-482d-b3fc-702b28a97404",
+          "xboxWebApiToken": "{{ xbox_web_api_token }}",
+          "disableLogInfo": true,
+          "webApiControl": false,
+          "volumeControl": -1,
+          "switchInfoMenu": false,
+          "getInputsFromDevice": false,
+          "filterGames": false,
+          "filterApps": false,
+          "filterSystemApps": false,
+          "filterDlc": false,
+          "enableDebugMode": false
+        }
+      ],
+      "platform": "XboxTv"
+    },
+    {
+      "devices": [],
+      "platform": "TuyaLan"
+    },
+    {
+      "name": "Sonos",
+      "service": "fan",
+      "platform": "ZP"
+    }
   ],
   "disabledPlugins": [
-      "homebridge-gsh",
-      "homebridge-tuya-platform",
-      "homebridge-pihole"
+    "homebridge-tuya-lan"
   ]
 }

@@ -11,6 +11,7 @@
       src: ./templates/homebridge-config.json
       dest: "{{ compose_project_dir }}/homebridge/homebridge-config.json"
       mode: "0644"
+    diff: true
     notify: Restart homebridge
 
   - name: Add homebridge plugins
