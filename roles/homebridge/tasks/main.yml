@@ -12,7 +12,7 @@
       dest: "{{ compose_project_dir }}/homebridge/homebridge-config.json"
       mode: "0644"
     diff: true
-    notify: Restart homebridge
+    notify: Restart homebridge process
 
   - name: Add homebridge plugins
     ansible.builtin.copy:
@@ -21,7 +21,7 @@
       mode: "0644"
     notify:
       - Install plugins
-      - Restart homebridge
+      - Restart homebridge process
 
   - name: Create development-plugins dir
     file:
@@ -43,6 +43,6 @@
       - homebridge-midea-lan
     notify:
       - Install plugins
-      - Restart homebridge
+      - Restart homebridge process
 
   tags: homebridge

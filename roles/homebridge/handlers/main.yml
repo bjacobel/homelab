@@ -3,9 +3,14 @@
   community.docker.docker_container_exec:
     container: homebridge
     command: npm install
-  notify: Restart homebridge
+  notify: Restart homebridge process
 
-- name: Restart homebridge
+- name: Restart homebridge process
+  community.docker.docker_container_exec:
+    container: homebridge
+    command: pkill -15 homebridge
+
+- name: Restart homebridge container
   community.docker.docker_compose:
     project_src: "{{ compose_project_dir }}"
     services: homebridge

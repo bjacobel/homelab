@@ -185,7 +185,19 @@
       "platform": "XboxTv"
     },
     {
-      "devices": [],
+      "devices": [
+        {
+          "type": "RGBTWLight",
+          "name": "Table Lamp",
+          "id": "ebda114010657feb0bc22x",
+          "key": "c63191edb4fa258c",
+          "manufacturer": "Feit",
+          "model": "OM60/RGBW/CA/AG (P)",
+          "dpBrightness": 3,
+          "dpColorTemperature": 4,
+          "colorFunction": "HEXHSB"
+        }
+      ],
       "platform": "TuyaLan"
     },
     {
@@ -194,7 +206,5 @@
       "platform": "ZP"
     }
   ],
-  "disabledPlugins": [
-    "homebridge-tuya-lan"
-  ]
+  "disabledPlugins": []
 }
