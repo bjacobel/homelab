@@ -22,6 +22,8 @@ pihole:
     - default
   volumes:
     - pihole-data:/etc/pihole/
+  dns:
+    - 127.0.0.1
   labels:
     - docker-volume-backup.stop-during-backup=true
     - com.centurylinklabs.watchtower.monitor-only=true
