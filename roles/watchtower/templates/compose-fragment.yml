@@ -3,6 +3,9 @@ watchtower:
   container_name: watchtower
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock
+  command: --http-api-periodic-polls
+  expose:
+    - "8080"
   environment:
     - WATCHTOWER_CLEANUP=true
-    - WATCHTOWER_POLL_INTERVAL=600
+    - WATCHTOWER_POLL_INTERVAL=86400

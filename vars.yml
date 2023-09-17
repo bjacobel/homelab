@@ -17,7 +17,6 @@ compose_services:
   - name: volume-backup
   - name: redis
   - name: playwright
-  - name: watchtower
   - name: cups
   - name: prometheus
     role_config: true
@@ -60,6 +59,10 @@ compose_services:
     proxy:
       http: 3000
   - name: trackr
+    internet: true
+    proxy:
+      http: 3000
+  - name: watchtower
     internet: true
     proxy:
       http: 3000
