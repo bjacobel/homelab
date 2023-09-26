@@ -24,7 +24,7 @@ access_control:
   rules:
 {% for site in authed_proxies %}
     - domain: {{ site.name }}.{{ internet_domain }}
-      policy: one_factor
+      policy: {{ site.auth | default("one_factor") }}
 {% endfor %}
     - domain: lab.{{ internet_domain }}
       policy: bypass
