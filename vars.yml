@@ -60,6 +60,7 @@ compose_services:
       http: 3000
   - name: trackr
     internet: true
+    auth: bypass
     proxy:
       http: 3000
   - name: watchtower
