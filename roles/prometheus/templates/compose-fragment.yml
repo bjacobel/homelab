@@ -10,6 +10,8 @@ prometheus:
     - TZ=America/New_York
   command:
     - "--web.enable-remote-write-receiver"
+    - "--storage.tsdb.retention.size=50GB"
+    - "--storage.tsdb.retention.time=5y"
     - "--config.file=/etc/prometheus/prometheus.yml"
   labels:
     - docker-volume-backup.stop-during-backup=true

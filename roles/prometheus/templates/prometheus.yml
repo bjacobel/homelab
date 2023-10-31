@@ -4,7 +4,7 @@ global:
 
 storage:
   tsdb:
-    out_of_order_time_window: 365d
+    out_of_order_time_window: 5y
 
 scrape_configs:
   - job_name: prometheus
