@@ -6,6 +6,8 @@ loki:
     - 3100
     - 7946
     - 9095
+  ports:
+    - 3100:3100
   volumes:
     - ./loki/config.yml:/etc/loki/config.yml
   healthcheck:
