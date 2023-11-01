@@ -10,6 +10,7 @@ prometheus:
     - TZ=America/New_York
   command:
     - "--web.enable-remote-write-receiver"
+    - "--web.enable-admin-api"
     - "--storage.tsdb.retention.size=50GB"
     - "--storage.tsdb.retention.time=5y"
     - "--config.file=/etc/prometheus/prometheus.yml"
