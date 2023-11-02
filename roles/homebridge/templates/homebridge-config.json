@@ -114,5 +114,12 @@
       "platform": "webostv"
     }
   ],
-  "disabledPlugins": []
+  "disabledPlugins": [],
+  "accessories": [
+    {
+      "accessory": "Schedule",
+      "name": "Every 10 minutes",
+      "interval": 10
+    }
+  ]
 }
