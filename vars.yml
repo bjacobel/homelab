@@ -68,3 +68,7 @@ compose_services:
     auth: bypass
     proxy:
       http: 8080
+  - name: node-red
+    internet: true
+    proxy:
+      http: 1880

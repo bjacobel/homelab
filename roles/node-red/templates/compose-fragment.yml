@@ -1,0 +1,9 @@
+node-red:
+  container_name: node-red
+  image: nodered/node-red
+  volumes:
+    - nodered-data:/data
+  environment:
+      - TZ=America/New_York
+  expose:
+    - 1880
