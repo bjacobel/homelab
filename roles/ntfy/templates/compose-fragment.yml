@@ -1,0 +1,14 @@
+ntfy:
+  image: binwiederhier/ntfy
+  container_name: ntfy
+  command:
+    - serve
+  environment:
+    - TZ=America/New_York
+  volumes:
+    - ./ntfy:/etc/ntfy
+    - ntfy-data:/var/cache/ntfy
+    - ntfy-users:/var/lib/ntfy
+  expose:
+    - 80
+    - 9090

@@ -27,3 +27,7 @@ scrape_configs:
     static_configs:
       - targets:
         - pihole-exporter:9617
+  - job_name: ntfy
+    static_configs:
+      - targets:
+        - ntfy:9090

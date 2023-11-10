@@ -72,3 +72,9 @@ compose_services:
     internet: true
     proxy:
       http: 1880
+  - name: ntfy
+    role_config: true
+    auth: bypass
+    internet: true
+    proxy:
+      http: 80

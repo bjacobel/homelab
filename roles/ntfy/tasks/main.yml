@@ -1,0 +1,30 @@
+---
+- block:
+  - name: Create configuration directory
+    file:
+      path: "{{ compose_project_dir }}/ntfy"
+      state: directory
+      mode: 0755
+
+  - name: Add ntfy server.yml config
+    ansible.builtin.template:
+      src: ./templates/server.yml
+      dest: "{{ compose_project_dir }}/ntfy/server.yml"
+      mode: "0644"
+    diff: true
+    notify: Restart ntfy container
+
+  - name: Bring ntfy up
+    community.docker.docker_compose:
+      project_src: "{{ compose_project_dir }}"
+      services: ntfy
+      state: present
+
+  - name: Configure admin user
+    expect:
+      command: docker exec -it ntfy sh -c "ntfy user add --role=admin bjacobel"
+      responses:
+        password: "{{ ntfy_basic_auth_pass }}"
+        confirm: "{{ ntfy_basic_auth_pass }}"
+
+  tags: ntfy

@@ -1,0 +1,7 @@
+---
+- name: Restart ntfy container
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: ntfy
+    state: present
+    restarted: true
