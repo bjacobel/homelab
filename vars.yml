@@ -32,6 +32,8 @@ compose_services:
     role_config: true
   - name: loki
     role_config: true
+  - name: vmagent
+    role_config: true
   - name: homebridge
     role_config: true
     proxy:
@@ -41,10 +43,6 @@ compose_services:
     role_config: true
     proxy:
       http: 80
-  - name: vmagent
-    role_config: true
-    proxy:
-      http: 8429
   - name: cadvisor
     role_config: true
     proxy:
