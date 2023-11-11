@@ -34,6 +34,8 @@ compose_services:
     role_config: true
   - name: vmagent
     role_config: true
+  - name: plex
+    role_config: true
   - name: homebridge
     role_config: true
     proxy:

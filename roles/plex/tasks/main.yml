@@ -1,0 +1,16 @@
+---
+- block:
+
+  - name: Create library folders
+    become: true
+    file:
+      path: "/mnt/hdd/media/{{ item }}"
+      state: directory
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
+      mode: 0755
+    loop:
+      - movies
+      - tv
+
+  tags: plex
