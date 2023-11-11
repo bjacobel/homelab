@@ -1,125 +1,127 @@
 {
-  "bridge": {
-    "name": "Homebridge A56E",
-    "username": "0E:44:44:8C:A5:6E",
-    "port": 52172,
-    "pin": "031-45-154",
-    "advertiser": "ciao"
-  },
-  "platforms": [
-    {
-      "name": "Config",
-      "port": 8581,
-      "platform": "config",
-      "auth": "none"
+    "bridge": {
+        "name": "Homebridge A56E",
+        "username": "0E:44:44:8C:A5:6E",
+        "port": 52172,
+        "pin": "031-45-154",
+        "advertiser": "ciao"
     },
-    {
-      "name": "TplinkSmarthome",
-      "addCustomCharacteristics": false,
-      "broadcast": "192.168.2.255",
-      "deviceTypes": [
-        "plug",
-        "bulb"
-      ],
-      "platform": "TplinkSmarthome"
-    },
-    {
-      "pruning": {
-        "pruneMissingCachedAccessories": false,
-        "restartsBeforeMissingAccessoriesPruned": 3,
-        "pruneAllAccessoriesNextRestart": false
-      },
-      "whiteEffects": {
-        "simultaniousDevicesColorWhite": false,
-        "colorWhiteThreshold": 10,
-        "colorWhiteThresholdSimultaniousDevices": 50,
-        "colorOffThresholdSimultaniousDevices": 5
-      },
-      "deviceManagement": {
-        "blacklistOrWhitelist": "blacklist",
-        "blacklistedUniqueIDs": [
-          ""
-        ]
-      },
-      "advancedOptions": {
-        "periodicDiscovery": true,
-        "namesWithMacAddress": false,
-        "logLevel": 3
-      },
-      "platform": "homebridge-magichome-dynamic-platform"
-    },
-    {
-      "devices": [
+    "platforms": [
         {
-          "name": "Xbox Series X",
-          "host": "192.168.1.123",
-          "xboxLiveId": "F4000DACFFF0608C",
-          "webApiControl": true,
-          "getInputsFromDevice": true,
-          "filterGames": false,
-          "filterApps": false,
-          "filterSystemApps": true,
-          "filterDlc": true,
-          "sensorPower": false,
-          "sensorInput": false,
-          "sensorScreenSaver": false,
-          "webApiPowerOnOff": true,
-          "xboxWebApiToken": "{{ xbox_web_api_token }}",
-          "clientId": "5e5ead27-ed60-482d-b3fc-702b28a97404",
-          "enableDebugMode": false,
-          "disableLogInfo": true,
-          "disableLogDeviceInfo": false,
-          "volumeControl": -1,
-          "enableMqtt": false,
-          "mqttDebug": false,
-          "mqttAuth": false
-      }
-      ],
-      "platform": "XboxTv"
-    },
-    {
-      "devices": [
+            "name": "Config",
+            "port": 8581,
+            "platform": "config",
+            "auth": "none"
+        },
         {
-          "type": "RGBTWLight",
-          "name": "Table Lamp",
-          "id": "ebda114010657feb0bc22x",
-          "key": "c63191edb4fa258c",
-          "manufacturer": "Feit",
-          "model": "OM60/RGBW/CA/AG (P)",
-          "dpBrightness": 3,
-          "dpColorTemperature": 4,
-          "colorFunction": "HEXHSB"
+            "name": "TplinkSmarthome",
+            "addCustomCharacteristics": false,
+            "broadcast": "192.168.2.255",
+            "deviceTypes": [
+                "plug",
+                "bulb"
+            ],
+            "platform": "TplinkSmarthome"
+        },
+        {
+            "pruning": {
+                "pruneMissingCachedAccessories": false,
+                "restartsBeforeMissingAccessoriesPruned": 3,
+                "pruneAllAccessoriesNextRestart": false
+            },
+            "whiteEffects": {
+                "simultaniousDevicesColorWhite": false,
+                "colorWhiteThreshold": 10,
+                "colorWhiteThresholdSimultaniousDevices": 50,
+                "colorOffThresholdSimultaniousDevices": 5
+            },
+            "deviceManagement": {
+                "blacklistOrWhitelist": "blacklist",
+                "blacklistedUniqueIDs": [
+                    ""
+                ]
+            },
+            "advancedOptions": {
+                "periodicDiscovery": true,
+                "namesWithMacAddress": false,
+                "logLevel": 3
+            },
+            "platform": "homebridge-magichome-dynamic-platform"
+        },
+        {
+            "devices": [
+                {
+                    "name": "Xbox Series X",
+                    "host": "192.168.1.123",
+                    "xboxLiveId": "F4000DACFFF0608C",
+                    "webApiControl": true,
+                    "getInputsFromDevice": true,
+                    "filterGames": false,
+                    "filterApps": false,
+                    "filterSystemApps": true,
+                    "filterDlc": true,
+                    "sensorPower": false,
+                    "sensorInput": false,
+                    "sensorScreenSaver": false,
+                    "webApiPowerOnOff": true,
+                    "xboxWebApiToken": "{{ xbox_web_api_token }}",
+                    "clientId": "5e5ead27-ed60-482d-b3fc-702b28a97404",
+                    "enableDebugMode": false,
+                    "disableLogInfo": true,
+                    "disableLogDeviceInfo": false,
+                    "volumeControl": -1,
+                    "enableMqtt": false,
+                    "mqttDebug": false,
+                    "mqttAuth": false
+                }
+            ],
+            "platform": "XboxTv"
+        },
+        {
+            "devices": [
+                {
+                    "type": "RGBTWLight",
+                    "name": "Table Lamp",
+                    "id": "ebda114010657feb0bc22x",
+                    "key": "c63191edb4fa258c",
+                    "manufacturer": "Feit",
+                    "model": "OM60/RGBW/CA/AG (P)",
+                    "dpBrightness": 3,
+                    "dpColorTemperature": 4,
+                    "colorFunction": "HEXHSB"
+                }
+            ],
+            "platform": "TuyaLan"
+        },
+        {
+            "name": "Sonos",
+            "service": "fan",
+            "platform": "ZP"
+        },
+        {
+            "devices": [
+                {
+                    "name": "Living Room TV",
+                    "ip": "192.168.1.116",
+                    "mac": "64:e4:a5:1a:10:51",
+                    "broadcastAdr": "192.168.1.255",
+                    "pollingInterval": 5,
+                    "volumeLimit": 100,
+                    "volumeControl": "none",
+                    "channelControl": false
+                }
+            ],
+            "platform": "webostv"
         }
-      ],
-      "platform": "TuyaLan"
-    },
-    {
-      "name": "Sonos",
-      "service": "fan",
-      "platform": "ZP"
-    },
-    {
-      "devices": [
-          {
-              "name": "Living Room TV",
-              "ip": "192.168.1.116",
-              "mac": "64:e4:a5:1a:10:51",
-              "broadcastAdr": "192.168.1.255",
-              "pollingInterval": 5,
-              "volumeLimit": 100,
-              "volumeControl": "none",
-              "channelControl": false
-          }
-      ],
-      "platform": "webostv"
-    }
-  ],
-  "disabledPlugins": [],
-  "accessories": [
-    {
-      "accessory": "Schedule",
-      "name": "Every 10 minutes",
-      "interval": 10
-    }
-  ]
+    ],
+    "disabledPlugins": [
+        "homebridge-zp"
+    ],
+    "accessories": [
+        {
+            "accessory": "Schedule",
+            "name": "Every 10 minutes",
+            "interval": 10
+        }
+    ]
 }
