@@ -11,40 +11,12 @@ desired_password: !vault |
 local_domain: lab.local
 internet_domain: bjacobel.com
 compose_services:
-  - name: node-exporter
-  - name: pihole-exporter
-  - name: unifi-poller
-  - name: volume-backup
-  - name: redis
-  - name: playwright
-  - name: cups
-  - name: prometheus
-    role_config: true
+  # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
+  # It doesn't need a `proxy` or `internet` block.
   - name: authelia
     role_config: true
-    # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
-    # It doesn't need a `proxy` or `internet` block.
   - name: caddy
     role_config: true
-  - name: promtail
-    role_config: true
-  - name: ddns-route53
-    role_config: true
-  - name: loki
-    role_config: true
-  - name: vmagent
-    role_config: true
-  - name: plex
-    role_config: true
-  - name: homebridge
-    role_config: true
-    proxy:
-      host: host.docker.internal
-      http: 8581
-  - name: pihole
-    role_config: true
-    proxy:
-      http: 80
   - name: cadvisor
     role_config: true
     proxy:
@@ -53,21 +25,26 @@ compose_services:
     internet: true
     proxy:
       http: 5000
+  - name: cups
+  - name: ddns-route53
+    role_config: true
   - name: grafana
     role_config: true
     internet: true
     proxy:
       http: 3000
-  - name: trackr
-    internet: true
-    auth: bypass
+  - name: homebridge
+    role_config: true
     proxy:
-      http: 3000
-  - name: watchtower
+      host: host.docker.internal
+      http: 8581
+  - name: bookmarks
     internet: true
-    auth: bypass
     proxy:
-      http: 8080
+      http: 9090
+  - name: loki
+    role_config: true
+  - name: node-exporter
   - name: node-red
     internet: true
     proxy:
@@ -78,3 +55,30 @@ compose_services:
     internet: true
     proxy:
       http: 80
+  - name: pihole
+    role_config: true
+    proxy:
+      http: 80
+  - name: pihole-exporter
+  - name: playwright
+  - name: plex
+    role_config: true
+  - name: prometheus
+    role_config: true
+  - name: promtail
+    role_config: true
+  - name: redis
+  - name: trackr
+    internet: true
+    auth: bypass
+    proxy:
+      http: 3000
+  - name: unifi-poller
+  - name: vmagent
+    role_config: true
+  - name: volume-backup
+  - name: watchtower
+    internet: true
+    auth: bypass
+    proxy:
+      http: 8080
