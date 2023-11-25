@@ -1,0 +1,19 @@
+bookmarks:
+  image: sissbruecker/linkding:latest-alpine
+  container_name: linkding
+  expose:
+    - 9090
+  environment:
+    - LD_ENABLE_AUTH_PROXY=True
+    - LD_AUTH_PROXY_USERNAME_HEADER=HTTP_REMOTE_USER
+    - LD_AUTH_PROXY_LOGOUT_URL=https://auth.{{ internet_domain }}/logout
+    - LD_CSRF_TRUSTED_ORIGINS=https://bookmarks.{{ internet_domain }}
+    - LD_LOG_X_FORWARDED_FOR=True
+    - LD_DB_ENGINE=postgres
+    - LD_DB_USER=bookmarks
+    - LD_DB_DATABASE=bookmarks
+    - LD_DB_PASSWORD={{ bkmk_pg_pw }}
+    - LD_DB_HOST=postgres
+  links:
+    - postgres
+

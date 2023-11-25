@@ -15,3 +15,8 @@ users:
     groups:
       - admins
       - dev
+  bkmk:
+    disabled: false
+    displayname: "Bookmarks"
+    password: "{{ bkmk_pw }}"
+

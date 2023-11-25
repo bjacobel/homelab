@@ -25,6 +25,7 @@
       src: ./templates/users_database.yml
       dest: "{{ compose_project_dir }}/authelia/users_database.yml"
       mode: "0644"
+    notify: Restart authelia
 
   tags: authelia
 

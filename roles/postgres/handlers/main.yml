@@ -1,0 +1,7 @@
+---
+- name: Restart postgres
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: postgres
+    state: present
+    restarted: true

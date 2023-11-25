@@ -1,0 +1,66 @@
+---
+- block:
+  - name: Install Linux library for Postgres interaction
+    become: true
+    apt:
+      name: libpq-dev
+      state: present
+
+  - name: Install Python library for Postgres and Ansible
+    pip:
+      name: psycopg2
+      state: present
+
+  - name: Bring postgres up
+    community.docker.docker_compose:
+      project_src: "{{ compose_project_dir }}"
+      services: postgres
+      state: present
+
+  - name: Get IP of postgres container
+    command:
+      cmd: |
+        {% raw %}
+        docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' postgres
+        {% endraw %}
+    register: postgres_ip
+
+  - name: Create database for bookmarks service
+    community.postgresql.postgresql_db:
+      name: bookmarks
+      login_user: "{{ ansible_ssh_user }}"
+      login_password: "{{ postgres_password }}"
+      login_host: "{{ postgres_ip.stdout }}"
+
+  - name: Create user for bookmarks service
+    community.postgresql.postgresql_user:
+      db: "{{ ansible_ssh_user }}"
+      login_user: "{{ ansible_ssh_user }}"
+      login_password: "{{ postgres_password }}"
+      login_host: "{{ postgres_ip.stdout }}"
+      name: bookmarks
+      password: "{{ bkmk_pg_pw }}"
+
+  - name: Grant new user permissions on new database
+    community.postgresql.postgresql_privs:
+      db: bookmarks
+      login_user: "{{ ansible_ssh_user }}"
+      login_password: "{{ postgres_password }}"
+      login_host: "{{ postgres_ip.stdout }}"
+      privs: ALL
+      type: database
+      roles: bookmarks
+
+  - name: Grant new user permissions on public schema
+    community.postgresql.postgresql_privs:
+      db: bookmarks
+      login_user: "{{ ansible_ssh_user }}"
+      login_password: "{{ postgres_password }}"
+      login_host: "{{ postgres_ip.stdout }}"
+      privs: ALL
+      type: schema
+      objs: public
+      roles: bookmarks
+
+  tags: postgres
+

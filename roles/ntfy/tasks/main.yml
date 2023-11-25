@@ -26,5 +26,8 @@
       responses:
         password: "{{ ntfy_basic_auth_pass }}"
         confirm: "{{ ntfy_basic_auth_pass }}"
+    ignore_errors: true
+    register: ntfy_useradd_result
+    changed_when:  '"user bjacobel added" in ntfy_useradd_result.stdout'
 
   tags: ntfy

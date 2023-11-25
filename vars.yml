@@ -63,6 +63,8 @@ compose_services:
   - name: playwright
   - name: plex
     role_config: true
+  - name: postgres
+    role_config: true
   - name: prometheus
     role_config: true
   - name: promtail
