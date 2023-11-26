@@ -28,6 +28,10 @@ access_control:
 {% endfor %}
     - domain: lab.{{ internet_domain }}
       policy: bypass
+    - domain: bookmarks.{{ internet_domain }}
+      policy: bypass
+      resources:
+      - '^/api([/?].*)?$'
 
 session:
   name: authelia_session
