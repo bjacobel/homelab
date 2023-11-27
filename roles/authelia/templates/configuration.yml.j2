@@ -22,16 +22,16 @@ authentication_backend:
 access_control:
   default_policy: deny
   rules:
+    - domain: bookmarks.{{ internet_domain }}
+      policy: bypass
+      resources:
+      - '^/api([/?].*)?$'
 {% for site in authed_proxies %}
     - domain: {{ site.name }}.{{ internet_domain }}
       policy: {{ site.auth | default("one_factor") }}
 {% endfor %}
     - domain: lab.{{ internet_domain }}
       policy: bypass
-    - domain: bookmarks.{{ internet_domain }}
-      policy: bypass
-      resources:
-      - '^/api([/?].*)?$'
 
 session:
   name: authelia_session
