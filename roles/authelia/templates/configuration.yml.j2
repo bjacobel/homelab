@@ -36,8 +36,8 @@ access_control:
 session:
   name: authelia_session
   domain: {{ internet_domain }}
-  expiration: 3600
-  inactivity: 300
+  expiration: 6h
+  inactivity: 30m
   remember_me_duration:  1M
   # This secret can also be set using the env variables AUTHELIA_SESSION_SECRET_FILE
   secret: {{ session_secret }}
