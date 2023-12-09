@@ -24,8 +24,11 @@ access_control:
   rules:
     - domain: bookmarks.{{ internet_domain }}
       policy: bypass
+      methods:
+      - OPTIONS
+      - POST
       resources:
-      - '^/api([/?].*)?$'
+      - '^/api/bookmarks/?$'
 {% for site in authed_proxies %}
     - domain: {{ site.name }}.{{ internet_domain }}
       policy: {{ site.auth | default("one_factor") }}

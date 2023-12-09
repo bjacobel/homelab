@@ -2,6 +2,26 @@
   trusted_proxies 10.0.0.0/8 172.16.0.0/16 192.168.0.0/16 fc00::/7
 }
 
+(cors) {
+  @cors_preflight method OPTIONS
+  @cors header Origin "{http.request.header.Origin}"
+
+  handle @cors_preflight {
+    header Access-Control-Allow-Origin "{http.request.header.Origin}"
+    header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE"
+    header Access-Control-Allow-Headers "Content-Type, Authorization"
+    header Access-Control-Allow-Credentials "true"
+    header Access-Control-Max-Age "3600"
+    respond "" 204
+  }
+
+  handle @cors {
+    header Access-Control-Allow-Origin "{http.request.header.Origin}"
+    header Access-Control-Allow-Credentials "true"
+    header Access-Control-Expose-Headers "Link"
+  }
+}
+
 auth.{{ internet_domain }} {
   reverse_proxy authelia:9091 {
     import trusted_proxy_list
@@ -33,6 +53,10 @@ auth.{{ internet_domain }} {
   }
 
   tls bjacobel@gmail.com
+
+  {% if 'proxy' in site and 'cors' in site.proxy and site.proxy.cors %}
+  import cors
+  {% endif %}
 
   log {
     level WARN

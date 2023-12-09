@@ -42,6 +42,7 @@ compose_services:
     internet: true
     proxy:
       http: 9090
+      cors: true
   - name: loki
     role_config: true
   - name: node-exporter
