@@ -1,0 +1,18 @@
+---
+- block:
+  - name: Create configuration directories
+    file:
+      path: "{{ compose_project_dir }}/node-red"
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
+      state: directory
+      mode: 0755
+
+  - name: Add settings file
+    copy:
+      src: ./templates/settings.js
+      dest: "{{ compose_project_dir }}/node-red/settings.js"
+      mode: "0644"
+    notify: Restart node-red
+
+  tags: node-red

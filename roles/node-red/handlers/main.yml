@@ -1,0 +1,7 @@
+---
+- name: Restart node-red
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: node-red
+    state: present
+    restarted: true

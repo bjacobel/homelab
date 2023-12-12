@@ -3,7 +3,8 @@ node-red:
   image: nodered/node-red
   volumes:
     - nodered-data:/data
+    - ./node-red/settings.js:/usr/src/node-red/settings.js
   environment:
-      - TZ=America/New_York
+    - TZ=America/New_York
   expose:
     - 1880
