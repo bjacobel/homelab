@@ -6,6 +6,8 @@ prometheus:
     - ./prometheus:/etc/prometheus
   expose:
     - "9090"
+  ports:
+    - 9090:9090
   environment:
     - TZ=America/New_York
   command:
