@@ -26,7 +26,18 @@ scrape_configs:
       labels:
         job: varlogs
         __path__: /mapped/var/log/*.log
+        __path_exclude__: /mapped/var/log/daemon.log
   - job_name: systemd-journal
+    pipeline_stages:
+      - drop:
+          source: systemd_unit
+          expression: session-\d+\.scope
+      - drop:
+          source: systemd_unit
+          expression: user@\d+\.service
+      - drop:
+          source: systemd_unit
+          expression: init.scope
     journal:
       path: /mapped/var/log/journal
       labels:
@@ -34,4 +45,3 @@ scrape_configs:
     relabel_configs:
       - source_labels: ['__journal__systemd_unit']
         target_label: 'systemd_unit'
-
