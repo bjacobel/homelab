@@ -2,6 +2,7 @@
   "private": true,
   "description": "This file keeps track of which plugins should be installed.",
   "dependencies": {
+    "homebridge-config-ui-x": "4.50.2",
     "homebridge-magichome-dynamic-platform": "1.9.7",
     "homebridge-schedule": "1.0.136",
     "homebridge-tplink-smarthome": "7.0.1",
