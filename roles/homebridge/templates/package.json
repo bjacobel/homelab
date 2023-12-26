@@ -7,7 +7,6 @@
     "homebridge-tplink-smarthome": "7.0.1",
     "homebridge-tuya": "2.0.1",
     "homebridge-webos-tv": "2.4.1",
-    "homebridge-xbox-tv": "2.8.17",
-    "homebridge-zp": "1.4.26"
+    "homebridge-xbox-tv": "2.8.17"
   }
 }

@@ -94,11 +94,6 @@
             "platform": "TuyaLan"
         },
         {
-            "name": "Sonos",
-            "service": "fan",
-            "platform": "ZP"
-        },
-        {
             "devices": [
                 {
                     "name": "Living Room TV",
@@ -113,9 +108,6 @@
             ],
             "platform": "webostv"
         }
-    ],
-    "disabledPlugins": [
-        "homebridge-zp"
     ],
     "accessories": [
         {
