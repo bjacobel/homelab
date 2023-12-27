@@ -357,7 +357,7 @@ metrics-listen-http: ":9090"
 #      - "visitor_ip=1.2.3.4 -> debug"
 #      - "time_taken_ms -> debug"
 #
-# log-level: info
 # log-level-overrides:
+log-level: warn
 log-format: json
 # log-file:
