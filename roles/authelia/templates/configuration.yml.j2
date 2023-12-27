@@ -29,6 +29,14 @@ access_control:
       - POST
       resources:
       - '^/api/bookmarks/?$'
+    - domain: node-red.{{ internet_domain }}
+      policy: bypass
+      methods:
+      - GET
+      - POST
+      - PUT
+      resources:
+      - '^/api/'
 {% for site in authed_proxies %}
     - domain: {{ site.name }}.{{ internet_domain }}
       policy: {{ site.auth | default("one_factor") }}
