@@ -49,33 +49,11 @@
   ansible.builtin.set_fact:
     desired_aliases: "{{ desired_aliases + [local_domain] }}"
 
-- name: Get existing avahi aliases
-  slurp:
-    src: /etc/avahi/aliases
-  register: slurped
-
-- name: Set avahi aliases as facts
-  ansible.builtin.set_fact:
-    aliasfile_content: "{{ slurped['content'] | b64decode | trim }}"
-
-- name: Split avahi aliases to array
-  ansible.builtin.set_fact:
-    cacheable: true
-    existing_aliases: "{{ aliasfile_content.split('\n') }}"
-
-- name: Create avahi aliases for all services
+- name: Configure /etc/avahi/aliases
   become: true
-  command:
-    cmd: avahi-add-alias {{ item }}
-  loop: "{{ desired_aliases | difference(existing_aliases) }}"
-  when: desired_aliases | difference(existing_aliases) | length
-  register: add_alias
-  failed_when: add_alias.stderr
-  changed_when: "'added' in add_alias.stdout"
+  template:
+    src: ./templates/avahi-aliases.j2
+    dest: "/etc/avahi/aliases"
+    mode: "0644"
+  diff: true
 
-- name: Remove undesired avahi aliases
-  become: true
-  command:
-    cmd: avahi-remove-alias {{ item }}
-  loop: "{{ existing_aliases | difference(desired_aliases) }}"
-  when: existing_aliases | difference(desired_aliases) | length

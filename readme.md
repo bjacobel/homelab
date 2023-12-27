@@ -85,3 +85,7 @@ ssh bjacobel@127.0.0.1 -p 50022  -o PreferredAuthentications=publickey -o Pubkey
 ```
 
 This may not work anymore; things have diverged a little bit. This was basically just for a sandbox so I didn't brick the ThinkCentre too many times.
+
+#### Profiling Ansible slowness
+
+Add `profile_tasks` to the comma-separated list under `[defaults] > callbacks_enabled`, then run a playbook. Timing of tasks will be output.
