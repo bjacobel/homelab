@@ -19,8 +19,6 @@ compose_services:
     role_config: true
   - name: cadvisor
     role_config: true
-    proxy:
-      http: 8080
   - name: changedetection
     proxy:
       http: 5000
