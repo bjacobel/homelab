@@ -28,6 +28,7 @@ compose_services:
   - name: cups
   - name: ddns-route53
     role_config: true
+  - name: docker-state-exporter
   - name: grafana
     role_config: true
     internet: true

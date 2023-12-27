@@ -1,0 +1,7 @@
+docker-state-exporter:
+  image: karugaru/docker_state_exporter
+  container_name: docker-state-exporter
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+  expose:
+    - 8080
