@@ -90,3 +90,7 @@ lab.{{ internet_domain }} {
       header Content-Type "text/html"
   }
 }
+
+http://localhost {
+  respond /health 200
+}

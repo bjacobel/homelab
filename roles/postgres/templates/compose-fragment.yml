@@ -14,3 +14,5 @@ postgres:
     - POSTGRES_INITDB_ARGS=--auth-host=scram-sha-256
   labels:
     - docker-volume-backup.stop-during-backup=true
+  healthcheck:
+    test: ["CMD-SHELL", "pg_isready"]

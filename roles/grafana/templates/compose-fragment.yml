@@ -19,3 +19,5 @@ grafana:
     - GF_USERS_AUTO_ASSIGN_ORG=true
     - GF_USERS_AUTO_ASSIGN_ORG_ROLE=Editor
     - GF_LOG_CONSOLE_FORMAT=json
+  healthcheck:
+    test: ["CMD", "curl", "-fI", "http://localhost:3000/api/health"]
