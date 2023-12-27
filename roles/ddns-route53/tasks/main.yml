@@ -9,9 +9,9 @@
       group: "{{ ansible_ssh_user }}"
       mode: 0755
 
-  - name: Determine services that need to have ddns-route53 authentication config
+  - name: Determine services that need to have ddns-route53 config
     ansible.builtin.set_fact:
-      ddns_services: "{{ compose_services | selectattr('proxy', 'defined') | selectattr('internet', 'true') }}"
+      ddns_services: "{{ compose_services | selectattr('proxy', 'defined') }}"
 
   - name: Copy ddns-route53 config to configuration directory
     template:

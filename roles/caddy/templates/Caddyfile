@@ -28,17 +28,6 @@ auth.{{ internet_domain }} {
   }
 }
 
-{% for site in local_proxied_hosts %}
-{{ site.name }}.{{ local_domain }} {
-  reverse_proxy {{ site.proxy.host | default(site.name, True) }}:{{ site.proxy.http }}
-
-  log {
-    level WARN
-  }
-}
-
-{% endfor %}
-
 {% for site in internet_proxied_hosts %}
 {{ site.name }}.{{ internet_domain }} {
   forward_auth authelia:9091 {

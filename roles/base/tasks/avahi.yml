@@ -43,7 +43,7 @@
 
 - name: Get desired avahi aliases from services definition
   ansible.builtin.set_fact:
-    desired_aliases: "{{ compose_services | selectattr('proxy', 'defined') | selectattr('internet', 'undefined') | map(attribute='name') | map('regex_replace', '$', '.' + local_domain) }}"
+    desired_aliases: "{{ compose_services | selectattr('avahi', 'true') | map(attribute='name') | map('regex_replace', '$', '.' + local_domain) }}"
 
 - name: "Set a top-level .local Avahi hostname for local domain"
   ansible.builtin.set_fact:

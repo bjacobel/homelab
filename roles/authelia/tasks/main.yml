@@ -11,7 +11,7 @@
 
   - name: Determine services that need to have Authelia authentication config
     ansible.builtin.set_fact:
-      authed_proxies: "{{ compose_services | selectattr('proxy', 'defined') | selectattr('internet', 'true') }}"
+      authed_proxies: "{{ compose_services | selectattr('proxy', 'defined') }}"
 
   - name: Copy Authelia config to configuration directory
     template:

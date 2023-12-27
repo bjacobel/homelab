@@ -8,11 +8,7 @@
 
   - name: Determine services that need to have internet-accessible reverse_proxy config
     ansible.builtin.set_fact:
-      internet_proxied_hosts: "{{ compose_services | selectattr('proxy', 'defined') | selectattr('internet', 'true') }}"
-
-  - name: Determine services that need to have local reverse_proxy config
-    ansible.builtin.set_fact:
-      local_proxied_hosts: "{{ compose_services | selectattr('proxy', 'defined') | selectattr('internet', 'undefined') }}"
+      internet_proxied_hosts: "{{ compose_services | selectattr('proxy', 'defined') }}"
 
   - name: Add Caddyfile
     ansible.builtin.template:

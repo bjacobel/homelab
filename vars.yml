@@ -22,7 +22,6 @@ compose_services:
     proxy:
       http: 8080
   - name: changedetection
-    internet: true
     proxy:
       http: 5000
   - name: cups
@@ -31,7 +30,6 @@ compose_services:
   - name: docker-state-exporter
   - name: grafana
     role_config: true
-    internet: true
     proxy:
       http: 3000
   - name: homebridge
@@ -40,7 +38,6 @@ compose_services:
       host: host.docker.internal
       http: 8581
   - name: bookmarks
-    internet: true
     proxy:
       http: 9090
       cors: true
@@ -49,13 +46,11 @@ compose_services:
   - name: node-exporter
   - name: node-red
     role_config: true
-    internet: true
     proxy:
       http: 1880
   - name: ntfy
     role_config: true
     auth: bypass
-    internet: true
     proxy:
       http: 80
   - name: pihole
@@ -74,7 +69,6 @@ compose_services:
     role_config: true
   - name: redis
   - name: trackr
-    internet: true
     auth: bypass
     proxy:
       http: 3000
@@ -83,7 +77,6 @@ compose_services:
     role_config: true
   - name: volume-backup
   - name: watchtower
-    internet: true
     auth: bypass
     proxy:
       http: 8080
