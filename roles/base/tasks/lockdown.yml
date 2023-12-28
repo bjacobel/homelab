@@ -41,6 +41,30 @@
   notify:
     - Restart ssh service
 
+- name: Install fail2ban
+  become: true
+  apt:
+    name: fail2ban
+    state: present
+
+- name: Template fail2ban config
+  become: true
+  template:
+    src: ./templates/fail2ban/fail2ban.local
+    dest: /etc/fail2ban/fail2ban.local
+    mode: "0644"
+  notify:
+    - Restart fail2ban service
+
+- name: Template fail2ban jail config
+  become: true
+  template:
+    src: ./templates/fail2ban/jail.local
+    dest: /etc/fail2ban/jail.local
+    mode: "0644"
+  notify:
+    - Restart fail2ban service
+
 # @TODO: enable UFW
 # https://github.com/imthenachoman/How-To-Secure-A-Linux-Server#firewall-with-ufw-uncomplicated-firewall
 

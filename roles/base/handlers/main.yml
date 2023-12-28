@@ -29,3 +29,9 @@
 - name: Fetch tmux plugins
   ansible.builtin.command:
     cmd: /home/{{ ansible_ssh_user }}/.tmux/plugins/tpm/scripts/install_plugins.sh
+
+- name: Restart fail2ban service
+  become: true
+  service:
+    name: fail2ban
+    state: restarted
