@@ -16,3 +16,5 @@ playwright:
     - CHROME_REFRESH_TIME=600000
     - DEFAULT_BLOCK_ADS=false
     - DEFAULT_STEALTH=true
+  healthcheck:
+    test: ["CMD-SHELL", "node -e \"require('puppeteer').connect({browserWSEndpoint: 'ws://localhost:3000'}).then(b => process.exit(Number(!b)))\" || exit 1"]
