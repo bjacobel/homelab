@@ -60,16 +60,30 @@
                     "filterApps": false,
                     "filterSystemApps": true,
                     "filterDlc": true,
+                    "inputsDisplayOrder": 0,
+                    "buttons": [
+                        {
+                            "namePrefix": false
+                        }
+                    ],
                     "sensorPower": false,
                     "sensorInput": false,
                     "sensorScreenSaver": false,
+                    "sensorInputs": [
+                        {
+                            "namePrefix": false
+                        }
+                    ],
                     "webApiPowerOnOff": true,
-                    "xboxWebApiToken": "{{ xbox_web_api_token }}",
-                    "clientId": "5e5ead27-ed60-482d-b3fc-702b28a97404",
+                    "webApiRcControl": false,
+                    "webApiVolumeControl": false,
+                    "webApiToken": "{{ xbox_web_api_token }}",
                     "enableDebugMode": false,
                     "disableLogInfo": true,
                     "disableLogDeviceInfo": false,
                     "volumeControl": -1,
+                    "enableRestFul": false,
+                    "restFulDebug": false,
                     "enableMqtt": false,
                     "mqttDebug": false,
                     "mqttAuth": false
