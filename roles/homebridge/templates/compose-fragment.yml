@@ -1,6 +1,6 @@
 homebridge:
   container_name: homebridge
-  image: oznu/homebridge:2023-01-08
+  image: homebridge/homebridge:2023-12-30
   network_mode: host
   environment:
     - TZ=America/New_York
