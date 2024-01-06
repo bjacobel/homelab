@@ -6,43 +6,4 @@
       state: directory
       mode: 0755
 
-  - name: Add homebridge config
-    ansible.builtin.template:
-      src: ./templates/homebridge-config.json
-      dest: "{{ compose_project_dir }}/homebridge/homebridge-config.json"
-      mode: "0644"
-    diff: true
-    notify: Restart homebridge process
-
-  - name: Add homebridge plugins
-    ansible.builtin.copy:
-      src: ./templates/package.json
-      dest: "{{ compose_project_dir }}/homebridge/package.json"
-      mode: "0644"
-    notify:
-      - Install plugins
-      - Restart homebridge process
-
-  # - name: Create development-plugins dir
-  #   file:
-  #     path: "{{ compose_project_dir }}/homebridge/development-plugins"
-  #     state: directory
-  #     mode: 0755
-
-  # - name: Clone development plugins from GitHub
-  #   ansible.builtin.git:
-  #     clone: true
-  #     dest: "{{ compose_project_dir }}/homebridge/development-plugins/{{ item }}"
-  #     repo: "git@github.com:bjacobel/{{ item }}.git"
-  #     update: false
-  #     accept_newhostkey: true
-  #     key_file: ~/.ssh/id_ed25519
-  #   environment:
-  #     GIT_TERMINAL_PROMPT: "0"
-  #   loop:
-  #     - homebridge-midea-lan
-  #   notify:
-  #     - Install plugins
-  #     - Restart homebridge process
-
   tags: homebridge

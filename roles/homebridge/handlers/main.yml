@@ -1,10 +1,4 @@
 ---
-- name: Install plugins
-  community.docker.docker_container_exec:
-    container: homebridge
-    command: npm install
-  notify: Restart homebridge process
-
 - name: Restart homebridge process
   community.docker.docker_container_exec:
     container: homebridge
