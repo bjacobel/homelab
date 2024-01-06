@@ -1,0 +1,13 @@
+grafana-to-ntfy:
+  container_name: grafana-to-ntfy
+  image: kittyandrew/grafana-to-ntfy
+  expose:
+    - 8080
+  environment:
+    - NTFY_URL=http://ntfy/grafana_alerts
+    - NTFY_BAUTH_USER=bjacobel
+    - NTFY_BAUTH_PASS={{ ntfy_basic_auth_pass }}
+    - BAUTH_USER=bjacobel
+    - BAUTH_PASS={{ ntfy_basic_auth_pass }}
+  healthcheck:
+    test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/health || exit 1" ]
