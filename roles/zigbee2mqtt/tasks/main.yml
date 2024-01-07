@@ -1,0 +1,15 @@
+---
+- block:
+  - name: Create configuration directory
+    file:
+      path: "{{ compose_project_dir }}/zigbee2mqtt"
+      state: directory
+      mode: 0755
+
+  - name: Add z2m configuration file
+    copy:
+      src: ./templates/configuration.yml
+      dest: "{{ compose_project_dir }}/zigbee2mqtt/configuration.yml"
+      mode: "0644"
+    notify: Restart zigbee2mqtt
+  tags: zigbee2mqtt

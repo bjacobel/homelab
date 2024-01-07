@@ -1,0 +1,15 @@
+zigbee2mqtt:
+  container_name: zigbee2mqtt
+  image: koenkk/zigbee2mqtt
+  environment:
+    - TZ: America/New_York
+  volumes:
+    - /run/udev:/run/udev:ro
+    - zigbee2mqtt-data:/app/data
+    - ./zigbee2mqtt/configuration.yml:/app/data/configuration.yml
+  expose:
+    - 8080
+  devices:
+    - /dev/serial/by-id/{{ device_id }}:/dev/ttyACM0 \
+  labels:
+  - docker-volume-backup.stop-during-backup=true
