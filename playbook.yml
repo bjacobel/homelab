@@ -42,3 +42,10 @@
   gather_facts: false
   roles:
     - vnc
+
+- name: Install a backup restoration script
+  hosts: all
+  vars_files: vars.yml
+  gather_facts: false
+  roles:
+    - restore

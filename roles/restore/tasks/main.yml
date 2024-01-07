@@ -1,0 +1,20 @@
+---
+- name: Gather facts
+  setup:
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - awscli
+    - dialog
+    - pv
+
+- name: Copy restore script to /usr/local/bin
+  become: true
+  template:
+    src: ./templates/restore.j2
+    dest: /usr/local/bin/restore
+    mode: "0755"
