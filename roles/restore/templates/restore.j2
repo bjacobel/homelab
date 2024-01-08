@@ -12,7 +12,6 @@ done < <(
   AWS_SECRET_ACCESS_KEY={{ backups_aws_secret_access_key }} \
   aws s3 ls s3://$BUCKET | sort -r | awk '{print $4}'
 )
-
 CHOICE=$(dialog --clear \
   --backtitle "Restore" \
   --title "Select backup" \
@@ -21,7 +20,6 @@ CHOICE=$(dialog --clear \
   "${OPTS[@]}" \
   2>&1 >/dev/tty)
 clear
-
 BACKUP=${OPTS[$CHOICE]}
 BACKUP_NOEXT="${BACKUP%.*.*}"
 
@@ -34,3 +32,39 @@ if [ ! -d "/tmp/$BACKUP_NOEXT" ]; then
 else
   echo "$BACKUP already downloaded and extracted to /tmp"
 fi
+
+let i=0
+OPTS=()
+while read -r line; do
+  let i=$i+1
+  OPTS+=($i "$line")
+done < <(
+  ls /tmp/$BACKUP_NOEXT
+)
+CHOICE=$(dialog --clear \
+  --backtitle "Restore" \
+  --title "Select volume" \
+  --menu "Choose a volume from this backup to restore" \
+  15 40 10 \
+  "${OPTS[@]}" \
+  2>&1 >/dev/tty)
+clear
+VOLUME=${OPTS[$CHOICE]}
+
+set -e
+
+CONTAINERS=$(/usr/bin/docker ps -aq --filter "volume=$VOLUME")
+for container in $CONTAINERS
+do
+  echo "stopping container $container (named: $(docker inspect --format='{% raw %}{{.Name}}{% endraw %}' $container)) because it mounts volume $VOLUME..."
+  docker stop $container
+  docker rm $container
+done
+
+docker volume rm $VOLUME
+docker volume create $VOLUME
+
+docker run --rm -it -v $VOLUME:/volume -v /tmp/$BACKUP_NOEXT/$VOLUME:/backup:ro alpine sh -c "cp -r /backup/* /volume"
+
+docker-compose -f ~/compose/docker-compose.yml up -d
+
