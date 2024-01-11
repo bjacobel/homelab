@@ -10,6 +10,6 @@ zigbee2mqtt:
   expose:
     - 8080
   devices:
-    - /dev/serial/by-id/{{ device_id }}:/dev/ttyACM0 \
+    - /dev/serial/by-id/{{ device_id.stdout }}:/dev/ttyACM0 \
   labels:
   - docker-volume-backup.stop-during-backup=true

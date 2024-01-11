@@ -1,5 +1,10 @@
 ---
 - block:
+  - name: Get ZigBee radio device name
+    ansible.builtin.shell:
+      cmd: ls -l /dev/serial/by-id | grep Sonoff_Zigbee | awk '{print $9}'
+    register: device_id
+
   - name: Create configuration directory
     file:
       path: "{{ compose_project_dir }}/zigbee2mqtt"
