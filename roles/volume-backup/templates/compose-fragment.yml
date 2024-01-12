@@ -20,3 +20,4 @@ backup:
     - prometheus-data:/backup/prometheus-data:ro
     - plex-data:/backup/plex-data:ro
     - postgres-data:/backup/postgres-data:ro
+    - zigbee2mqtt-data:/backup/zigbee2mqtt-data:ro

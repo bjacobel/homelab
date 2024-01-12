@@ -1,0 +1,7 @@
+---
+- name: Restart mosquitto
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: mosquitto
+    state: present
+    restarted: true

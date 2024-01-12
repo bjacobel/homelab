@@ -58,6 +58,8 @@ compose_services:
       cors: true
   - name: loki
     role_config: true
+  - name: mosquitto
+    role_config: true
   - name: node-exporter
   - name: node-red
     role_config: true
@@ -93,5 +95,9 @@ compose_services:
   - name: volume-backup
   - name: watchtower
     auth: bypass
+    proxy:
+      http: 8080
+  - name: zigbee2mqtt
+    role_config: true
     proxy:
       http: 8080
