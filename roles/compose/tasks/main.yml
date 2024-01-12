@@ -23,6 +23,12 @@
       - pexpect
     state: present
 
+- name: Get ZigBee radio device name
+  ansible.builtin.shell:
+    cmd: ls -l /dev/serial/by-id | grep Sonoff_Zigbee | awk '{print $9}'
+  register: zigbee_device_id
+  changed_when: false
+
 - name: Get current docker volumes
   command: docker volume ls --format='{% raw %}{{.Name}}{% endraw %}' # noqa jinja[spacing]
   register: current_volumes
