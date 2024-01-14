@@ -7,3 +7,5 @@ mosquitto:
   volumes:
     - mosquitto-data:/mosquitto/data
     - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+  healthcheck:
+    test: ["CMD-SHELL", "mosquitto_sub -h localhost -p 1883 -t '#' -C 1 | grep online || exit 1"]
