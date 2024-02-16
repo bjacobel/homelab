@@ -6,5 +6,5 @@ docker-state-exporter:
   expose:
     - 8080
   healthcheck:
-    test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080 || exit 1" ]
+    test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:8080/metrics || exit 1" ]
 

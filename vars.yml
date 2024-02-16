@@ -85,6 +85,7 @@ compose_services:
   - name: promtail
     role_config: true
   - name: redis
+  - name: tasmota-exporter
   - name: trackr
     auth: bypass
     proxy:

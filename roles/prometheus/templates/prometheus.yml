@@ -39,3 +39,7 @@ scrape_configs:
     static_configs:
       - targets:
         - docker-state-exporter:8080
+  - job_name: tasmota-exporter
+    static_configs:
+      - targets:
+        - tasmota-exporter:9092

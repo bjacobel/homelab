@@ -1,0 +1,12 @@
+tasmota-exporter:
+  container_name: tasmota-exporter
+  image: eugenezadyra/tasmota-exporter
+  environment:
+    MQTT_HOSTNAME: mosquitto
+    MQTT_PORT: 1883
+    PROMETHEUS_EXPORTER_PORT: 9092
+  expose:
+    - 9092
+  healthcheck:
+    test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:9092/metrics || exit 1" ]
+
