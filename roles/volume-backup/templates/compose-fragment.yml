@@ -9,7 +9,7 @@ backup:
     NOTIFICATION_URLS: slack://{{slack_token}}@C32FHM7CK
     # TZ on homelab is set to GMT and should stay that way
     BACKUP_CRON_EXPRESSION: 0 7 * * * # 7 am GMT is 2 am EST
-    BACKUP_EXCLUDE_REGEXP: ".*\/Cache\/.*"
+    BACKUP_EXCLUDE_REGEXP: ".*\/(Cache|node_modules)\/.*"
   volumes:
     - /var/run/docker.sock:/var/run/docker.sock:ro
     - homebridge-data:/backup/homebridge-data:ro
