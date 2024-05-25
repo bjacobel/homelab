@@ -17,7 +17,7 @@ grafana:
     - GF_AUTH_PROXY_AUTO_SIGN_UP=true
     - GF_USERS_ALLOW_SIGN_UP=false
     - GF_USERS_AUTO_ASSIGN_ORG=true
-    - GF_USERS_AUTO_ASSIGN_ORG_ROLE=Editor
+    - GF_USERS_AUTO_ASSIGN_ORG_ROLE=Admin
     - GF_LOG_CONSOLE_FORMAT=json
   healthcheck:
     test: ["CMD", "curl", "-fI", "http://localhost:3000/api/health"]
