@@ -1,5 +1,5 @@
 loki:
-  image: grafana/loki
+  image: grafana/loki:2.9.7
   container_name: loki
   command: "-config.file=/etc/loki/config.yml -target=all"
   expose:
