@@ -1,51 +1,6 @@
-(trusted_proxy_list) {
-  trusted_proxies 10.0.0.0/8 172.16.0.0/16 192.168.0.0/16 fc00::/7
-}
-
-(cors) {
-  @cors_preflight method OPTIONS
-  @cors header Origin "{http.request.header.Origin}"
-
-  handle @cors_preflight {
-    header Access-Control-Allow-Origin "{http.request.header.Origin}"
-    header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE"
-    header Access-Control-Allow-Headers "Content-Type, Authorization"
-    header Access-Control-Allow-Credentials "true"
-    header Access-Control-Max-Age "3600"
-    respond "" 204
-  }
-
-  handle @cors {
-    header Access-Control-Allow-Origin "{http.request.header.Origin}"
-    header Access-Control-Allow-Credentials "true"
-    header Access-Control-Expose-Headers "Link"
-  }
-}
-
-auth.{{ internet_domain }} {
-  reverse_proxy authelia:9091 {
-    import trusted_proxy_list
-  }
-}
-
-{% for site in internet_proxied_hosts %}
-{{ site.name }}.{{ internet_domain }} {
-  forward_auth authelia:9091 {
-    uri /api/verify?rd=https://auth.{{ internet_domain }}/
-    copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
-
-    import trusted_proxy_list
-  }
-
-  reverse_proxy {{ site.proxy.host | default(site.name, True) }}:{{ site.proxy.http }} {
-    import trusted_proxy_list
-  }
-
-  tls bjacobel@gmail.com
-
-  {% if 'proxy' in site and 'cors' in site.proxy and site.proxy.cors %}
-  import cors
-  {% endif %}
+{% for site in local_proxied_hosts %}
+{{ site.name }}.{{ local_domain }} {
+  reverse_proxy {{ site.proxy.host | default(site.name, True) }}:{{ site.proxy.http }}
 
   log {
     level WARN
@@ -56,7 +11,7 @@ auth.{{ internet_domain }} {
 
 {{ local_domain }} {
   handle / {
-    respond "<h1>lab.local</h1>"
+    respond "<h1>{{ local_domain }}</h1>"
     header Content-Type "text/html"
   }
 
@@ -70,13 +25,6 @@ auth.{{ internet_domain }} {
 
   log {
     level WARN
-  }
-}
-
-lab.{{ internet_domain }} {
-  handle / {
-      respond "<h1>lab.bjacobel.com</h1>"
-      header Content-Type "text/html"
   }
 }
 

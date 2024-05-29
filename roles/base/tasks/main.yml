@@ -11,17 +11,8 @@
 - name: Configure avahi and daemon for .local hostnames
   import_tasks: avahi.yml
 
-- name: Setup WiFi
-  import_tasks: wifi.yml
-
-- name: Setup Bluetooth
-  import_tasks: bluetooth.yml
-
 - name: Setup mosh as replacement ssh
   import_tasks: mosh.yml
-
-- name: Set up Git
-  import_tasks: git.yml
 
 - name: Set hostname
   become: true
@@ -39,52 +30,8 @@
   notify:
     - Reboot
 
-- name: Mount sda1 on /mnt/hdd
-  become: true
-  mount:
-    boot: true
-    fstype: ext4
-    src: /dev/sda1
-    path: /mnt/hdd
-    state: mounted
-
-- name: Change permissions of /mnt/hdd
-  become: true
-  file:
-    path: /mnt/hdd
-    state: directory
-    owner: "{{ ansible_ssh_user }}"
-    group: "{{ ansible_ssh_user }}"
-    mode: 0755
-    recurse: true
-
 - name: Set up bash aliases
   ansible.builtin.template:
     src: ./templates/.bash_aliases
     dest: /home/{{ ansible_ssh_user }}/.bash_aliases
     mode: "0644"
-
-- name: Set up motd
-  become: true
-  ansible.builtin.copy:
-    src: ./templates/motd
-    dest: /etc/motd
-    owner: root
-    group: root
-    mode: "0644"
-
-- name: Disable sleep/hibernate
-  become: true
-  ansible.builtin.systemd:
-    name: "{{ target }}"
-    enabled: false
-    masked: true
-  loop:
-    - sleep.target
-    - suspend.target
-    - hibernate.target
-    - hybrid-sleep.target
-  loop_control:
-    loop_var: target
-
-

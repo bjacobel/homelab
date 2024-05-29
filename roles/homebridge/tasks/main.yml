@@ -1,9 +1,0 @@
----
-- block:
-  - name: Create configuration directory
-    file:
-      path: "{{ compose_project_dir }}/homebridge"
-      state: directory
-      mode: 0755
-
-  tags: homebridge

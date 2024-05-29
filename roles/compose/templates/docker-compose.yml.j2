@@ -7,43 +7,8 @@ networks:
 volumes:
   caddy-data:
     external: true
-  homebridge-data:
-    external: true
   pihole-data:
     external: true
-  vmagent-data:
-    external: true
-  redis-data:
-    external: true
-  changedetection-data:
-    external: true
-  grafana-data:
-    external: true
-  prometheus-data:
-    external: true
-  nodered-data:
-    external: true
-  ntfy-data:
-    external: true
-  ntfy-users:
-    external: true
-  plex-data:
-    external: true
-  postgres-data:
-    external: true
-  mosquitto-data:
-    external: true
-  zigbee2mqtt-data:
-    external: true
-networks:
-  macvlan:
-    driver: macvlan
-    ipam:
-      config:
-        - subnet: 192.168.1.0/24
-          gateway: 192.168.1.1
-    driver_opts:
-      parent: enp0s31f6
 services:
 {% for service in compose_services %}
 {{ service_fragment(service.name) | indent(2) }}

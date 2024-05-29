@@ -12,7 +12,7 @@
       - ca-certificates
       - gpg
       - python3
-      - python3-pip
+      - python3-docker
 
 - name: Get arch from dpkg
   command: dpkg --print-architecture
@@ -56,12 +56,6 @@
     state: started
     enabled: true
     name: docker
-
-- name: Install Python library for Docker so Ansible can orchestrate it
-  pip:
-    name: docker
-    version: ">=5.0.0"
-    state: present
 
 - name: Improve the formatting of 'docker ps'
   import_tasks: dops.yml

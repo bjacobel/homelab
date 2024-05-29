@@ -2,14 +2,14 @@
 - name: If no connection, change user_name and password to defaults
   ansible.builtin.set_fact:
     # vagrant overrides this by setting ansible_user_first_run in vars because the username for that machine is "vagrant" (ofc)
-    ansible_ssh_user: "{{ ansible_user_first_run | default('debian', True) }}"
+    ansible_ssh_user: "{{ ansible_user_first_run | default('pi', True) }}"
     # vagrant will ignore this information because the ssh key is copied by the provisioner, and that is preferred
     # setting it for playbook runs against vagrant is harmless
-    ansible_ssh_pass: password
+    ansible_ssh_pass: raspberry
 
 - name: Use the default insecure root password
   ansible.builtin.set_fact:
-    ansible_become_pass: password
+    ansible_become_pass: raspberry
 
 - name: "Create new sudo user: {{ desired_new_user }}"
   become: true

@@ -1,5 +1,0 @@
-trackr:
-  image: ghcr.io/bjacobel/trackr:master
-  container_name: trackr
-  expose:
-    - "3000"

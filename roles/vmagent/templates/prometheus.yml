@@ -1,4 +1,0 @@
-scrape_configs:
-# these have all been moved to prometheus proper now
-# vmagent is only still here because it's a better pushgateway than prom/pushgateway
-# https://docs.victoriametrics.com/vmagent.html#how-to-push-data-to-vmagent

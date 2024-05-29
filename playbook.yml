@@ -14,14 +14,6 @@
   roles:
     - base
 
-- name: Install node
-  hosts: all
-  gather_facts: false
-  roles:
-    - node
-  vars:
-    nodejs_major_version: 18
-
 - name: Install and configure docker
   hosts: all
   vars_files: vars.yml
@@ -35,17 +27,3 @@
   gather_facts: false
   roles:
     - compose
-
-- name: Set up a VNC server that boots XFCE
-  hosts: all
-  vars_files: vars.yml
-  gather_facts: false
-  roles:
-    - vnc
-
-- name: Install a backup restoration script
-  hosts: all
-  vars_files: vars.yml
-  gather_facts: false
-  roles:
-    - restore

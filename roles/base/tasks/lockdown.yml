@@ -18,6 +18,7 @@
   loop:
     - debian
     - vagrant
+    - pi
 
 - name: Create sshers group
   become: true

@@ -1,7 +1,0 @@
----
-- name: Restart loki
-  community.docker.docker_compose:
-    project_src: "{{ compose_project_dir }}"
-    services: loki
-    state: present
-    restarted: true

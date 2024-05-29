@@ -5,17 +5,6 @@ credentials:
 route53:
   hostedZoneID: "Z3EWHA33A6DPWQ"
   recordsSet:
-    - name: "lab.{{ internet_domain }}."
+    - name: "{{ internet_domain }}."
       type: "A"
       ttl: 300
-    - name: "vpn.{{ internet_domain }}."
-      type: "A"
-      ttl: 300
-    - name: "auth.{{ internet_domain }}."
-      type: "A"
-      ttl: 300
-{% for service in ddns_services %}
-    - name: "{{ service.name }}.{{ internet_domain }}."
-      type: "A"
-      ttl: 300
-{% endfor %}

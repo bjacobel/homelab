@@ -10,24 +10,15 @@
     state: directory
     mode: 0755
 
-- name: Install docker-compose
+- name: Install docker-compose and deps
   become: true
   apt:
-    name: docker-compose-plugin
+    name: "{{item}}"
     state: present
-
-- name: Install Python libraries for Compose and req'd deps
-  pip:
-    name:
-      - docker-compose
-      - pexpect
-    state: present
-
-- name: Get ZigBee radio device name
-  ansible.builtin.shell:
-    cmd: ls -l /dev/serial/by-id | grep Sonoff_Zigbee | awk '{print $9}'
-  register: zigbee_device_id
-  changed_when: false
+  loop:
+    - docker-compose
+    - docker-compose-plugin
+    - python3-pexpect
 
 - name: Get current docker volumes
   command: docker volume ls --format='{% raw %}{{.Name}}{% endraw %}' # noqa jinja[spacing]

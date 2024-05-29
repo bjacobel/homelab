@@ -1,7 +1,0 @@
----
-- name: Restart zigbee2mqtt
-  community.docker.docker_compose:
-    project_src: "{{ compose_project_dir }}"
-    services: zigbee2mqtt
-    state: present
-    restarted: true
