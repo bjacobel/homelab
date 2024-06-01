@@ -1,7 +1,7 @@
 ---
 - block:
   - name: Bring Pi-hole up
-    community.docker.docker_compose:
+    community.docker.docker_compose_v2:
       project_src: "{{ compose_project_dir }}"
       services: pihole
       state: present
@@ -11,17 +11,6 @@
       command: docker exec -it pihole sh -c "pihole -a -p"
       responses:
         Enter New Password: ""
-
-  - name: Populate FTL blocklist
-    community.docker.docker_container_exec:
-      container: pihole
-      command: pihole -b -nr {{ blocked_domain }}
-    loop: "{{ blocklist }}"
-    loop_control:
-      loop_var: blocked_domain
-    register: ftl_result
-    changed_when: '"Adding" in ftl_result.stdout'
-    notify: Refresh pihole-FTL
 
   - name: Populate FTL regex blocklist
     community.docker.docker_container_exec:
@@ -78,3 +67,11 @@
     retries: 3
     notify: Reload gravity
   tags: pihole
+
+- name: Add a cronjob to update gravity
+  ansible.builtin.cron:
+    name: "update pihole gravity"
+    weekday: 0
+    hour: 4
+    job: 'docker exec -it pihole sh -c "pihole updateGravity"'
+

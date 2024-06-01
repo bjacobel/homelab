@@ -1,9 +1,7 @@
 ---
 allowlist:
   - www.googleadservices.com
-  - clickserve.dartsearch.net
   - analytics.twitter.com
-  - m.yap.yahoo.com
   - t.co
 regex_blocklist:
   - (|.)ads.roku.com$

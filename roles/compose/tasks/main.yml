@@ -10,13 +10,12 @@
     state: directory
     mode: 0755
 
-- name: Install docker-compose and deps
+- name: Install docker compose and deps
   become: true
   apt:
     name: "{{item}}"
     state: present
   loop:
-    - docker-compose
     - docker-compose-plugin
     - python3-pexpect
 
@@ -62,6 +61,6 @@
   tags: always
 
 - name: Start services using Compose if not started already
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ compose_project_dir }}"
     state: present
