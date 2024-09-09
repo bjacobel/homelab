@@ -1,0 +1,7 @@
+---
+- name: Restart aria
+  community.docker.docker_compose:
+    project_src: "{{ compose_project_dir }}"
+    services: aria
+    state: present
+    restarted: true

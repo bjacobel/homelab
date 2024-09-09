@@ -1,0 +1,20 @@
+---
+- block:
+  - name: Create configuration directory
+    become: true
+    file:
+      path: "{{ compose_project_dir }}/aria"
+      state: directory
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
+      mode: 0755
+
+  - name: Copy config to configuration directory
+    template:
+      src: ./templates/aria2.conf
+      dest: "{{ compose_project_dir }}/aria/aria2.conf"
+      mode: "0644"
+    notify: Restart aria
+
+  tags: aria
+

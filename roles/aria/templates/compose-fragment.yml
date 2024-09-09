@@ -1,0 +1,13 @@
+aria:
+  image: hurlenko/aria2-ariang
+  expose:
+    - "8080"
+  volumes:
+    - /home/{{ansible_ssh_user}}/downloads:/aria2/data
+    - ./aria:/aria2/conf
+  environment:
+    - PGID={{ ansible_facts['user_gid'] }}
+    - PUID={{ ansible_facts['user_uid'] }}
+    - RPC_SECRET={{ aria_rpc_secret }}
+    - EMBED_RPC_SECRET={{ aria_rpc_secret }}
+    - ARIA2RPCPORT=443
