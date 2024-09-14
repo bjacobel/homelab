@@ -1,0 +1,33 @@
+---
+- name: Gather facts
+  setup:
+
+- name: Install packages
+  become: true
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - samba
+
+- name: Create /etc/samba
+  become: true
+  ansible.builtin.file:
+    path: /etc/samba
+    state: directory
+    mode: "0755"
+
+- name: Create Samba configuration file
+  become: true
+  ansible.builtin.template:
+    src: ./templates/smb.conf.j2
+    dest: /etc/samba/smb.conf
+    mode: "0644"
+  notify: Restart samba service
+
+- name: Start/enable Samba systemd service
+  become: true
+  service:
+    name: smbd.service
+    enabled: true
+    state: started

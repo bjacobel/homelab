@@ -1,0 +1,21 @@
+[global]
+  workgroup = homelab
+  smb encrypt = disabled
+  log level = 2
+  log file = /var/log/samba/log.%m
+  max log size = 5000
+  guest account = {{ansible_ssh_user}}
+  security = user
+  map to guest = Bad User
+  passdb backend = tdbsam
+  server min protocol = SMB3_11
+
+{% for share in mounts %}
+[{{share}}]
+  path = /mnt/{{share}}
+  read only = no
+  browseable = yes
+  printable = no
+  public = yes
+{% endfor %}
+

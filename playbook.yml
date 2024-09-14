@@ -43,6 +43,13 @@
   roles:
     - vnc
 
+- name: Set up a Samba server to share mounted drives
+  hosts: all
+  vars_files: vars.yml
+  gather_facts: false
+  roles:
+    - samba
+
 - name: Install a backup restoration script
   hosts: all
   vars_files: vars.yml

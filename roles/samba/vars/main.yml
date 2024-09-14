@@ -1,0 +1,4 @@
+mounts:
+  - shadow
+  - phantom
+  - hdd
