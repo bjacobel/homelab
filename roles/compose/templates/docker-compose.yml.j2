@@ -1,9 +1,6 @@
 {% macro service_fragment(name) %}
   {% include "roles/" + name + "/templates/compose-fragment.yml" %}
 {% endmacro %}
-version: "2.2"
-networks:
-  default:
 volumes:
   caddy-data:
     external: true
@@ -36,6 +33,7 @@ volumes:
   zigbee2mqtt-data:
     external: true
 networks:
+  default:
   macvlan:
     driver: macvlan
     ipam:

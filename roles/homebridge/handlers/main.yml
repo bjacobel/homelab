@@ -5,8 +5,7 @@
     command: pkill -15 homebridge
 
 - name: Restart homebridge container
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ compose_project_dir }}"
     services: homebridge
-    state: present
-    restarted: true
+    state: restarted

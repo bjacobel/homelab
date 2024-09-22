@@ -15,7 +15,7 @@
     notify: Restart ntfy container
 
   - name: Bring ntfy up
-    community.docker.docker_compose:
+    community.docker.docker_compose_v2:
       project_src: "{{ compose_project_dir }}"
       services: ntfy
       state: present

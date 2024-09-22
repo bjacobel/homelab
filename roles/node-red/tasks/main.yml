@@ -16,7 +16,7 @@
     notify: Restart node-red
 
   - name: Bring node-red up
-    community.docker.docker_compose:
+    community.docker.docker_compose_v2:
       project_src: "{{ compose_project_dir }}"
       services: node-red
       state: present

@@ -16,10 +16,9 @@
     name: docker-compose-plugin
     state: present
 
-- name: Install Python libraries for Compose and req'd deps
+- name: Install Python req'd deps
   pip:
     name:
-      - docker-compose
       - pexpect
     state: present
 
@@ -71,6 +70,6 @@
   tags: always
 
 - name: Start services using Compose if not started already
-  community.docker.docker_compose:
+  community.docker.docker_compose_v2:
     project_src: "{{ compose_project_dir }}"
     state: present
