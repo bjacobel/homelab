@@ -9,13 +9,12 @@
   map to guest = Bad User
   passdb backend = tdbsam
   server min protocol = SMB3_11
+  disable netbios = yes
 
-{% for share in mounts %}
-[{{share}}]
-  path = /mnt/{{share}}
+[mounts]
+  path = /mnt
   read only = no
   browseable = yes
   printable = no
   public = yes
-{% endfor %}
 
