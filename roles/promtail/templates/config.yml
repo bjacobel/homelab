@@ -25,7 +25,7 @@ scrape_configs:
         - localhost
       labels:
         job: varlogs
-        __path__: /mapped/var/log/*.log
+        __path__: /mapped/var/log/*log
         __path_exclude__: /mapped/var/log/daemon.log
   - job_name: systemd-journal
     pipeline_stages:
