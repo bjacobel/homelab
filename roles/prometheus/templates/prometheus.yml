@@ -43,3 +43,7 @@ scrape_configs:
     static_configs:
       - targets:
         - tasmota-exporter:9092
+  - job_name: mqtt-exporter
+    static_configs:
+      - targets:
+        - mqtt-exporter:9000

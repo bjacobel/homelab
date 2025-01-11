@@ -1,0 +1,7 @@
+mqtt-exporter:
+  container_name: mqtt-exporter
+  image: kpetrem/mqtt-exporter:1.6.1
+  expose:
+    - 9000
+  environment:
+    - MQTT_ADDRESS=mosquitto
