@@ -64,7 +64,8 @@ compose_services:
     role_config: true
   - name: mosquitto
     role_config: true
-  - name: mqtt-exporter
+  - name: mqtt2prometheus
+    role_config: true
   - name: node-exporter
   - name: node-red
     role_config: true
