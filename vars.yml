@@ -27,12 +27,12 @@ backups_bucket_name: rpi-volume-backup
 local_domain: lab.local
 internet_domain: bjacobel.com
 compose_services:
-  # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
-  # It doesn't need a `proxy` or `internet` block.
   - name: aria
     role_config: true
     proxy:
       http: 8080
+  # Authelia has its own special hardcoded config for reverse proxy, auth and DDNS.
+  # It doesn't need a `proxy` or `internet` block.
   - name: authelia
     role_config: true
   - name: caddy
