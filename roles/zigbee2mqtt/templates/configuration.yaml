@@ -21,3 +21,7 @@ serial:
 
 frontend:
   url: 'https://zigbee2mqtt.{{ internet_domain }}'
+
+advanced:
+  log_output:
+    - console
