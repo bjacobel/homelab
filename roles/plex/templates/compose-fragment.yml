@@ -18,7 +18,7 @@ plex:
     - TZ=America/New_York
     - ADVERTISE_IP=http://{{ ansible_host }}:32400/
     - ALLOWED_NETWORKS=192.168.1.0/24
-    - PLEX_CLAIM="claim-u6b5gTx3BwtztHDFssYx"
+    - PLEX_CLAIM="claim-4yqw9Aaqv_Lids4swfta"
   volumes:
     - plex-data:/config
     - /mnt/hdd/media:/media
