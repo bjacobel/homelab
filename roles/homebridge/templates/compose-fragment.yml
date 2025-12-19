@@ -1,6 +1,6 @@
 homebridge:
   container_name: homebridge
-  image: homebridge/homebridge:2023-12-30
+  image: homebridge/homebridge:2025-12-16
   network_mode: host
   environment:
     - TZ=America/New_York
