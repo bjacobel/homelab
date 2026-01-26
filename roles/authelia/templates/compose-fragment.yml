@@ -1,5 +1,5 @@
 authelia:
-  image: authelia/authelia:4.38
+  image: authelia/authelia:4.39
   container_name: authelia
   volumes:
     - ./authelia:/config
