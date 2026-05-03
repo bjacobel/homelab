@@ -10,27 +10,21 @@
   become: true
   apt:
     name:
-      - apt-transport-https
       - gcc
       - g++
       - make
     state: present
 
-- name: Add nodejs apt key
-  become: true
-  apt_key:
-    url: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
-    keyring: /usr/share/keyrings/nodesource-keyring.gpg
-    state: present
-
 - name: Add nodejs repository
   become: true
-  apt_repository:
-    filename: /etc/apt/sources.list.d/nodesource
-    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/nodesource-keyring.gpg]
-      https://deb.nodesource.com/node_{{ nodejs_major_version }}.x {{ ansible_facts['lsb'].codename }} main
-    state: present
-    update_cache: true
+  ansible.builtin.deb822_repository:
+    name: nodesource
+    types: deb
+    uris: https://deb.nodesource.com/node_{{ nodejs_major_version }}.x
+    suites: "{{ ansible_facts['lsb'].codename }}"
+    components: main
+    architectures: "{{ dpkg_arch.stdout }}"
+    signed_by: https://deb.nodesource.com/gpgkey/nodesource.gpg.key
 
 - name: Install nodejs
   become: true

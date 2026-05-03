@@ -1,15 +1,14 @@
 ---
 - block:
-  - name: Install Linux library for Postgres interaction
+  - name: Install Linux libraries for Postgres interaction
     become: true
     apt:
-      name: libpq-dev
+      name: "{{ packages }}"
       state: present
-
-  - name: Install Python library for Postgres and Ansible
-    pip:
-      name: psycopg2
-      state: present
+    vars:
+      packages:
+        - libpq-dev
+        - python3-psycopg2
 
   - name: Bring postgres up
     community.docker.docker_compose_v2:

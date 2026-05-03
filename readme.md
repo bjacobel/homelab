@@ -34,7 +34,7 @@ ansible-playbook -i hosts.yml playbook.yml --vault-password-file vault
 You will need the file `vault` containing the Vault password. Get it from 1Password under "Homelab Ansible Vault".
 
 ### Assumptions
-* The tenant is running Debian Bullseye with an XFCE GUI
+* The tenant is running Debian Trixie with an XFCE GUI
 * The tenant has been configured with `password` as the root password (will be overwritten)
 * The tenant has been configured with a user `debian` with password `password` (will be removed)
 * The tenant has an SSH server, and the user `debian` can SSH

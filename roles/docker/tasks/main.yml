@@ -19,19 +19,16 @@
   register: dpkg_arch
   changed_when: false
 
-- name: Download docker signing gpg key
-  become: true
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    keyring: /usr/share/keyrings/docker-archive-keyring.gpg
-
 - name: Add the docker sources.list
   become: true
-  apt_repository:
-    filename: /etc/apt/sources.list.d/docker
-    repo: deb [arch={{ dpkg_arch.stdout }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
-      https://download.docker.com/linux/debian {{ ansible_facts['lsb'].codename }} stable
-    update_cache: true
+  ansible.builtin.deb822_repository:
+    name: docker
+    types: deb
+    uris: https://download.docker.com/linux/debian
+    suites: "{{ ansible_facts['lsb'].codename }}"
+    components: stable
+    architectures: "{{ dpkg_arch.stdout }}"
+    signed_by: https://download.docker.com/linux/debian/gpg
 
 - name: Install docker-ce
   become: true
@@ -41,6 +38,7 @@
   vars:
     packages:
       - docker-ce
+      - python3-docker
 
 - name: "Add existing user to docker group: {{ ansible_ssh_user }}"
   become: true
@@ -56,12 +54,6 @@
     state: started
     enabled: true
     name: docker
-
-- name: Install Python library for Docker so Ansible can orchestrate it
-  pip:
-    name: docker
-    version: ">=5.0.0"
-    state: present
 
 - name: Improve the formatting of 'docker ps'
   import_tasks: dops.yml

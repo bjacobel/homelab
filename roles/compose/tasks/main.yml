@@ -10,17 +10,15 @@
     state: directory
     mode: 0755
 
-- name: Install docker-compose
+- name: Install docker-compose and Python req'd deps
   become: true
   apt:
-    name: docker-compose-plugin
+    name: "{{ packages }}"
     state: present
-
-- name: Install Python req'd deps
-  pip:
-    name:
-      - pexpect
-    state: present
+  vars:
+    packages:
+      - docker-compose-plugin
+      - python3-pexpect
 
 - name: Get ZigBee radio device name
   ansible.builtin.shell:

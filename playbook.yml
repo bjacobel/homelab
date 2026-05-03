@@ -20,7 +20,7 @@
   roles:
     - node
   vars:
-    nodejs_major_version: 18
+    nodejs_major_version: 24
 
 - name: Install and configure docker
   hosts: all
