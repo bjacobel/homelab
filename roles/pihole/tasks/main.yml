@@ -8,7 +8,7 @@
 
   - name: Remove password requirement
     expect:
-      command: docker exec -it pihole sh -c "pihole -a -p"
+      command: docker exec -it pihole sh -c "pihole setpassword"
       responses:
         Enter New Password: ""
 
@@ -44,6 +44,12 @@
     register: ftl_result
     changed_when: '"Adding" in ftl_result.stdout'
     notify: Refresh pihole-FTL
+
+  - name: Install sqlite3 in container for hosts list management
+    community.docker.docker_container_exec:
+      container: pihole
+      command: apk add sqlite
+    retries: 3
 
   - name: Get existing hosts lists from sql
     community.docker.docker_container_exec:

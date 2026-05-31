@@ -1,6 +1,6 @@
 pihole:
   container_name: pihole
-  image: pihole/pihole:2023.03.1
+  image: pihole/pihole:2026.05.0
   ports:
     - 53:53/tcp
     - 53:53/udp
@@ -9,11 +9,9 @@ pihole:
     - "80"
   environment:
     TZ: 'America/New_York'
-    VIRTUAL_HOST: pihole.{{ internet_domain }}
-    FTLCONF_REPLY_ADDR4: {{ ansible_default_ipv4.address }}
-    FTLCONF_MAXDBDAYS: 60
-    FTLCONF_BLOCK_ICLOUD_PR: "true"
-    DNSMASQ_LISTENING: "all"
+    FTLCONF_dns_specialDomains_iCloudPrivateRelay: 'true'
+    FTLCONF_database_maxDBdays: 60
+    FTLCONF_dns_listeningMode: 'ALL'
   ulimits:
     nofile:
       soft: 1024
