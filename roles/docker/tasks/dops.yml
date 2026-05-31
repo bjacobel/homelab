@@ -3,7 +3,7 @@
 - name: Download dops executable and place it in PATH
   become: true
   ansible.builtin.get_url:
-    url: https://github.com/Mikescher/better-docker-ps/releases/download/v1.7/dops_linux-amd64-static
+    url: https://github.com/Mikescher/better-docker-ps/releases/download/v1.17/dops_linux-amd64-static
     dest: /usr/local/bin/dops
     mode: "755"
 
