@@ -12,6 +12,7 @@ pihole:
     FTLCONF_dns_specialDomains_iCloudPrivateRelay: 'true'
     FTLCONF_database_maxDBdays: 60
     FTLCONF_dns_listeningMode: 'ALL'
+    FTLCONF_webserver_api_password: 'pihole' # useless extra login screen behind authelia
   ulimits:
     nofile:
       soft: 1024
