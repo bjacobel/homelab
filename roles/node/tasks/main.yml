@@ -21,7 +21,7 @@
     name: nodesource
     types: deb
     uris: https://deb.nodesource.com/node_{{ nodejs_major_version }}.x
-    suites: "{{ ansible_facts['lsb'].codename }}"
+    suites: "nodistro"
     components: main
     architectures: "{{ dpkg_arch.stdout }}"
     signed_by: https://deb.nodesource.com/gpgkey/nodesource.gpg.key

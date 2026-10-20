@@ -4,7 +4,7 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail #
-      dmesg -l err | grep "failed to load iwlwifi"
+      dmesg -l err | grep "iwlwifi" | grep "suitable version"
   register: intel_wifi_module_failed
   failed_when: false
   changed_when: false
