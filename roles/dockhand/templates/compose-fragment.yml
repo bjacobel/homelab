@@ -1,0 +1,12 @@
+dockhand:
+  image: fnsys/dockhand:latest
+  container_name: dockhand
+  expose:
+    - 3000
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - dockhand-data:/app/data
+  depends_on:
+    - postgres
+  environment:
+    DATABASE_URL: postgres://{{ dockhand_pg.user }}:{{ dockhand_pg.password }}@postgres:5432/{{ dockhand_pg.name }}

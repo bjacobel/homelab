@@ -24,12 +24,15 @@
         {% endraw %}
     register: postgres_ip
 
-  - name: Create database for bookmarks service
+  - name: Create database for requested services
     community.postgresql.postgresql_db:
-      name: bookmarks
+      name: "{{ db.name }}"
       login_user: "{{ ansible_ssh_user }}"
       login_password: "{{ postgres_password }}"
       login_host: "{{ postgres_ip.stdout }}"
+    loop: "{{ postgres_dbs }}"
+    loop_control:
+      loop_var: db
 
   - name: Create user for bookmarks service
     community.postgresql.postgresql_user:
@@ -37,29 +40,38 @@
       login_user: "{{ ansible_ssh_user }}"
       login_password: "{{ postgres_password }}"
       login_host: "{{ postgres_ip.stdout }}"
-      name: bookmarks
-      password: "{{ bkmk_pg_pw }}"
+      name: "{{ db.user }}"
+      password: "{{ db.password }}"
+    loop: "{{ postgres_dbs }}"
+    loop_control:
+      loop_var: db
 
   - name: Grant new user permissions on new database
     community.postgresql.postgresql_privs:
-      db: bookmarks
+      db: "{{ db.name }}"
       login_user: "{{ ansible_ssh_user }}"
       login_password: "{{ postgres_password }}"
       login_host: "{{ postgres_ip.stdout }}"
       privs: ALL
       type: database
-      roles: bookmarks
+      roles: "{{ db.user }}"
+    loop: "{{ postgres_dbs }}"
+    loop_control:
+      loop_var: db
 
   - name: Grant new user permissions on public schema
     community.postgresql.postgresql_privs:
-      db: bookmarks
+      db: "{{ db.name }}"
       login_user: "{{ ansible_ssh_user }}"
       login_password: "{{ postgres_password }}"
       login_host: "{{ postgres_ip.stdout }}"
       privs: ALL
       type: schema
       objs: public
-      roles: bookmarks
+      roles: "{{ db.user }}"
+    loop: "{{ postgres_dbs }}"
+    loop_control:
+      loop_var: db
 
   tags: postgres
 

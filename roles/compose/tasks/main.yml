@@ -31,6 +31,10 @@
   register: current_volumes
   changed_when: false
 
+- name: Get postgres connection details for dockhand
+  ansible.builtin.set_fact:
+    dockhand_pg: "{{ postgres_dbs | selectattr('name', 'equalto', 'dockhand') | first }}"
+
 - name: Get requested persistent volumes in compose file
   ansible.builtin.set_fact:
     requested_volumes: "{{ lookup('template', './docker-compose.yml.j2') | from_yaml | json_query('volumes') | list }}"

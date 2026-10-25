@@ -46,6 +46,9 @@ compose_services:
   - name: ddns-route53
     role_config: true
   - name: docker-state-exporter
+  - name: dockhand
+    proxy:
+      http: 3000
   - name: grafana
     role_config: true
     proxy:

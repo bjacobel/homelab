@@ -10,9 +10,9 @@ bookmarks:
     - LD_CSRF_TRUSTED_ORIGINS=https://bookmarks.{{ internet_domain }}
     - LD_LOG_X_FORWARDED_FOR=True
     - LD_DB_ENGINE=postgres
-    - LD_DB_USER=bookmarks
-    - LD_DB_DATABASE=bookmarks
-    - LD_DB_PASSWORD={{ bkmk_pg_pw }}
+    - LD_DB_USER={{ postgres_dbs | selectattr('name', 'equalto', 'bookmarks') | first | json_query('user') }}
+    - LD_DB_DATABASE={{ postgres_dbs | selectattr('name', 'equalto', 'bookmarks') | first | json_query('name') }}
+    - LD_DB_PASSWORD={{ postgres_dbs | selectattr('name', 'equalto', 'bookmarks') | first | json_query('password') }}
     - LD_DB_HOST=postgres
   links:
     - postgres
