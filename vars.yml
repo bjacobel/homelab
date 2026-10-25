@@ -103,7 +103,6 @@ compose_services:
   - name: vmagent
     role_config: true
   - name: volume-backup
-  - name: watchtower
     auth: bypass
     proxy:
       http: 8080
