@@ -53,7 +53,6 @@ compose_services:
     role_config: true
     proxy:
       http: 3000
-  - name: grafana-to-ntfy
   - name: homebridge
     role_config: true
     proxy:
