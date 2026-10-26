@@ -1,5 +1,5 @@
 aria:
-  image: hurlenko/aria2-ariang:1.3.7
+  image: hurlenko/aria2-ariang
   container_name: aria
   expose:
     - "8080"
