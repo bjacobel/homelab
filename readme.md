@@ -71,21 +71,6 @@ Services on the `lab.local` domain are secured with self-signed certificates. Fo
 curl -sk https://lab.local/certs/root.crt -o /tmp/caddy-root.crt && sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/caddy-root.crt
 ```
 
-#### Vagrant
-There's a Vagrantfile for testing the Ansible playbooks. It only works on an ARM Mac. Follow [the instructions here](https://plugin-activation.hashicorp.com/perk/boxes/debian-11-genericcloud-arm64) and then run:
-
-```
-vagrant destroy -f && killsof 50022 && vagrant up --provider=qemu && vagrant provision
-```
-
-To SSH into the vagrant box under the intended user to scope stuff out, run:
-
-```
-ssh bjacobel@127.0.0.1 -p 50022  -o PreferredAuthentications=publickey -o PubkeyAuthentication=yes -o StrictHostKeyChecking=no
-```
-
-This may not work anymore; things have diverged a little bit. This was basically just for a sandbox so I didn't brick the ThinkCentre too many times.
-
 #### Profiling Ansible slowness
 
 Add `profile_tasks` to the comma-separated list under `[defaults] > callbacks_enabled`, then run a playbook. Timing of tasks will be output.
